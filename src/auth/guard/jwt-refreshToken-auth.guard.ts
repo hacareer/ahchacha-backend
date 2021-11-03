@@ -28,10 +28,7 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
 
     const { authorization } = request.headers;
     if (authorization === undefined) {
-      throw new HttpException(
-        'Refresh Token 전송 안됨',
-        HttpStatus.UNAUTHORIZED,
-      );
+      throw new BadRequestException(Err.TOKEN.NOT_SEND_REFRESH_TOKEN);
     }
 
     const refreshToken = authorization.replace('Bearer ', '');

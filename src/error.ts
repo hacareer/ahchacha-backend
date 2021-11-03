@@ -13,5 +13,13 @@ export const Err = {
       code: 403,
       message: '해당 요청의 권한이 없습니다',
     },
+    NOT_SEND_REFRESH_TOKEN: {
+      code: 401,
+      message: 'Refresh Token 전송 안됨',
+    },
+    NOT_SEND_TOKEN: {
+      code: 401,
+      message: 'Token 전송 안됨',
+    },
   },
 };
