@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ExecutionContext,
   HttpException,
   HttpStatus,
@@ -8,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from '../auth.service';
+import { Err } from './../../error';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -90,10 +92,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       switch (error.message) {
         // 토큰에 대한 오류를 판단합니다.
         case 'invalid token':
-          throw new HttpException('유효하지 않은 토큰입니다.', 401);
+          throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
 
         case 'jwt expired':
-          throw new HttpException('토큰이 만료되었습니다.', 410);
+          throw new BadRequestException(Err.TOKEN.JWT_EXPIRED);
 
         default:
           throw new HttpException('서버 오류입니다.', 500);
