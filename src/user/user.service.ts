@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { getConnection } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import verifyKakao from 'src/auth/util/kakao';
+import { AuthService } from './../auth/auth.service';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async findUserByEmail(user_email: string): Promise<User | undefined> {
+    const user = await getConnection()
+      .createQueryBuilder()
+      .select('user')
+      .from(User, 'user')
+      .where('user.user_email = :user_email', { user_email })
+      .getOne();
+    return user;
   }
 
-  findAll() {
-    return `This action returns all user`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async findUserById(user_no: number): Promise<User | undefined> {
+    const user = await getConnection()
+      .createQueryBuilder()
+      .select('user')
+      .from(User, 'user')
+      .where('user.user_no = :user_no', { user_no })
+      .getOne();
+    return user;
   }
 }

@@ -1,19 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/entity/user.entity';
-import { UsersService } from 'src/users/users.service';
 import CryptoJS from 'crypto-js';
 import { getConnection } from 'typeorm';
+import { UserService } from './../user/user.service';
+import { User } from 'src/user/entities/user.entity';
+import verifyKakao from './util/kakao';
+import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private userService: UserService,
     private jwtService: JwtService,
   ) {}
 
+  async validateKakao(kakaoUserDto: KakaoUserDto) {
+    const payload = await verifyKakao(kakaoUserDto.idToken);
+
+    if (payload.email_verified !== true) {
+      // TODO error 정의
+    }
+
+    // TODO USER 데이터 정의
+
+    const user = await this.validateUser(user_email);
+    if (user === null) {
+      // 유저가 없을때
+      console.log('일회용 토큰 발급');
+      const once_token = this.onceToken(user_profile);
+      return { once_token, type: 'once' };
+    }
+
+    // 유저가 있을때
+    console.log('로그인 토큰 발급');
+    const access_token = await this.createLoginToken(user);
+    const refresh_token = await this.createRefreshToken(user);
+    return { access_token, refresh_token, type: 'login' };
+  }
+
   async validateUser(user_email: string): Promise<any> {
-    const user = await this.usersService.findUserByEmail(user_email);
+    const user = await this.userService.findUserByEmail(user_email);
     if (!user) {
       return null;
     }
