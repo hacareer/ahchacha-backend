@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
 import { UnivModule } from './univ/univ.module';
 import { SecondDoseModule } from './second-dose/second-dose.module';
@@ -25,6 +26,7 @@ import * as ormconfig from '../ormconfig';
     SecondDoseModule,
     UnivModule,
     CommentModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
