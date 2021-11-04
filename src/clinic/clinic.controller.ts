@@ -6,18 +6,23 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  ParseFloatPipe,
 } from '@nestjs/common';
-import { ClinicService } from './clinic.service';
-import { CreateClinicDto } from './dto/create-clinic.dto';
-import { UpdateClinicDto } from './dto/update-clinic.dto';
+import {ClinicService} from './clinic.service';
+import {CreateClinicDto} from './dto/create-clinic.dto';
+import {UpdateClinicDto} from './dto/update-clinic.dto';
 
 @Controller('clinic')
 export class ClinicController {
-  constructor(private readonly clinicService: ClinicService) {}
+  constructor(private readonly clinicService: ClinicService) { }
 
-  @Post()
-  create(@Body() createClinicDto: CreateClinicDto) {
-    return this.clinicService.create(createClinicDto);
+  @Get()
+  findNear(
+    @Query('lat', ParseFloatPipe) lat: number,
+    @Query('lng', ParseFloatPipe) lng: number,
+  ) {
+    return this.clinicService.findNear(lat, lng);
   }
 
   @Get()
@@ -33,10 +38,5 @@ export class ClinicController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateClinicDto: UpdateClinicDto) {
     return this.clinicService.update(+id, updateClinicDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clinicService.remove(+id);
   }
 }

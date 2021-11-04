@@ -25,7 +25,7 @@ export class LocationService {
         .get(_url, {
           params: {
             address: `${address}`,
-            key: 'AIzaSyCrJimAT7eU89RLnTEN4NmrHT4KhNQosmA',
+            key: process.env.API_KEY,
           },
         })
         .pipe(
@@ -56,9 +56,5 @@ export class LocationService {
 
   update(id: number, updateLocationDto: UpdateLocationDto) {
     return `This action updates a #${id} location`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} location`;
   }
 }
