@@ -1,10 +1,15 @@
 import {Injectable} from '@nestjs/common';
-import {CreateClinicDto} from './dto/create-clinic.dto';
-import {UpdateClinicDto} from './dto/update-clinic.dto';
-import {getManager} from 'typeorm';
+import {getManager, Repository} from 'typeorm';
+import {Clinic} from './entities/clinic.entity';
+import {InjectRepository} from '@nestjs/typeorm';
 
 @Injectable()
 export class ClinicService {
+  constructor(
+    @InjectRepository(Clinic)
+    private readonly clinicRepository: Repository<Clinic>,
+  ) { }
+
   async findNear(lat, lng) {
     console.log(lat, lng);
     const entityManager = getManager();
@@ -22,15 +27,11 @@ export class ClinicService {
     );
   }
 
-  findAll() {
-    return `This action returns all clinic`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} clinic`;
-  }
-
-  update(id: number, updateClinicDto: UpdateClinicDto) {
-    return `This action updates a #${id} clinic`;
+  async findOne(id: number) {
+    return await this.clinicRepository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 }

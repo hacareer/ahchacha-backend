@@ -1,13 +1,13 @@
-import {ConsoleLogger, Injectable} from '@nestjs/common';
-import {JwtService} from '@nestjs/jwt';
+import { ConsoleLogger, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as CryptoJS from 'crypto-js';
-import {Repository} from 'typeorm';
-import {UserService} from './../user/user.service';
-import {User} from 'src/user/entities/user.entity';
-import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
-import {HttpService} from '@nestjs/axios';
-import {lastValueFrom, map} from 'rxjs';
-import {InjectRepository} from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserService } from './../user/user.service';
+import { User } from 'src/user/entities/user.entity';
+import { KakaoUserDto } from 'src/user/dto/kakao-user.dto';
+import { HttpService } from '@nestjs/axios';
+import { lastValueFrom, map } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
     private userService: UserService,
     private jwtService: JwtService,
     private httpService: HttpService,
-  ) { }
+  ) {}
 
   async createLoginToken(user: User) {
     const payload = {
@@ -50,8 +50,8 @@ export class AuthService {
     await await this.userRepository
       .createQueryBuilder('user')
       .update()
-      .set({refreshToken})
-      .where('user.id = :id', {id: user.id})
+      .set({ refreshToken })
+      .where('user.id = :id', { id: user.id })
       .execute();
     return refreshToken;
   }
@@ -82,7 +82,7 @@ export class AuthService {
       Authorization: `Bearer ${token}`,
     };
     return await lastValueFrom(
-      this.httpService.post(_url, '', {headers: _header}).pipe(
+      this.httpService.post(_url, '', { headers: _header }).pipe(
         map((response) => {
           return response.data.id;
         }),
@@ -128,8 +128,8 @@ export class AuthService {
 
   async registUser(req, createUserDto) {
     try {
-      const {id, type} = req.user;
-      const {nickname, vaccination, univId, location} = createUserDto;
+      const { id, type } = req.user;
+      const { nickname, vaccination, univId, location } = createUserDto;
       // 1회용 토큰인경우
       if (type === 'onceToken') {
         const univ = await this.userRepository.findOne({

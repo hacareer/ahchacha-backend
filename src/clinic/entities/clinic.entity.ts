@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -10,7 +11,7 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Comment } from 'src/comment/entities/comment.entity';
-import { OperationHour } from './opening-hour.entity';
+import { OperationHour } from './operation-hour.entity';
 import { Label } from '../../constants';
 import { CheckUp } from 'src/check-up/entities/check-up.entity';
 
@@ -47,6 +48,7 @@ export class Clinic {
   @OneToMany(() => Comment, (comment) => comment.clinic)
   commentList: Comment[];
 
+  @JoinColumn()
   @OneToOne(() => OperationHour, (operationHour) => operationHour.clinic)
   operationHour!: OperationHour;
 

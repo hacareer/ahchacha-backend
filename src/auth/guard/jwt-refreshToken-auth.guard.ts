@@ -5,12 +5,12 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import {JwtService} from '@nestjs/jwt';
-import {AuthGuard} from '@nestjs/passport';
+import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from '@nestjs/passport';
 import * as CryptoJS from 'crypto-js';
-import {UserService} from 'src/user/user.service';
-import {AuthService} from '../auth.service';
-import {Err} from './../../error';
+import { UserService } from 'src/user/user.service';
+import { AuthService } from '../auth.service';
+import { Err } from './../../error';
 
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard('jwt') {
@@ -26,7 +26,7 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
 
-    const {authorization} = request.headers;
+    const { authorization } = request.headers;
     if (authorization === undefined) {
       throw new BadRequestException(Err.TOKEN.NOT_SEND_REFRESH_TOKEN);
     }

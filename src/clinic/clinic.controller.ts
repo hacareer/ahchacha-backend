@@ -1,17 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  ParseFloatPipe,
-} from '@nestjs/common';
+import {Controller, Get, Param, Query, ParseFloatPipe} from '@nestjs/common';
 import {ClinicService} from './clinic.service';
-import {CreateClinicDto} from './dto/create-clinic.dto';
-import {UpdateClinicDto} from './dto/update-clinic.dto';
 
 @Controller('clinic')
 export class ClinicController {
@@ -25,18 +13,8 @@ export class ClinicController {
     return this.clinicService.findNear(lat, lng);
   }
 
-  @Get()
-  findAll() {
-    return this.clinicService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.clinicService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClinicDto: UpdateClinicDto) {
-    return this.clinicService.update(+id, updateClinicDto);
   }
 }
