@@ -16,7 +16,7 @@ import {Vaccination} from '../../constants';
 import {CheckUp} from 'src/check-up/entities/check-up.entity';
 import {SecondDose} from 'src/second-dose/entities/second-dose.entity';
 import {Univ} from './../../univ/entities/univ.entity';
-import {Location} from './location.entity';
+import {Location} from '../../location/entities/location.entity';
 import {Comment} from 'src/comment/entities/comment.entity';
 
 @Entity('user')
