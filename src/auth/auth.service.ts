@@ -1,55 +1,44 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import {Injectable} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
 import CryptoJS from 'crypto-js';
-import { getConnection } from 'typeorm';
-import { UserService } from './../user/user.service';
-import { User } from 'src/user/entities/user.entity';
-import verifyKakao from './util/kakao';
+import {Repository} from 'typeorm';
+import {UserService} from './../user/user.service';
+import {User} from 'src/user/entities/user.entity';
 import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
+import {HttpService} from '@nestjs/axios';
+import {map} from 'rxjs';
+import {InjectRepository} from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+    private httpService: HttpService,
+  ) { }
 
-  async validateKakao(kakaoUserDto: KakaoUserDto) {
-    const payload = await verifyKakao(kakaoUserDto.idToken);
-
-    if (payload.email_verified !== true) {
-      // TODO error 정의
-    }
-
-    // TODO USER 데이터 정의
-
-    const user = await this.validateUser(user_email);
-    if (user === null) {
-      // 유저가 없을때
-      console.log('일회용 토큰 발급');
-      const once_token = this.onceToken(user_profile);
-      return { once_token, type: 'once' };
-    }
-
-    // 유저가 있을때
-    console.log('로그인 토큰 발급');
-    const access_token = await this.createLoginToken(user);
-    const refresh_token = await this.createRefreshToken(user);
-    return { access_token, refresh_token, type: 'login' };
-  }
-
-  async validateUser(user_email: string): Promise<any> {
-    const user = await this.userService.findUserByEmail(user_email);
-    if (!user) {
-      return null;
-    }
-    return user;
+  async getKakaoId(kakaoUserDto: KakaoUserDto) {
+    const token = kakaoUserDto.idToken;
+    console.log(token);
+    const _url = 'https://kapi.kakao.com/v2/user/me';
+    const _header = {
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      Authorization: `Bearer ${token}`,
+    };
+    return await this.httpService.post(_url, '', {headers: _header}).pipe(
+      map((response) => {
+        return response.data.id;
+      }),
+    );
   }
 
   async createLoginToken(user: User) {
     const payload = {
-      user_no: user.user_no,
-      user_token: 'loginToken',
+      id: user.id,
+      nickname: user.nickname,
+      type: 'accessToken',
     };
 
     return this.jwtService.sign(payload, {
@@ -60,8 +49,9 @@ export class AuthService {
 
   async createRefreshToken(user: User) {
     const payload = {
-      user_no: user.user_no,
-      user_token: 'refreshToken',
+      id: user.id,
+      nickname: user.nickname,
+      type: 'refreshToken',
     };
 
     const token = this.jwtService.sign(payload, {
@@ -74,21 +64,19 @@ export class AuthService {
       process.env.AES_KEY,
     ).toString();
 
-    await getConnection()
-      .createQueryBuilder()
-      .update(User)
-      //      .set({ user_refresh_token: token })
-      .where(`user_no = ${user.user_no}`)
+    await await this.userRepository
+      .createQueryBuilder('user')
+      .update()
+      .set({refreshToken: token})
+      .where('user.id = :id', {id: user.id})
       .execute();
     return refresh_token;
   }
 
-  onceToken(user_profile: any) {
+  onceToken(kakaoId: string) {
     const payload = {
-      user_email: user_profile.user_email,
-      user_nick: user_profile.user_nick,
-      user_provider: user_profile.user_provider,
-      user_token: 'onceToken',
+      id: kakaoId,
+      type: 'onceToken',
     };
 
     return this.jwtService.sign(payload, {
@@ -101,5 +89,76 @@ export class AuthService {
     return await this.jwtService.verify(token, {
       secret: process.env.JWT_SECRET,
     });
+  }
+
+  async validateUser(kakaoUserDto: KakaoUserDto) {
+    const kakaoId = await this.getKakaoId(kakaoUserDto).toString();
+    console.log(kakaoId);
+
+    const user = await this.userService.findUserByKakaoId(kakaoId);
+    if (user === null) {
+      // 유저가 없을때
+      console.log('일회용 토큰 발급');
+      const once_token = this.onceToken(kakaoId);
+      return {
+        success: true,
+        message: '일회용 토큰 정상 발급',
+        data: {
+          type: 'once',
+          once_token,
+        },
+      };
+    }
+
+    // 유저가 있을때
+    console.log('로그인 토큰 발급');
+    const access_token = await this.createLoginToken(user);
+    const refresh_token = await this.createRefreshToken(user);
+    return {
+      success: true,
+      message: '사용자 정상 로그인',
+      data: {
+        type: 'login',
+        access_token,
+        refresh_token,
+      },
+    };
+  }
+
+  async registUser(req, createUserDto) {
+    try {
+      const {kakaoId, type} = req.user;
+      const {nickname, vaccination, univ, location} = createUserDto;
+      // 1회용 토큰인경우
+      if (type === 'onceToken') {
+        await await this.userRepository
+          .createQueryBuilder('user')
+          .insert()
+          .values({
+            kakaoAccount: kakaoId,
+            nickname,
+            vaccination,
+            univ,
+            location,
+          })
+          .execute();
+        const user = await this.userService.findUserByKakaoId(kakaoId);
+        const access_token = await this.createLoginToken(user);
+        const refresh_token = await this.createRefreshToken(user);
+
+        return {
+          success: true,
+          message: '사용자 정상 생성',
+          data: {
+            access_token,
+            refresh_token,
+          },
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    // 그 외의 경우
+    return false;
   }
 }

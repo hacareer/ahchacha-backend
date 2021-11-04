@@ -2,7 +2,6 @@ import {
   BadRequestException,
   ExecutionContext,
   HttpException,
-  HttpStatus,
   Injectable,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

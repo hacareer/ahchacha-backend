@@ -1,27 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { getConnection } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
-import verifyKakao from 'src/auth/util/kakao';
-import { AuthService } from './../auth/auth.service';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
-  async findUserByEmail(user_email: string): Promise<User | undefined> {
-    const user = await getConnection()
-      .createQueryBuilder()
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+
+  async findUserByKakaoId(kakaoId: string): Promise<User | undefined> {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
       .select('user')
-      .from(User, 'user')
-      .where('user.user_email = :user_email', { user_email })
+      .where('user.kakaoAccount = :kakaoId', { kakaoId })
       .getOne();
     return user;
   }
 
-  async findUserById(user_no: number): Promise<User | undefined> {
-    const user = await getConnection()
-      .createQueryBuilder()
+  async findUserById(id: number): Promise<User | undefined> {
+    const user = await this.userRepository
+      .createQueryBuilder('user')
       .select('user')
-      .from(User, 'user')
-      .where('user.user_no = :user_no', { user_no })
+      .where('user.id = :id', { id })
       .getOne();
     return user;
   }
