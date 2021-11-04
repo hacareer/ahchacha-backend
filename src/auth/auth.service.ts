@@ -1,13 +1,13 @@
-import {Injectable} from '@nestjs/common';
-import {JwtService} from '@nestjs/jwt';
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import CryptoJS from 'crypto-js';
-import {Repository} from 'typeorm';
-import {UserService} from './../user/user.service';
-import {User} from 'src/user/entities/user.entity';
-import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
-import {HttpService} from '@nestjs/axios';
-import {map} from 'rxjs';
-import {InjectRepository} from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserService } from './../user/user.service';
+import { User } from 'src/user/entities/user.entity';
+import { KakaoUserDto } from 'src/user/dto/kakao-user.dto';
+import { HttpService } from '@nestjs/axios';
+import { map } from 'rxjs';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
     private userService: UserService,
     private jwtService: JwtService,
     private httpService: HttpService,
-  ) { }
+  ) {}
 
   async getKakaoId(kakaoUserDto: KakaoUserDto) {
     const token = kakaoUserDto.idToken;
@@ -27,7 +27,7 @@ export class AuthService {
       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
       Authorization: `Bearer ${token}`,
     };
-    return await this.httpService.post(_url, '', {headers: _header}).pipe(
+    return await this.httpService.post(_url, '', { headers: _header }).pipe(
       map((response) => {
         return response.data.id;
       }),
@@ -67,8 +67,8 @@ export class AuthService {
     await await this.userRepository
       .createQueryBuilder('user')
       .update()
-      .set({refreshToken: token})
-      .where('user.id = :id', {id: user.id})
+      .set({ refreshToken: token })
+      .where('user.id = :id', { id: user.id })
       .execute();
     return refresh_token;
   }
@@ -127,8 +127,8 @@ export class AuthService {
 
   async registUser(req, createUserDto) {
     try {
-      const {kakaoId, type} = req.user;
-      const {nickname, vaccination, univ, location} = createUserDto;
+      const { kakaoId, type } = req.user;
+      const { nickname, vaccination, univ, location } = createUserDto;
       // 1회용 토큰인경우
       if (type === 'onceToken') {
         await await this.userRepository

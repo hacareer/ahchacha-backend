@@ -3,17 +3,18 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
+import {ApiProperty} from '@nestjs/swagger';
+import {User} from 'src/user/entities/user.entity';
 
 @Entity('univ')
 export class Univ {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '대학 id' })
+  @ApiProperty({description: '대학 id'})
   id: number;
 
   @Column()
@@ -21,8 +22,8 @@ export class Univ {
 
   /* Relations */
 
-  @OneToOne(() => User, (user) => user.univ)
-  user!: User;
+  @OneToMany(() => User, (user) => user.univ)
+  userList: User[];
 
   /* Date Columns */
 

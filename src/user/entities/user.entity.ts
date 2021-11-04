@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToMany,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -43,11 +45,11 @@ export class User {
   @OneToOne(() => SecondDose, (secondDose) => secondDose.user)
   secondDose: SecondDose;
 
-  @OneToOne(() => Univ, (univ) => univ.user)
-  univ: Univ;
-
   @OneToOne(() => Location, (location) => location.user)
   location: Location;
+
+  @ManyToOne(() => Univ, (univ) => univ.userList)
+  univ: Univ;
 
   @OneToMany(() => CheckUp, (checkUp) => checkUp.user)
   checkUpList: CheckUp[];
