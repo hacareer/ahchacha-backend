@@ -4,7 +4,6 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -17,7 +16,8 @@ import { CheckUp } from 'src/check-up/entities/check-up.entity';
 import { SecondDose } from 'src/second-dose/entities/second-dose.entity';
 import { Univ } from './../../univ/entities/univ.entity';
 import { Location } from '../../location/entities/location.entity';
-import { Comment } from 'src/comment/entities/comment.entity';
+import { ClinicComment } from 'src/clinic-comment/entities/clinic-comment.entity';
+import { UnivComment } from 'src/univ-comment/entities/univ-comment.entity';
 
 @Entity('user')
 export class User {
@@ -56,8 +56,11 @@ export class User {
   @OneToMany(() => CheckUp, (checkUp) => checkUp.user)
   checkUpList: CheckUp[];
 
-  @OneToMany(() => Comment, (comment) => comment.user)
-  commentList: Comment[];
+  @OneToMany(() => ClinicComment, (clinicComment) => clinicComment.user)
+  clinicCommentList: ClinicComment[];
+
+  @OneToMany(() => UnivComment, (univComment) => univComment.user)
+  univCommentList: UnivComment[];
 
   /* Date Columns */
 

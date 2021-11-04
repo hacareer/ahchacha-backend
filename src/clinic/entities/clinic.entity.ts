@@ -10,10 +10,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Comment } from 'src/comment/entities/comment.entity';
+import { Comment } from 'src/clinic-comment/entities/comment.entity';
 import { OperationHour } from './operation-hour.entity';
 import { Label } from '../../constants';
 import { CheckUp } from 'src/check-up/entities/check-up.entity';
+import { ClinicComment } from 'src/clinic-comment/entities/clinic-comment.entity';
 
 @Entity('clinic')
 export class Clinic {
@@ -45,8 +46,8 @@ export class Clinic {
   @OneToMany(() => CheckUp, (checkUp) => checkUp.clinic)
   checkUpList: CheckUp[];
 
-  @OneToMany(() => Comment, (comment) => comment.clinic)
-  commentList: Comment[];
+  @OneToMany(() => ClinicComment, (clinicComment) => clinicComment.clinic)
+  clinicCommentList: ClinicComment[];
 
   @JoinColumn()
   @OneToOne(() => OperationHour, (operationHour) => operationHour.clinic)

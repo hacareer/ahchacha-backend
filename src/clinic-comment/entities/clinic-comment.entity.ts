@@ -13,8 +13,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Clinic } from 'src/clinic/entities/clinic.entity';
 import { User } from 'src/user/entities/user.entity';
 
-@Entity('comment')
-export class Comment {
+@Entity('clinicComment')
+export class ClinicComment {
   @PrimaryGeneratedColumn('increment')
   @ApiProperty({ description: '후기 id' })
   id: number;
@@ -23,10 +23,10 @@ export class Comment {
 
   /* Relations */
 
-  @ManyToOne(() => Clinic, (clinic) => clinic.commentList)
+  @ManyToOne(() => Clinic, (clinic) => clinic.clinicCommentList)
   clinic: Clinic;
 
-  @ManyToOne(() => User, (user) => user.commentList)
+  @ManyToOne(() => User, (user) => user.clinicCommentList)
   user: User;
 
   /* Date Columns */
