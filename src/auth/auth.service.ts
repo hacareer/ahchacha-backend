@@ -1,13 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import CryptoJS from 'crypto-js';
-import { Repository } from 'typeorm';
-import { UserService } from './../user/user.service';
-import { User } from 'src/user/entities/user.entity';
-import { KakaoUserDto } from 'src/user/dto/kakao-user.dto';
-import { HttpService } from '@nestjs/axios';
-import { map } from 'rxjs';
-import { InjectRepository } from '@nestjs/typeorm';
+import {ConsoleLogger, Injectable} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
+import * as CryptoJS from 'crypto-js';
+import {Repository} from 'typeorm';
+import {UserService} from './../user/user.service';
+import {User} from 'src/user/entities/user.entity';
+import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
+import {HttpService} from '@nestjs/axios';
+import {lastValueFrom, map} from 'rxjs';
+import {InjectRepository} from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
@@ -17,22 +17,7 @@ export class AuthService {
     private userService: UserService,
     private jwtService: JwtService,
     private httpService: HttpService,
-  ) {}
-
-  async getKakaoId(kakaoUserDto: KakaoUserDto) {
-    const token = kakaoUserDto.idToken;
-    console.log(token);
-    const _url = 'https://kapi.kakao.com/v2/user/me';
-    const _header = {
-      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-      Authorization: `Bearer ${token}`,
-    };
-    return await this.httpService.post(_url, '', { headers: _header }).pipe(
-      map((response) => {
-        return response.data.id;
-      }),
-    );
-  }
+  ) { }
 
   async createLoginToken(user: User) {
     const payload = {
@@ -40,7 +25,6 @@ export class AuthService {
       nickname: user.nickname,
       type: 'accessToken',
     };
-
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '6m',
@@ -53,13 +37,12 @@ export class AuthService {
       nickname: user.nickname,
       type: 'refreshToken',
     };
-
     const token = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
       expiresIn: '50m',
     });
 
-    const refresh_token = CryptoJS.AES.encrypt(
+    const refreshToken = CryptoJS.AES.encrypt(
       JSON.stringify(token),
       process.env.AES_KEY,
     ).toString();
@@ -67,10 +50,10 @@ export class AuthService {
     await await this.userRepository
       .createQueryBuilder('user')
       .update()
-      .set({ refreshToken: token })
-      .where('user.id = :id', { id: user.id })
+      .set({refreshToken})
+      .where('user.id = :id', {id: user.id})
       .execute();
-    return refresh_token;
+    return refreshToken;
   }
 
   onceToken(kakaoId: string) {
@@ -91,11 +74,29 @@ export class AuthService {
     });
   }
 
-  async validateUser(kakaoUserDto: KakaoUserDto) {
-    const kakaoId = await this.getKakaoId(kakaoUserDto).toString();
-    console.log(kakaoId);
+  async getKakaoId(kakaoUserDto: KakaoUserDto) {
+    const token = kakaoUserDto.idToken;
+    const _url = 'https://kapi.kakao.com/v2/user/me';
+    const _header = {
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      Authorization: `Bearer ${token}`,
+    };
+    return await lastValueFrom(
+      this.httpService.post(_url, '', {headers: _header}).pipe(
+        map((response) => {
+          return response.data.id;
+        }),
+      ),
+    );
+  }
 
-    const user = await this.userService.findUserByKakaoId(kakaoId);
+  async validateUser(kakaoUserDto: KakaoUserDto) {
+    const kakaoId = await this.getKakaoId(kakaoUserDto);
+
+    // TODO kakaoId 없는 경우 에러
+
+    const user = await this.userService.findUserByKakaoId(kakaoId.toString());
+
     if (user === null) {
       // 유저가 없을때
       console.log('일회용 토큰 발급');
@@ -127,8 +128,8 @@ export class AuthService {
 
   async registUser(req, createUserDto) {
     try {
-      const { kakaoId, type } = req.user;
-      const { nickname, vaccination, univId, location } = createUserDto;
+      const {id, type} = req.user;
+      const {nickname, vaccination, univId, location} = createUserDto;
       // 1회용 토큰인경우
       if (type === 'onceToken') {
         const univ = await this.userRepository.findOne({
@@ -136,19 +137,20 @@ export class AuthService {
             id: univId,
           },
         });
+        // geocoder 위도 경도 변환
         // TODO 사용자 위치 저장 로직 추가
         await await this.userRepository
           .createQueryBuilder('user')
           .insert()
           .values({
-            kakaoAccount: kakaoId,
+            kakaoAccount: id,
             nickname,
             vaccination,
             univ,
             location,
           })
           .execute();
-        const user = await this.userService.findUserByKakaoId(kakaoId);
+        const user = await this.userService.findUserByKakaoId(id);
         const access_token = await this.createLoginToken(user);
         const refresh_token = await this.createRefreshToken(user);
 

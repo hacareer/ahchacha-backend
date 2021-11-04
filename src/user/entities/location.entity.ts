@@ -20,11 +20,11 @@ export class Location {
   @Column()
   address: string;
 
-  @Column()
-  latitude: Float32Array;
+  @Column({ type: 'decimal', precision: 7, scale: 5, default: 0 })
+  latitude: number;
 
-  @Column()
-  longitude: Float32Array;
+  @Column({ type: 'decimal', precision: 9, scale: 6, default: 0 })
+  longitude: number;
 
   /* Relations */
 

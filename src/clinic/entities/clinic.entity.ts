@@ -12,6 +12,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Comment } from 'src/comment/entities/comment.entity';
 import { OperationHour } from './opening-hour.entity';
 import { Label } from '../../constants';
+import { CheckUp } from 'src/check-up/entities/check-up.entity';
 
 @Entity('clinic')
 export class Clinic {
@@ -29,16 +30,19 @@ export class Clinic {
   @Column()
   address: string;
 
-  @Column()
-  latitude: Float32Array;
+  @Column({ type: 'decimal', precision: 7, scale: 5, default: 0 })
+  latitude: number;
 
-  @Column()
-  longitude: Float32Array;
+  @Column({ type: 'decimal', precision: 9, scale: 6, default: 0 })
+  longitude: number;
 
   @Column()
   telephone: string;
 
   /* Relations */
+
+  @OneToMany(() => CheckUp, (checkUp) => checkUp.clinic)
+  checkUpList: CheckUp[];
 
   @OneToMany(() => Comment, (comment) => comment.clinic)
   commentList: Comment[];

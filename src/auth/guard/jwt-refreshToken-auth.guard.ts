@@ -5,12 +5,12 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from '@nestjs/passport';
-import CryptoJS from 'crypto-js';
-import { UserService } from 'src/user/user.service';
-import { AuthService } from '../auth.service';
-import { Err } from './../../error';
+import {JwtService} from '@nestjs/jwt';
+import {AuthGuard} from '@nestjs/passport';
+import * as CryptoJS from 'crypto-js';
+import {UserService} from 'src/user/user.service';
+import {AuthService} from '../auth.service';
+import {Err} from './../../error';
 
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard('jwt') {
@@ -26,7 +26,7 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
     const request = context.switchToHttp().getRequest();
     const response = context.switchToHttp().getResponse();
 
-    const { authorization } = request.headers;
+    const {authorization} = request.headers;
     if (authorization === undefined) {
       throw new BadRequestException(Err.TOKEN.NOT_SEND_REFRESH_TOKEN);
     }
@@ -45,11 +45,10 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
       const bytes = CryptoJS.AES.decrypt(refreshToken, process.env.AES_KEY);
       const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
-      const token_verify = await this.authService.tokenValidate(token);
-
-      const user = await this.userService.findUserById(token_verify.user_no);
-
-      if (user.user_refresh_token === token) {
+      const tokenVerify = await this.authService.tokenValidate(token);
+      const user = await this.userService.findUserById(tokenVerify.id);
+      if (user.refreshToken === refreshToken) {
+        console.log('pass');
         return await this.authService.createLoginToken(user);
       } else {
         throw new Error('no permission');

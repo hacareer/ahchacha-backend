@@ -10,6 +10,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/user/entities/user.entity';
 import { Result } from '../../constants';
+import { Clinic } from 'src/clinic/entities/clinic.entity';
 
 @Entity('check-up')
 export class CheckUp {
@@ -34,6 +35,9 @@ export class CheckUp {
 
   @ManyToOne(() => User, (user) => user.checkUpList)
   user!: User;
+
+  @ManyToOne(() => Clinic, (clinic) => clinic.checkUpList)
+  clinic!: Clinic;
 
   /* Date Columns */
 
