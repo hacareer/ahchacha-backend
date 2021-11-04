@@ -10,18 +10,18 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
-import {Vaccination} from '../../constants';
-import {CheckUp} from 'src/check-up/entities/check-up.entity';
-import {SecondDose} from 'src/second-dose/entities/second-dose.entity';
-import {Univ} from './../../univ/entities/univ.entity';
-import {Location} from './location.entity';
-import {Comment} from 'src/comment/entities/comment.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { Vaccination } from '../../constants';
+import { CheckUp } from 'src/check-up/entities/check-up.entity';
+import { SecondDose } from 'src/second-dose/entities/second-dose.entity';
+import { Univ } from './../../univ/entities/univ.entity';
+import { Location } from './location.entity';
+import { Comment } from 'src/comment/entities/comment.entity';
 
 @Entity('user')
 export class User {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '사용자 id'})
+  @ApiProperty({ description: '사용자 id' })
   id: number;
 
   @Column()
@@ -30,7 +30,7 @@ export class User {
   @Column()
   kakaoAccount: string;
 
-  @Column({type: 'varchar', nullable: true})
+  @Column({ type: 'varchar', nullable: true })
   refreshToken: string;
 
   @Column({

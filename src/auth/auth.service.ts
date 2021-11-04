@@ -128,9 +128,15 @@ export class AuthService {
   async registUser(req, createUserDto) {
     try {
       const { kakaoId, type } = req.user;
-      const { nickname, vaccination, univ, location } = createUserDto;
+      const { nickname, vaccination, univId, location } = createUserDto;
       // 1회용 토큰인경우
       if (type === 'onceToken') {
+        const univ = await this.userRepository.findOne({
+          where: {
+            id: univId,
+          },
+        });
+        // TODO 사용자 위치 저장 로직 추가
         await await this.userRepository
           .createQueryBuilder('user')
           .insert()
