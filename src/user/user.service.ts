@@ -11,20 +11,29 @@ export class UserService {
   ) {}
 
   async findUserByKakaoId(kakaoId: string): Promise<User | undefined> {
-    const user = await this.userRepository
-      .createQueryBuilder('user')
-      .select('user')
-      .where('user.kakaoAccount = :kakaoId', { kakaoId })
-      .getOne();
+    const user = await this.userRepository.findOne({
+      where: {
+        kakaoAccount: kakaoId,
+      },
+    });
     return user;
   }
 
   async findUserById(id: number): Promise<User | undefined> {
-    const user = await this.userRepository
-      .createQueryBuilder('user')
-      .select('user')
-      .where('user.id = :id', { id })
-      .getOne();
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    return user;
+  }
+
+  async findUserBynickname(nickname: string): Promise<User | undefined> {
+    const user = await this.userRepository.findOne({
+      where: {
+        nickname,
+      },
+    });
     return user;
   }
 }
