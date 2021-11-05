@@ -9,17 +9,16 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { Comment } from 'src/clinic-comment/entities/comment.entity';
-import { OperationHour } from './operation-hour.entity';
-import { Label } from '../../constants';
-import { CheckUp } from 'src/check-up/entities/check-up.entity';
-import { ClinicComment } from 'src/clinic-comment/entities/clinic-comment.entity';
+import {ApiProperty} from '@nestjs/swagger';
+import {OperationHour} from './operation-hour.entity';
+import {Label} from '../../constants';
+import {CheckUp} from 'src/check-up/entities/check-up.entity';
+import {ClinicComment} from 'src/clinic-comment/entities/clinic-comment.entity';
 
 @Entity('clinic')
 export class Clinic {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '선별진료소 id' })
+  @ApiProperty({description: '선별진료소 id'})
   id: number;
 
   @Column({
@@ -32,10 +31,10 @@ export class Clinic {
   @Column()
   address: string;
 
-  @Column({ type: 'decimal', precision: 7, scale: 5, default: 0 })
+  @Column({type: 'decimal', precision: 7, scale: 5, default: 0})
   latitude: number;
 
-  @Column({ type: 'decimal', precision: 9, scale: 6, default: 0 })
+  @Column({type: 'decimal', precision: 9, scale: 6, default: 0})
   longitude: number;
 
   @Column()

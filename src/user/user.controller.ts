@@ -6,19 +6,19 @@ import {
   ApiBadRequestResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { Response } from 'express';
-import { AuthService } from '../auth/auth.service';
-import { Body, Controller, Get, Request, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
-import { Post } from '@nestjs/common';
-import { JwtRefreshGuard } from 'src/auth/guard/jwt-refreshToken-auth.guard';
-import { KakaoUserDto } from './dto/kakao-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
+import {Response} from 'express';
+import {AuthService} from '../auth/auth.service';
+import {Body, Controller, Get, Request, UseGuards} from '@nestjs/common';
+import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {Post} from '@nestjs/common';
+import {JwtRefreshGuard} from 'src/auth/guard/jwt-refreshToken-auth.guard';
+import {KakaoUserDto} from './dto/kakao-user.dto';
+import {CreateUserDto} from './dto/create-user.dto';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('auth/login')
   validateUser(@Body() kakaoUserDto: KakaoUserDto) {
@@ -34,6 +34,6 @@ export class UserController {
   @UseGuards(JwtRefreshGuard)
   @Get('auth/refresh-accesstoken')
   async refreshAccessToken() {
-    return { success: true, message: 'new accessToken Issuance success' };
+    return {success: true, message: 'new accessToken Issuance success'};
   }
 }

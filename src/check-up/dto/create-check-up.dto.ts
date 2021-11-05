@@ -1,1 +1,3 @@
-export class CreateCheckUpDto {}
+export class CreateCheckUpDto {
+  
+}
