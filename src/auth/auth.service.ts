@@ -1,4 +1,4 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
+import { BadRequestException, ConsoleLogger, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as CryptoJS from 'crypto-js';
 import { Repository } from 'typeorm';
@@ -8,6 +8,7 @@ import { KakaoUserDto } from 'src/user/dto/kakao-user.dto';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom, map } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Err } from 'src/error';
 
 @Injectable()
 export class AuthService {
@@ -92,13 +93,10 @@ export class AuthService {
 
   async validateUser(kakaoUserDto: KakaoUserDto) {
     const kakaoId = await this.getKakaoId(kakaoUserDto);
-
-    // TODO kakaoId 없는 경우 에러
-
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
 
+    // 유저가 없을때
     if (user === null) {
-      // 유저가 없을때
       console.log('일회용 토큰 발급');
       const once_token = this.onceToken(kakaoId);
       return {

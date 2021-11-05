@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { getConnection, Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Err } from 'src/error';
 
 @Injectable()
 export class UserService {
@@ -31,14 +32,15 @@ export class UserService {
     return user;
   }
 
-  async findUserBynickname(nickname: string) {
+  async checkUserBynickname(nickname: string) {
     const user = await this.userRepository.findOne({
       where: {
         nickname,
       },
     });
-    if (!user) {
+    if (user) {
+      throw new BadRequestException(Err.USER.EXISTING_USER);
     }
-    return user;
+    return '닉네임 사용 가능합니다';
   }
 }

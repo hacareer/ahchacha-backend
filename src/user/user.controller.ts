@@ -1,5 +1,5 @@
-import { ApiTags } from '@nestjs/swagger';
-import { AuthService } from '../auth/auth.service';
+import {ApiTags} from '@nestjs/swagger';
+import {AuthService} from '../auth/auth.service';
 import {
   Body,
   Controller,
@@ -9,14 +9,14 @@ import {
   Param,
   UseInterceptors,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
-import { Post } from '@nestjs/common';
-import { JwtRefreshGuard } from 'src/auth/guard/jwt-refreshToken-auth.guard';
-import { KakaoUserDto } from './dto/kakao-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from 'src/common/decorator/user.decorator';
-import { UserService } from 'src/user/user.service';
-import { TransformInterceptor } from 'src/transform.interceptor';
+import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {Post} from '@nestjs/common';
+import {JwtRefreshGuard} from 'src/auth/guard/jwt-refreshToken-auth.guard';
+import {KakaoUserDto} from './dto/kakao-user.dto';
+import {CreateUserDto} from './dto/create-user.dto';
+import {User} from 'src/common/decorator/user.decorator';
+import {UserService} from 'src/user/user.service';
+import {TransformInterceptor} from 'src/transform.interceptor';
 
 @ApiTags('user')
 @Controller('user')
@@ -25,7 +25,7 @@ export class UserController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
-  ) {}
+  ) { }
 
   @Post('auth/login')
   validateUser(@Body() kakaoUserDto: KakaoUserDto) {
@@ -45,7 +45,7 @@ export class UserController {
   @UseGuards(JwtRefreshGuard)
   @Get('auth/refresh-accesstoken')
   async refreshAccessToken() {
-    return { success: true, message: 'new accessToken Issuance success' };
+    return {success: true, message: 'new accessToken Issuance success'};
   }
 
   @Get(':id')
@@ -53,8 +53,8 @@ export class UserController {
     return this.userService.findUserById(+id);
   }
 
-  @Get(':nickname')
-  findUserBynickname(@Param('nickname') nickname: string) {
-    return this.userService.findUserBynickname(nickname);
+  @Get('nickname/:nickname')
+  checkUserBynickname(@Param('nickname') nickname: string) {
+    return this.userService.checkUserBynickname(nickname);
   }
 }

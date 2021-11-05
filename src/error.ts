@@ -1,5 +1,14 @@
 export const Err = {
-  USER: {},
+  USER: {
+    EXISTING_USER: {
+      code: 1,
+      message: '이미 존재하는 사용자 입니다.',
+    },
+    NOT_FOUND: {
+      code: 2,
+      message: '사용자가 존재하지 않습니다.',
+    },
+  },
   TOKEN: {
     INVALID_TOKEN: {
       code: 401,
@@ -20,6 +29,12 @@ export const Err = {
     NOT_SEND_TOKEN: {
       code: 401,
       message: 'Token 전송 안됨',
+    },
+  },
+  KAKAO: {
+    NOT_FOUND: {
+      code: 400,
+      message: '존재하지 않는 카카오 계정입니다.',
     },
   },
 };
