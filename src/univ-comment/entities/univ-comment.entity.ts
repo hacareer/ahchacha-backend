@@ -12,14 +12,19 @@ import {
 import {ApiProperty} from '@nestjs/swagger';
 import {User} from 'src/user/entities/user.entity';
 import {Univ} from 'src/univ/entities/univ.entity';
+import {UnivTag} from 'src/constants';
 
 @Entity('univComment')
 export class UnivComment {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
-  content: string;
+  @Column({
+    type: 'enum',
+    enum: UnivTag,
+    nullable: true,
+  })
+  content: UnivTag;
 
   /* Relations */
 

@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {User} from 'src/user/entities/user.entity';
-import {Result} from '../../constants';
 import {Clinic} from 'src/clinic/entities/clinic.entity';
 
 @Entity('check-up')
