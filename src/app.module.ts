@@ -12,6 +12,7 @@ import {UserModule} from './user/user.module';
 import {LocationModule} from './location/location.module';
 import {UnivCommentModule} from './univ-comment/univ-comment.module';
 import {ClinicCommentModule} from './clinic-comment/clinic-comment.module';
+import { ReservationModule } from './reservation/reservation.module';
 import * as ormconfig from '../ormconfig';
 
 @Module({
@@ -31,6 +32,7 @@ import * as ormconfig from '../ormconfig';
     LocationModule,
     UnivCommentModule,
     ClinicCommentModule,
+    ReservationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
