@@ -1,11 +1,19 @@
-import {Module} from '@nestjs/common';
+import {Module, forwardRef} from '@nestjs/common';
 import {CheckUpService} from './check-up.service';
 import {CheckUpController} from './check-up.controller';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {CheckUp} from './entities/check-up.entity';
+import {UserModule} from './../user/user.module';
+import {AuthModule} from 'src/auth/auth.module';
+import {User} from 'src/user/entities/user.entity';
+import {Clinic} from 'src/clinic/entities/clinic.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CheckUp])],
+  imports: [
+    forwardRef(() => UserModule),
+    forwardRef(() => AuthModule),
+    TypeOrmModule.forFeature([CheckUp, User, Clinic]),
+  ],
   controllers: [CheckUpController],
   providers: [CheckUpService],
 })

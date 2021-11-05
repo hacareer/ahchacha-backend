@@ -7,32 +7,31 @@ import {
   Param,
   Delete,
   Req,
+  UseGuards,
+  Query,
 } from '@nestjs/common';
 import {CheckUpService} from './check-up.service';
 import {CreateCheckUpDto} from './dto/create-check-up.dto';
-import {UpdateCheckUpDto} from './dto/update-check-up.dto';
+import {JwtAuthGuard} from './../auth/guard/jwt-auth.guard';
+import {User} from 'src/common/decorator/user.decorator';
 
 @Controller('check-up')
 export class CheckUpController {
   constructor(private readonly checkUpService: CheckUpService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Req() req, @Body() createCheckUpDto: CreateCheckUpDto) {
-    return this.checkUpService.create(req.user, createCheckUpDto);
+  create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
+    return this.checkUpService.create(user, createCheckUpDto);
   }
 
-  @Get()
-  findAll() {
-    return this.checkUpService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.checkUpService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCheckUpDto: UpdateCheckUpDto) {
-    return this.checkUpService.update(+id, updateCheckUpDto);
+  @UseGuards(JwtAuthGuard)
+  @Get(':userId')
+  searchCheckUpByDate(
+    @Param('userId') userId: string,
+    @Query('from') from: string,
+    @Query('to') to: string,
+  ) {
+    return this.checkUpService.searchCheckUpByDate(+userId, from, to);
   }
 }

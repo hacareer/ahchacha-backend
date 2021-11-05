@@ -1,18 +1,37 @@
 import {Injectable} from '@nestjs/common';
 import {CreateUnivCommentDto} from './dto/create-univ-comment.dto';
 import {User} from 'src/user/entities/user.entity';
+import {Univ} from 'src/univ/entities/univ.entity';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {UnivComment} from './entities/univ-comment.entity';
 
 @Injectable()
 export class UnivCommentService {
-  create(user: User, createUnivCommentDto: CreateUnivCommentDto) {
-    return 'This action adds a new univComment';
+  constructor(
+    @InjectRepository(Univ)
+    private readonly univRepository: Repository<Univ>,
+    @InjectRepository(UnivComment)
+    private readonly univCommentRepository: Repository<UnivComment>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+  async create(user: User, createUnivCommentDto: CreateUnivCommentDto) {
+    const univ = await this.univRepository.findOne(createUnivCommentDto.univId);
+    const existingUser = await this.userRepository.findOne(user.id);
+    await this.univCommentRepository.save({
+      content: createUnivCommentDto.content,
+      user: existingUser,
+      univ,
+    });
   }
 
-  findByUniv() {
-    return `This action returns all univComment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} univComment`;
+  async findByUnivId(univId) {
+    const univ = await this.univRepository.findOne({id: univId});
+    return await this.univCommentRepository.find({
+      where: {
+        univ,
+      },
+    });
   }
 }
