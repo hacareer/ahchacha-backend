@@ -18,5 +18,5 @@ export class CreateUserDto {
     example: '서울특별시 서초구 신반포로 241',
     description: '사용자 위치(도로명 주소)',
   })
-  location: string;
+  address: string;
 }

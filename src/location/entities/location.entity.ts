@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -28,7 +29,7 @@ export class Location {
 
   /* Relations */
 
-  @OneToOne(() => User, (user) => user.location)
+  @ManyToOne(() => User, (user) => user.locationList)
   user!: User;
 
   /* Date Columns */

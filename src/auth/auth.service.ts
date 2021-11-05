@@ -1,4 +1,4 @@
-import {BadRequestException, ConsoleLogger, Injectable} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 import * as CryptoJS from 'crypto-js';
 import {Repository} from 'typeorm';
@@ -8,16 +8,20 @@ import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
 import {HttpService} from '@nestjs/axios';
 import {lastValueFrom, map} from 'rxjs';
 import {InjectRepository} from '@nestjs/typeorm';
-import {Err} from 'src/error';
+import {LocationService} from './../location/location.service';
+import {Univ} from './../univ/entities/univ.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Univ)
+    private readonly univRepository: Repository<Univ>,
     private userService: UserService,
     private jwtService: JwtService,
     private httpService: HttpService,
+    private locationService: LocationService,
   ) {}
 
   async createLoginToken(user: User) {
@@ -119,31 +123,30 @@ export class AuthService {
   async registUser(user, createUserDto) {
     try {
       const {id, type} = user;
-      const {nickname, vaccination, univId, location} = createUserDto;
+      const {nickname, vaccination, univId, address} = createUserDto;
+
       // 1회용 토큰인경우
       if (type === 'onceToken') {
-        const univ = await this.userRepository.findOne({
-          where: {
-            id: univId,
-          },
-        });
-        // geocoder 위도 경도 변환
-        // TODO 사용자 위치 저장 로직 추가
-        await await this.userRepository
-          .createQueryBuilder('user')
-          .insert()
-          .values({
-            kakaoAccount: id,
-            nickname,
-            vaccination,
-            univ,
-            location,
-          })
-          .execute();
-        const user = await this.userService.findUserByKakaoId(id);
-        const access_token = await this.createLoginToken(user);
-        const refresh_token = await this.createRefreshToken(user);
-
+        const user = new User();
+        user.kakaoAccount = id;
+        user.nickname = nickname;
+        user.vaccination = vaccination;
+        if (univId) {
+          const univ = await this.univRepository.findOne({
+            where: {
+              id: univId,
+            },
+          });
+          user.univ = univ;
+        }
+        const createdUser = await this.userRepository.save(user);
+        if (address) {
+          await this.locationService.create(createdUser, {
+            address,
+          });
+        }
+        const access_token = await this.createLoginToken(createdUser);
+        const refresh_token = await this.createRefreshToken(createdUser);
         return {
           access_token,
           refresh_token,

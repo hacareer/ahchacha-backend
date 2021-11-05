@@ -8,6 +8,7 @@ import {map, lastValueFrom} from 'rxjs';
 import {Location} from './entities/location.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
+import {User} from './../user/entities/user.entity';
 
 @Injectable()
 export class LocationService {
@@ -15,6 +16,8 @@ export class LocationService {
     private httpService: HttpService,
     @InjectRepository(Location)
     private readonly locationRepository: Repository<Location>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async getCoordinate(address) {
@@ -37,12 +40,14 @@ export class LocationService {
     return response;
   }
 
-  async create(createLocationDto: CreateLocationDto) {
+  async create(user, createLocationDto: CreateLocationDto) {
+    const existingUser = await this.userRepository.findOne(user.id);
     const {lat, lng} = await this.getCoordinate(createLocationDto.address);
-    return this.locationRepository.save({
+    return await this.locationRepository.save({
       address: createLocationDto.address,
       latitude: lat,
       longitude: lng,
+      user: existingUser,
     });
   }
 

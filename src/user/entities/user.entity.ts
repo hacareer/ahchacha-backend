@@ -46,9 +46,8 @@ export class User {
   @OneToOne(() => SecondDose, (secondDose) => secondDose.user)
   secondDose: SecondDose;
 
-  @JoinColumn()
-  @OneToOne(() => Location, (location) => location.user)
-  location: Location;
+  @OneToMany(() => Location, (location) => location.user)
+  locationList: Location[];
 
   @ManyToOne(() => Univ, (univ) => univ.userList)
   univ: Univ;

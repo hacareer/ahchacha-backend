@@ -34,11 +34,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Post('auth/signup')
-  async registUser(
-    @User() user,
-    @Request() req: any,
-    @Body() createUserDto: CreateUserDto,
-  ) {
+  async registUser(@User() user, @Body() createUserDto: CreateUserDto) {
     return this.authService.registUser(user, createUserDto);
   }
   // 리프레쉬 토큰을 이용한 엑세스 토큰 재발급하기
