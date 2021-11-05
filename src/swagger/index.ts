@@ -1,5 +1,5 @@
-import { INestApplication } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import {INestApplication} from '@nestjs/common';
+import {SwaggerModule, DocumentBuilder} from '@nestjs/swagger';
 import {
   SWAGGER_API_ROOT,
   SWAGGER_API_TITLE,

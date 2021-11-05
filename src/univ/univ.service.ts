@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUnivDto } from './dto/create-univ.dto';
-import { UpdateUnivDto } from './dto/update-univ.dto';
+import {Injectable} from '@nestjs/common';
+import {CreateUnivDto} from './dto/create-univ.dto';
+import {UpdateUnivDto} from './dto/update-univ.dto';
 
 @Injectable()
 export class UnivService {

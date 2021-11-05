@@ -8,9 +8,9 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { CheckUpService } from './check-up.service';
-import { CreateCheckUpDto } from './dto/create-check-up.dto';
-import { UpdateCheckUpDto } from './dto/update-check-up.dto';
+import {CheckUpService} from './check-up.service';
+import {CreateCheckUpDto} from './dto/create-check-up.dto';
+import {UpdateCheckUpDto} from './dto/update-check-up.dto';
 
 @Controller('check-up')
 export class CheckUpController {

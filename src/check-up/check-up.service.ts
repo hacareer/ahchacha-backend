@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { User } from 'src/user/entities/user.entity';
-import { CreateCheckUpDto } from './dto/create-check-up.dto';
-import { UpdateCheckUpDto } from './dto/update-check-up.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CheckUp } from './entities/check-up.entity';
+import {Injectable} from '@nestjs/common';
+import {User} from 'src/user/entities/user.entity';
+import {CreateCheckUpDto} from './dto/create-check-up.dto';
+import {UpdateCheckUpDto} from './dto/update-check-up.dto';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {CheckUp} from './entities/check-up.entity';
 
 @Injectable()
 export class CheckUpService {

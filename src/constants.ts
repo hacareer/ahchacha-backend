@@ -13,4 +13,4 @@ enum Label {
   PERMANENT = 'PERMANENT',
 }
 
-export { Vaccination, Result, Label };
+export {Vaccination, Result, Label};

@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUnivCommentDto } from './dto/create-univ-comment.dto';
-import { User } from 'src/user/entities/user.entity';
+import {Injectable} from '@nestjs/common';
+import {CreateUnivCommentDto} from './dto/create-univ-comment.dto';
+import {User} from 'src/user/entities/user.entity';
 
 @Injectable()
 export class UnivCommentService {

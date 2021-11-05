@@ -1,8 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { getConnection, Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Err } from 'src/error';
+import {BadRequestException, Injectable} from '@nestjs/common';
+import {Repository} from 'typeorm';
+import {User} from 'src/user/entities/user.entity';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Err} from 'src/error';
 
 @Injectable()
 export class UserService {
@@ -29,6 +29,9 @@ export class UserService {
         id,
       },
     });
+    if (user) {
+      throw new BadRequestException(Err.USER.EXISTING_USER);
+    }
     return user;
   }
 

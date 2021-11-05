@@ -8,8 +8,8 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { UnivCommentService } from './univ-comment.service';
-import { CreateUnivCommentDto } from './dto/create-univ-comment.dto';
+import {UnivCommentService} from './univ-comment.service';
+import {CreateUnivCommentDto} from './dto/create-univ-comment.dto';
 
 @Controller('univ-comment')
 export class UnivCommentController {

@@ -25,7 +25,7 @@ export class UserController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
-  ) { }
+  ) {}
 
   @Post('auth/login')
   validateUser(@Body() kakaoUserDto: KakaoUserDto) {

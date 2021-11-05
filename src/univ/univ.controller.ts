@@ -7,9 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UnivService } from './univ.service';
-import { CreateUnivDto } from './dto/create-univ.dto';
-import { UpdateUnivDto } from './dto/update-univ.dto';
+import {UnivService} from './univ.service';
+import {CreateUnivDto} from './dto/create-univ.dto';
+import {UpdateUnivDto} from './dto/update-univ.dto';
 
 @Controller('univ')
 export class UnivController {

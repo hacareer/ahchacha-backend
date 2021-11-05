@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Query, ParseFloatPipe } from '@nestjs/common';
-import { ClinicService } from './clinic.service';
+import {Controller, Get, Param, Query, ParseFloatPipe} from '@nestjs/common';
+import {ClinicService} from './clinic.service';
 
 @Controller('clinic')
 export class ClinicController {

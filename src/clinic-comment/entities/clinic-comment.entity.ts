@@ -9,14 +9,14 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { Clinic } from 'src/clinic/entities/clinic.entity';
-import { User } from 'src/user/entities/user.entity';
+import {ApiProperty} from '@nestjs/swagger';
+import {Clinic} from 'src/clinic/entities/clinic.entity';
+import {User} from 'src/user/entities/user.entity';
 
 @Entity('clinicComment')
 export class ClinicComment {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '후기 id' })
+  @ApiProperty({description: '후기 id'})
   id: number;
 
   @Column()

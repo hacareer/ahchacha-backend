@@ -1,13 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import * as node_geocoder from 'node-geocoder';
-import { CreateLocationDto } from './dto/create-location.dto';
-import { UpdateLocationDto } from './dto/update-location.dto';
-import { HttpService } from '@nestjs/axios';
-import { response } from 'express';
-import { map, lastValueFrom } from 'rxjs';
-import { Location } from './entities/location.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import {CreateLocationDto} from './dto/create-location.dto';
+import {UpdateLocationDto} from './dto/update-location.dto';
+import {HttpService} from '@nestjs/axios';
+import {response} from 'express';
+import {map, lastValueFrom} from 'rxjs';
+import {Location} from './entities/location.entity';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
 
 @Injectable()
 export class LocationService {
@@ -38,7 +38,7 @@ export class LocationService {
   }
 
   async create(createLocationDto: CreateLocationDto) {
-    const { lat, lng } = await this.getCoordinate(createLocationDto.address);
+    const {lat, lng} = await this.getCoordinate(createLocationDto.address);
     return this.locationRepository.save({
       address: createLocationDto.address,
       latitude: lat,

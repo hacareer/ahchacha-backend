@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
+import {ApiProperty} from '@nestjs/swagger';
 
 export class BaseResponseDto {
-  @ApiProperty({ example: 'true' })
+  @ApiProperty({example: 'true'})
   success: string;
 
-  @ApiProperty({ example: 200 })
+  @ApiProperty({example: 200})
   code: number;
 }

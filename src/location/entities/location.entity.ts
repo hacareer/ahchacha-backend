@@ -8,22 +8,22 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../../user/entities/user.entity';
+import {ApiProperty} from '@nestjs/swagger';
+import {User} from '../../user/entities/user.entity';
 
 @Entity('location')
 export class Location {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '위치 id' })
+  @ApiProperty({description: '위치 id'})
   id: number;
 
   @Column()
   address: string;
 
-  @Column({ type: 'decimal', precision: 7, scale: 5, default: 0 })
+  @Column({type: 'decimal', precision: 7, scale: 5, default: 0})
   latitude: number;
 
-  @Column({ type: 'decimal', precision: 9, scale: 6, default: 0 })
+  @Column({type: 'decimal', precision: 9, scale: 6, default: 0})
   longitude: number;
 
   /* Relations */

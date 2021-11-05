@@ -7,13 +7,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { Clinic } from './clinic.entity';
+import {ApiProperty} from '@nestjs/swagger';
+import {Clinic} from './clinic.entity';
 
 @Entity('operation-hour')
 export class OperationHour {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '운영시간 id' })
+  @ApiProperty({description: '운영시간 id'})
   id: number;
 
   @Column()

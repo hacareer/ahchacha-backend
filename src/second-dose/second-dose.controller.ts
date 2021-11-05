@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Req, Query } from '@nestjs/common';
-import { SecondDoseService } from './second-dose.service';
+import {Controller, Get, Post, Req, Query} from '@nestjs/common';
+import {SecondDoseService} from './second-dose.service';
 
 @Controller('second-dose')
 export class SecondDoseController {

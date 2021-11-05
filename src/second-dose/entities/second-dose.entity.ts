@@ -7,13 +7,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
+import {ApiProperty} from '@nestjs/swagger';
+import {User} from 'src/user/entities/user.entity';
 
 @Entity('second-dose')
 export class SecondDose {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '2차 접종 id' })
+  @ApiProperty({description: '2차 접종 id'})
   id: number;
 
   /* Relations */

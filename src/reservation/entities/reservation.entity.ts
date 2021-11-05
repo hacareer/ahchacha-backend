@@ -6,11 +6,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
+import {ApiProperty} from '@nestjs/swagger';
 
 export class Reservation {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '검사기록 id' })
+  @ApiProperty({description: '검사기록 id'})
   id: number;
 
   @Column()
