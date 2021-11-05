@@ -18,12 +18,11 @@ export class CheckUp {
   @ApiProperty({description: '검사기록 id'})
   id: number;
 
-  @Column({
-    type: 'enum',
-    enum: Result,
-    nullable: true,
-  })
-  result: Result;
+  @Column()
+  startTime: Date;
+
+  @Column()
+  finishTime: Date;
 
   /* Relations */
 
