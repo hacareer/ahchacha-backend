@@ -1,6 +1,6 @@
 export class Reservation {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '검사기록 id'})
+  @ApiProperty({ description: '검사기록 id' })
   id: number;
 
   @Column()
