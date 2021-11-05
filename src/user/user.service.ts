@@ -10,7 +10,7 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findUserByKakaoId(kakaoId: string): Promise<User | undefined> {
+  async findUserByKakaoId(kakaoId: string) {
     const user = await this.userRepository.findOne({
       where: {
         kakaoAccount: kakaoId,
@@ -22,7 +22,7 @@ export class UserService {
     return user;
   }
 
-  async findUserById(id: number): Promise<User | undefined> {
+  async findUserById(id: number) {
     const user = await this.userRepository.findOne({
       where: {
         id,
@@ -31,12 +31,14 @@ export class UserService {
     return user;
   }
 
-  async findUserBynickname(nickname: string): Promise<User | undefined> {
+  async findUserBynickname(nickname: string) {
     const user = await this.userRepository.findOne({
       where: {
         nickname,
       },
     });
+    if (!user) {
+    }
     return user;
   }
 }

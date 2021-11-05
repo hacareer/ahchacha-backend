@@ -44,7 +44,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     try {
       // 토큰 검증
       const tokenVerify = await this.authService.tokenValidate(token);
-      console.log(tokenVerify);
 
       // 토큰의 남은 시간 체크
       const tokenExp = new Date(tokenVerify['exp'] * 1000);

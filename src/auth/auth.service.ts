@@ -102,12 +102,8 @@ export class AuthService {
       console.log('일회용 토큰 발급');
       const once_token = this.onceToken(kakaoId);
       return {
-        success: true,
-        message: '일회용 토큰 정상 발급',
-        data: {
-          type: 'once',
-          once_token,
-        },
+        type: 'once',
+        once_token,
       };
     }
 
@@ -116,19 +112,15 @@ export class AuthService {
     const access_token = await this.createLoginToken(user);
     const refresh_token = await this.createRefreshToken(user);
     return {
-      success: true,
-      message: '사용자 정상 로그인',
-      data: {
-        type: 'login',
-        access_token,
-        refresh_token,
-      },
+      type: 'login',
+      access_token,
+      refresh_token,
     };
   }
 
-  async registUser(req, createUserDto) {
+  async registUser(user, createUserDto) {
     try {
-      const { id, type } = req.user;
+      const { id, type } = user;
       const { nickname, vaccination, univId, location } = createUserDto;
       // 1회용 토큰인경우
       if (type === 'onceToken') {
@@ -155,12 +147,8 @@ export class AuthService {
         const refresh_token = await this.createRefreshToken(user);
 
         return {
-          success: true,
-          message: '사용자 정상 생성',
-          data: {
-            access_token,
-            refresh_token,
-          },
+          access_token,
+          refresh_token,
         };
       }
     } catch (error) {
