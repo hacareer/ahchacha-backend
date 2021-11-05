@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { User } from 'src/user/entities/user.entity';
-import { CreateSecondDoseDto } from './dto/create-second-dose.dto';
-import { UpdateSecondDoseDto } from './dto/update-second-dose.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SecondDose } from './entities/second-dose.entity';
@@ -11,8 +9,6 @@ export class SecondDoseService {
   constructor(
     @InjectRepository(SecondDose)
     private readonly secondDoseRepository: Repository<SecondDose>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
   ) {}
 
   async create(user: User) {

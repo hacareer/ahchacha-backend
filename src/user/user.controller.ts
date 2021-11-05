@@ -14,6 +14,8 @@ import { Post } from '@nestjs/common';
 import { JwtRefreshGuard } from 'src/auth/guard/jwt-refreshToken-auth.guard';
 import { KakaoUserDto } from './dto/kakao-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { userInfo } from 'os';
+import { User } from 'src/common/decorator/user.decorator';
 
 @ApiTags('user')
 @Controller('user')
@@ -27,7 +29,11 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Post('auth/signup')
-  async registUser(@Request() req: any, @Body() createUserDto: CreateUserDto) {
+  async registUser(
+    @User() user,
+    @Request() req: any,
+    @Body() createUserDto: CreateUserDto,
+  ) {
     return this.authService.registUser(req, createUserDto);
   }
   // 리프레쉬 토큰을 이용한 엑세스 토큰 재발급하기

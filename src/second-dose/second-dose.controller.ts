@@ -1,17 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Req,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Req, Query } from '@nestjs/common';
 import { SecondDoseService } from './second-dose.service';
-import { CreateSecondDoseDto } from './dto/create-second-dose.dto';
-import { UpdateSecondDoseDto } from './dto/update-second-dose.dto';
 
 @Controller('second-dose')
 export class SecondDoseController {

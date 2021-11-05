@@ -19,7 +19,8 @@ export class ClinicComment {
   @ApiProperty({ description: '후기 id' })
   id: number;
 
-  // TODO 후기 tag 추가
+  @Column()
+  content: string;
 
   /* Relations */
 

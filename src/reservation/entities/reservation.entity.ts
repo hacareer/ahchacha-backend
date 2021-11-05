@@ -1,3 +1,13 @@
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+
 export class Reservation {
   @PrimaryGeneratedColumn('increment')
   @ApiProperty({ description: '검사기록 id' })
@@ -11,11 +21,11 @@ export class Reservation {
 
   /* Relations */
 
-  @ManyToOne(() => User, (user) => user.checkUpList)
-  user!: User;
+  // @ManyToOne(() => User, (user) => user.checkUpList)
+  // user!: User;
 
-  @ManyToOne(() => Clinic, (clinic) => clinic.checkUpList)
-  clinic!: Clinic;
+  // @ManyToOne(() => Clinic, (clinic) => clinic.checkUpList)
+  // clinic!: Clinic;
 
   /* Date Columns */
 
