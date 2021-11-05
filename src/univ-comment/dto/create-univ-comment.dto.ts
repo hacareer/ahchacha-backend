@@ -9,5 +9,5 @@ export class CreateUnivCommentDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({example: '1', description: '대학교 ID'})
-  univId: string;
+  univId: number;
 }

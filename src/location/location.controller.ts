@@ -5,15 +5,16 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import {LocationService} from './location.service';
 import {CreateLocationDto} from './dto/create-location.dto';
 import {UpdateLocationDto} from './dto/update-location.dto';
 import {User} from 'src/common/decorator/user.decorator';
-import {userInfo} from 'os';
+import {TransformInterceptor} from 'src/transform.interceptor';
 
 @Controller('location')
+@UseInterceptors(TransformInterceptor)
 export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 

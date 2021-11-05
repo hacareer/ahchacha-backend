@@ -1,7 +1,16 @@
-import {Controller, Get, Param, Query, ParseFloatPipe} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  ParseFloatPipe,
+  UseInterceptors,
+} from '@nestjs/common';
+import {TransformInterceptor} from 'src/transform.interceptor';
 import {ClinicService} from './clinic.service';
 
 @Controller('clinic')
+@UseInterceptors(TransformInterceptor)
 export class ClinicController {
   constructor(private readonly clinicService: ClinicService) {}
 

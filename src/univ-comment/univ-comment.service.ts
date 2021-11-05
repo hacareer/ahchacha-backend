@@ -27,11 +27,11 @@ export class UnivCommentService {
   }
 
   async findByUnivId(univId) {
-    const univ = await this.univRepository.findOne({id: univId});
-    return await this.univCommentRepository.find({
-      where: {
-        univ,
-      },
-    });
+    return await this.univCommentRepository
+      .createQueryBuilder('univComment')
+      .leftJoinAndSelect('univComment.user', 'user')
+      .where('univComment.univId = :univId', {univId})
+      .select(['univComment.content', 'user.nickname'])
+      .getMany();
   }
 }

@@ -1,7 +1,16 @@
-import {Controller, Get, Post, Req, Query} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Req,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import {SecondDoseService} from './second-dose.service';
+import {TransformInterceptor} from 'src/transform.interceptor';
 
 @Controller('second-dose')
+@UseInterceptors(TransformInterceptor)
 export class SecondDoseController {
   constructor(private readonly secondDoseService: SecondDoseService) {}
 

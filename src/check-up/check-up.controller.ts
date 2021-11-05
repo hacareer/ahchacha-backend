@@ -9,13 +9,16 @@ import {
   Req,
   UseGuards,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import {CheckUpService} from './check-up.service';
 import {CreateCheckUpDto} from './dto/create-check-up.dto';
 import {JwtAuthGuard} from './../auth/guard/jwt-auth.guard';
 import {User} from 'src/common/decorator/user.decorator';
+import {TransformInterceptor} from 'src/transform.interceptor';
 
 @Controller('check-up')
+@UseInterceptors(TransformInterceptor)
 export class CheckUpController {
   constructor(private readonly checkUpService: CheckUpService) {}
 
