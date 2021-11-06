@@ -32,7 +32,7 @@ export class AuthService {
     };
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '6m',
+      expiresIn: '100m',
     });
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
     };
     const token = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '50m',
+      expiresIn: '100m',
     });
 
     const refreshToken = CryptoJS.AES.encrypt(
