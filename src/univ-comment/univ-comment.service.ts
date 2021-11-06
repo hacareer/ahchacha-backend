@@ -26,7 +26,7 @@ export class UnivCommentService {
     });
   }
 
-  async findByUnivId(univId) {
+  async findAllByUnivId(univId) {
     return await this.univCommentRepository
       .createQueryBuilder('univComment')
       .leftJoinAndSelect('univComment.user', 'user')
