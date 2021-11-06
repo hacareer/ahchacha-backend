@@ -4,7 +4,7 @@ import {ClinicTag} from 'src/constants';
 
 export class CreateClinicCommentDto {
   @ApiProperty({example: '검진 예약 날짜', description: '2021-11-01-12:00'})
-  contentList: ClinicTag[];
+  contents: string;
 
   @IsNumber()
   @ApiProperty({example: '1', description: '사용자 ID'})

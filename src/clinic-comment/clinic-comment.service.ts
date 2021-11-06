@@ -1,6 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Clinic} from 'src/clinic/entities/clinic.entity';
+import {ClinicTag} from 'src/constants';
 import {User} from 'src/user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
@@ -19,25 +20,22 @@ export class ClinicCommentService {
   ) {}
 
   async create(user, createClinicCommentDto: CreateClinicCommentDto) {
-    // const existingUser = await this.userRepository.findOne({id: user.id});
-    // const existingClinic = await this.clinicRepository.findOne({
-    //   id: createClinicCommentDto.clinicid,
-    // });
-    console.log(createClinicCommentDto);
-    const contentList = createClinicCommentDto.contentList;
-    console.log(contentList);
-    const unicCommentyList = await Promise.all(
+    const existingUser = await this.userRepository.findOne({id: user.id});
+    const existingClinic = await this.clinicRepository.findOne({
+      id: createClinicCommentDto.clinicid,
+    });
+    const contentList = createClinicCommentDto.contents.split(',');
+    const CommentList = await Promise.all(
       contentList.map(async (content) => {
-        // const unicCommentyEntity = await this.clinicCommentRepository.save({
-        //   content,
-        //   user: existingUser,
-        //   clinic: existingClinic,
-        // });
-        // return unicCommentyEntity;
-        console.log(content);
+        const commentyEntity = await this.clinicCommentRepository.save({
+          content: content as ClinicTag,
+          user: existingUser,
+          clinic: existingClinic,
+        });
+        return commentyEntity;
       }),
     );
-    return unicCommentyList;
+    return CommentList;
   }
 
   //TODO 개수
