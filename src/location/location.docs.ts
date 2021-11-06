@@ -1,65 +1,72 @@
-// import {applyDecorators} from '@nestjs/common';
-// import {ApiOperation, ApiResponse, ApiQuery} from '@nestjs/swagger';
-// import {LocationController} from './location.controller';
+import {applyDecorators} from '@nestjs/common';
+import {ApiOperation, ApiResponse, ApiQuery, ApiParam} from '@nestjs/swagger';
+import {LocationController} from './location.controller';
 
-// type SwaggerMethodDoc<T> = {
-//   [K in keyof T]: (description: string) => MethodDecorator;
-// };
+type SwaggerMethodDoc<T> = {
+  [K in keyof T]: (description: string) => MethodDecorator;
+};
 
-// export const ApiDocs: SwaggerMethodDoc<LocationController> = {
-//   create(summary) {
-//     return applyDecorators(
-//       ApiOperation({
-//         summary,
-//         description: '운동 기록을 생성하는 API 입니다.',
-//       }),
-//       ApiResponse({
-//         status: 201,
-//         type: ,
-//         description: 'The record has been successfully created.',
-//       }),
-//       ApiResponse({status: 403, description: 'Forbidden.'}),
-//     );
-//   },
-//   findAll(summary: string) {
-//     return applyDecorators(
-//       ApiOperation({
-//         summary,
-//         description:
-//           '운동 기록을 조회합니다. 최신 운동기록 조회는 duration를 사용해주세요. 기간내 운동기록 조회는 from, to를 사용해주세요.',
-//       }),
-//       ApiQuery({
-//         name: 'exerciseIdList',
-//         required: true,
-//         type: String,
-//         description: '조회하고 싶은 운동 Id 목록',
-//         example: '1,2',
-//       }),
-//       ApiQuery({
-//         name: 'duration',
-//         required: false,
-//         description:
-//           'exerciseIdList에 해당하는 운동 목록에 대해 최근에 운동한 기록을 조회합니다.',
-//         example: 'recent',
-//       }),
-//       ApiQuery({
-//         name: 'from',
-//         required: false,
-//         description: '조회하고 싶은 날짜의 시작',
-//         example: '2021-10-22 13:32',
-//       }),
-//       ApiQuery({
-//         name: 'to',
-//         required: false,
-//         description: '조회하고 싶은 날짜의 끝',
-//         example: '2021-10-24 13:32',
-//       }),
-//       ApiResponse({
-//         status: 200,
-//         type: FindAllExerciseHistoryResponseDto,
-//         description: 'The record has been successfully searched.',
-//       }),
-//       ApiResponse({status: 403, description: 'Forbidden.'}),
-//     );
-//   },
-// };
+export const ApiDocs: SwaggerMethodDoc<LocationController> = {
+  create(summary) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '사용자 위치 정보를 생성하는 API 입니다.',
+      }),
+      ApiResponse({
+        status: 201,
+        description: '사용자 위치 정보가 성공적으로 생성되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+  findByUser(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '사용자 위치 정보를 조회하는 API 입니다.',
+      }),
+      ApiParam({
+        name: 'userId',
+        required: true,
+        type: String,
+        description: '사용자 ID',
+        example: '1',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '사용자 위치 정보가 성공적으로 조회되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+  update(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '사용자 위치 정보를 갱신하는 API 입니다.',
+      }),
+      ApiParam({
+        name: 'locationid',
+        required: true,
+        type: String,
+        description: '위치 ID',
+        example: '1',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '사용자 위치 정보가 성공적으로 갱신되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+};

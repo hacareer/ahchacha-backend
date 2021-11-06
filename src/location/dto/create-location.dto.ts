@@ -5,6 +5,9 @@ import {ApiProperty} from '@nestjs/swagger';
 export class CreateLocationDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({example: '반포역', description: '사용자 주소(도로명)'})
+  @ApiProperty({
+    example: '서울특별시 서초구 신반포로 241',
+    description: '사용자 주소(도로명)',
+  })
   address: string;
 }
