@@ -3,7 +3,7 @@ import {IsNumber, IsString} from 'class-validator';
 import {ClinicTag} from 'src/constants';
 
 export class CreateClinicCommentDto {
-  @ApiProperty({example: '검진 예약 날짜', description: '2021-11-01-12:00'})
+  @ApiProperty({example: '후기 태그', description: 'T1'})
   contents: string;
 
   @IsNumber()
