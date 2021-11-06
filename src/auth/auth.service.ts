@@ -32,7 +32,7 @@ export class AuthService {
     };
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '100m',
+      expiresIn: '1000m',
     });
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
     };
     const token = this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '100m',
+      expiresIn: '1000m',
     });
 
     const refreshToken = CryptoJS.AES.encrypt(
@@ -69,7 +69,7 @@ export class AuthService {
 
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '10m',
+      expiresIn: '1000m',
     });
   }
 
@@ -98,7 +98,6 @@ export class AuthService {
   async validateUser(kakaoUserDto: KakaoUserDto) {
     const kakaoId = await this.getKakaoId(kakaoUserDto);
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
-
     // 유저가 없을때
     if (user === null) {
       console.log('일회용 토큰 발급');
@@ -124,7 +123,6 @@ export class AuthService {
     try {
       const {id, type} = user;
       const {nickname, vaccination, univId, address} = createUserDto;
-
       // 1회용 토큰인경우
       if (type === 'onceToken') {
         const user = new User();

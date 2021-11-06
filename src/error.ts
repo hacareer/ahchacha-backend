@@ -1,11 +1,11 @@
 export const Err = {
   USER: {
-    EXISTING_USER: {
-      code: 1,
-      message: '이미 존재하는 사용자 입니다.',
+    EXISTING_USER_NICKNAME: {
+      code: 400,
+      message: '이미 존재하는 닉네임 입니다.',
     },
     NOT_FOUND: {
-      code: 2,
+      code: 400,
       message: '사용자가 존재하지 않습니다.',
     },
   },

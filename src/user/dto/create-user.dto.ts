@@ -11,7 +11,7 @@ export class CreateUserDto {
   @ApiProperty({example: 'NO', description: '앱 진입시 백신 2차 접종 유무'})
   vaccination: string;
 
-  @ApiProperty({example: '1', description: '사용자 학교 Id'})
+  @ApiProperty({example: '1', description: '사용자 학교 ID'})
   univId: string;
 
   @ApiProperty({

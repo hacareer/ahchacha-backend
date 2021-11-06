@@ -29,8 +29,8 @@ export class UserService {
         id,
       },
     });
-    if (user) {
-      throw new BadRequestException(Err.USER.EXISTING_USER);
+    if (!user) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
     }
     return user;
   }
@@ -42,7 +42,7 @@ export class UserService {
       },
     });
     if (user) {
-      throw new BadRequestException(Err.USER.EXISTING_USER);
+      throw new BadRequestException(Err.USER.EXISTING_USER_NICKNAME);
     }
     return '닉네임 사용 가능합니다';
   }
