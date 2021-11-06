@@ -6,15 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  UseInterceptors,
 } from '@nestjs/common';
-import {TransformInterceptor} from 'src/transform.interceptor';
 import {ClinicCommentService} from './clinic-comment.service';
 import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
 import {UpdateClinicCommentDto} from './dto/update-clinic-comment.dto';
 
 @Controller('clinic-comment')
-@UseInterceptors(TransformInterceptor)
 export class ClinicCommentController {
   constructor(private readonly clinicCommentService: ClinicCommentService) {}
 

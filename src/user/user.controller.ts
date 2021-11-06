@@ -1,14 +1,6 @@
 import {ApiTags} from '@nestjs/swagger';
 import {AuthService} from '../auth/auth.service';
-import {
-  Body,
-  Controller,
-  Get,
-  Request,
-  UseGuards,
-  Param,
-  UseInterceptors,
-} from '@nestjs/common';
+import {Body, Controller, Get, UseGuards, Param} from '@nestjs/common';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {Post} from '@nestjs/common';
 import {JwtRefreshGuard} from 'src/auth/guard/jwt-refreshToken-auth.guard';
@@ -16,11 +8,9 @@ import {KakaoUserDto} from './dto/kakao-user.dto';
 import {CreateUserDto} from './dto/create-user.dto';
 import {User} from 'src/common/decorator/user.decorator';
 import {UserService} from 'src/user/user.service';
-import {TransformInterceptor} from 'src/transform.interceptor';
 
 @ApiTags('user')
 @Controller('user')
-@UseInterceptors(TransformInterceptor)
 export class UserController {
   constructor(
     private readonly authService: AuthService,

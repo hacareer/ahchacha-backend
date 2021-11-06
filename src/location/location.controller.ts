@@ -1,20 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  UseInterceptors,
-} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param} from '@nestjs/common';
 import {LocationService} from './location.service';
 import {CreateLocationDto} from './dto/create-location.dto';
 import {UpdateLocationDto} from './dto/update-location.dto';
 import {User} from 'src/common/decorator/user.decorator';
-import {TransformInterceptor} from 'src/transform.interceptor';
 
 @Controller('location')
-@UseInterceptors(TransformInterceptor)
 export class LocationController {
   constructor(private readonly locationService: LocationService) {}
 

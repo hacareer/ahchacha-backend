@@ -2,17 +2,13 @@ import {
   Controller,
   Get,
   Param,
-  Query,
   ParseFloatPipe,
-  UseInterceptors,
   UseGuards,
 } from '@nestjs/common';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
-import {TransformInterceptor} from 'src/transform.interceptor';
 import {ClinicService} from './clinic.service';
 
 @Controller('clinic')
-@UseInterceptors(TransformInterceptor)
 export class ClinicController {
   constructor(private readonly clinicService: ClinicService) {}
 

@@ -4,16 +4,13 @@ import {
   Post,
   Req,
   Query,
-  UseInterceptors,
   UseGuards,
   Param,
 } from '@nestjs/common';
 import {SecondDoseService} from './second-dose.service';
-import {TransformInterceptor} from 'src/transform.interceptor';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 
 @Controller('second-dose')
-@UseInterceptors(TransformInterceptor)
 export class SecondDoseController {
   constructor(private readonly secondDoseService: SecondDoseService) {}
 
