@@ -5,6 +5,7 @@ import {Clinic} from './entities/clinic.entity';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {UserModule} from 'src/user/user.module';
 import {AuthModule} from 'src/auth/auth.module';
+import {CheckUp} from 'src/check-up/entities/check-up.entity';
 
 @Module({
   imports: [

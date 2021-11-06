@@ -15,7 +15,6 @@ import {User} from '../../user/entities/user.entity';
 @Entity('location')
 export class Location {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '위치 id'})
   id: number;
 
   @Column()

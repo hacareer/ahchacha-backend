@@ -14,7 +14,6 @@ import {User} from 'src/user/entities/user.entity';
 @Entity('clinicComment')
 export class ClinicComment {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '후기 id'})
   id: number;
 
   @Column()

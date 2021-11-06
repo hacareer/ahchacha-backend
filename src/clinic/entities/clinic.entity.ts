@@ -9,16 +9,15 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
 import {OperationHour} from './operation-hour.entity';
 import {Label} from '../../constants';
-import {CheckUp} from 'src/check-up/entities/check-up.entity';
 import {ClinicComment} from 'src/clinic-comment/entities/clinic-comment.entity';
+import {CheckUpResult} from 'src/check-up-result/entities/check-up-result.entity';
+import {CheckUp} from 'src/check-up/entities/check-up.entity';
 
 @Entity('clinic')
 export class Clinic {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '선별진료소 id'})
   id: number;
 
   @Column({
@@ -42,11 +41,14 @@ export class Clinic {
 
   /* Relations */
 
-  @OneToMany(() => CheckUp, (checkUp) => checkUp.clinic)
-  checkUpList: CheckUp[];
+  @OneToMany(() => CheckUpResult, (checkUpResult) => checkUpResult.clinic)
+  checkUpResultList: CheckUpResult[];
 
   @OneToMany(() => ClinicComment, (clinicComment) => clinicComment.clinic)
   clinicCommentList: ClinicComment[];
+
+  @OneToMany(() => CheckUp, (checkUp) => checkUp.clinic)
+  checkUpList: CheckUp[];
 
   @JoinColumn()
   @OneToOne(() => OperationHour, (operationHour) => operationHour.clinic)

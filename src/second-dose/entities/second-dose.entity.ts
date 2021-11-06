@@ -13,7 +13,6 @@ import {User} from 'src/user/entities/user.entity';
 @Entity('second-dose')
 export class SecondDose {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '2차 접종 id'})
   id: number;
 
   /* Relations */

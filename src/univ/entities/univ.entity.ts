@@ -15,7 +15,6 @@ import {UnivComment} from 'src/univ-comment/entities/univ-comment.entity';
 @Entity('univ')
 export class Univ {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '대학 id'})
   id: number;
 
   @Column()

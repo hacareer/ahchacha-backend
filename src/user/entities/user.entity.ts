@@ -12,17 +12,17 @@ import {
 } from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {Vaccination} from '../../constants';
-import {CheckUp} from 'src/check-up/entities/check-up.entity';
 import {SecondDose} from 'src/second-dose/entities/second-dose.entity';
 import {Univ} from './../../univ/entities/univ.entity';
 import {Location} from '../../location/entities/location.entity';
 import {ClinicComment} from 'src/clinic-comment/entities/clinic-comment.entity';
 import {UnivComment} from 'src/univ-comment/entities/univ-comment.entity';
+import {CheckUpResult} from 'src/check-up-result/entities/check-up-result.entity';
+import {CheckUp} from 'src/check-up/entities/check-up.entity';
 
 @Entity('user')
 export class User {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '사용자 id'})
   id: number;
 
   @Column()
@@ -54,6 +54,9 @@ export class User {
 
   @OneToMany(() => CheckUp, (checkUp) => checkUp.user)
   checkUpList: CheckUp[];
+
+  @OneToMany(() => CheckUpResult, (checkUpResult) => checkUpResult.user)
+  checkUpResultList: CheckUpResult[];
 
   @OneToMany(() => ClinicComment, (clinicComment) => clinicComment.user)
   clinicCommentList: ClinicComment[];
