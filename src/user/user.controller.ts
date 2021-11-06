@@ -42,12 +42,14 @@ export class UserController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   @ApiDocs.findUserById('특정 사용자 조회 API')
   findUserById(@Param('id') id: string) {
     return this.userService.findUserById(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('nickname/:nickname')
   @ApiDocs.checkUserBynickname('특정 닉네임 조회 API')
   checkUserBynickname(@Param('nickname') nickname: string) {

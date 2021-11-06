@@ -1,7 +1,9 @@
 import {Controller, Get, Param, Query} from '@nestjs/common';
+import {ApiTags} from '@nestjs/swagger';
 import {UnivService} from './univ.service';
 
 @Controller('univ')
+@ApiTags('univ')
 export class UnivController {
   constructor(private readonly univService: UnivService) {}
 

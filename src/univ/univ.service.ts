@@ -14,7 +14,6 @@ export class UnivService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  //TODO 필요한지 의논
   async findAll() {
     return `This action returns all univ`;
   }

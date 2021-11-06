@@ -4,6 +4,7 @@ import {
   ApiResponse,
   ApiQuery,
   ApiBearerAuth,
+  ApiParam,
 } from '@nestjs/swagger';
 import {UserController} from './user.controller';
 import {validateUserResponseDto} from './responseDto/validateUserResponse.dto';
@@ -74,6 +75,13 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
         summary,
         description: '사용자 ID를 사용해서 사용자 정보를 조회합니다.',
       }),
+      ApiParam({
+        name: 'id',
+        required: true,
+        type: String,
+        description: '사용자 ID',
+        example: '1',
+      }),
       ApiResponse({
         status: 200,
         description: '해당 사용자 정보가 정상적으로 조회되었습니다.',
@@ -91,6 +99,13 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiOperation({
         summary,
         description: '해당 닉네임을 사용하고 있는 유저가 있는지 조회합니다.',
+      }),
+      ApiParam({
+        name: 'nickname',
+        required: true,
+        type: String,
+        description: '사용자 닉네임',
+        example: 'test',
       }),
       ApiResponse({
         status: 200,
