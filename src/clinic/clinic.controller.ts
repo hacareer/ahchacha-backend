@@ -14,11 +14,11 @@ export class ClinicController {
 
   @UseGuards(JwtAuthGuard)
   @Get('near/:lat/:lng')
-  findNear(
+  findNearBy1Km(
     @Param('lat', ParseFloatPipe) lat: number,
     @Param('lng', ParseFloatPipe) lng: number,
   ) {
-    return this.clinicService.findNear(lat, lng);
+    return this.clinicService.findNearBy1Km(lat, lng);
   }
 
   @UseGuards(JwtAuthGuard)

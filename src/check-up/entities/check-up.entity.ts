@@ -16,7 +16,7 @@ export class CheckUp {
   id: number;
 
   @Column()
-  time: Date;
+  day: Date;
 
   /* Relations */
 

@@ -2,6 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {getManager, Repository} from 'typeorm';
 import {Clinic} from './entities/clinic.entity';
 import {InjectRepository} from '@nestjs/typeorm';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class ClinicService {
@@ -10,7 +11,12 @@ export class ClinicService {
     private readonly clinicRepository: Repository<Clinic>,
   ) {}
 
-  async findNear(lat, lng) {
+  async findByName(word) {
+    const sequalize = sequelize;
+    const Op = sequalize.Op;
+  }
+
+  async findNearBy1Km(lat, lng) {
     const entityManager = getManager();
     return await entityManager.query(
       `

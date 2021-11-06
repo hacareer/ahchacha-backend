@@ -48,6 +48,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "sequelize": "^6.9.0",
+    "sequelize-typescript": "^2.1.1",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.38"
   },
@@ -63,6 +65,7 @@
     "@types/node-geocoder": "^3.24.3",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
+    "@types/sequelize": "^4.28.10",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",

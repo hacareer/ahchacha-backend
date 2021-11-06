@@ -6,7 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import {userInfo} from 'os';
+import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {User} from 'src/common/decorator/user.decorator';
 import {CheckUpService} from './check-up.service';
 import {CreateCheckUpDto} from './dto/create-check-up.dto';
 import {UpdateCheckUpDto} from './dto/update-check-up.dto';
@@ -15,28 +19,43 @@ import {UpdateCheckUpDto} from './dto/update-check-up.dto';
 export class CheckUpController {
   constructor(private readonly checkUpService: CheckUpService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createCheckUpDto: CreateCheckUpDto) {
-    return this.checkUpService.create(createCheckUpDto);
+  create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
+    return this.checkUpService.create(user, createCheckUpDto);
   }
 
-  @Get()
-  findAll() {
-    return this.checkUpService.findAll();
+  @UseGuards(JwtAuthGuard)
+  @Get(':userId')
+  findAllByUser(@Param('userId') userId: string) {
+    return this.checkUpService.findAll(+userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.checkUpService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get(':userId/:checkUpid')
+  findOneByUse(
+    @Param('userId') userId: string,
+    @Param('checkUpid') checkUpid: string,
+  ) {
+    return this.checkUpService.findOne(+userId, +checkUpid);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCheckUpDto: UpdateCheckUpDto) {
-    return this.checkUpService.update(+id, updateCheckUpDto);
+  @UseGuards(JwtAuthGuard)
+  @Patch(':userId/:checkUpid')
+  update(
+    @Param('userId') userId: string,
+    @Param('checkUpid') checkUpid: string,
+    @Body() updateCheckUpDto: UpdateCheckUpDto,
+  ) {
+    return this.checkUpService.update(+userId, +checkUpid, updateCheckUpDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.checkUpService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  @Delete(':userId/:checkUpid')
+  remove(
+    @Param('userId') userId: string,
+    @Param('checkUpid') checkUpid: string,
+  ) {
+    return this.checkUpService.remove(+userId, +checkUpid);
   }
 }
