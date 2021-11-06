@@ -20,6 +20,9 @@ export class Clinic {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
+  @Column()
+  name: string;
+
   @Column({
     type: 'enum',
     enum: Label,

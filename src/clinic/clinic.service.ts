@@ -12,8 +12,10 @@ export class ClinicService {
   ) {}
 
   async findByName(word) {
-    const sequalize = sequelize;
-    const Op = sequalize.Op;
+    return await this.clinicRepository
+      .createQueryBuilder('clinic')
+      .where('clinic.name like :name', {name: `${word}%`})
+      .getMany();
   }
 
   async findNearBy1Km(lat, lng) {
