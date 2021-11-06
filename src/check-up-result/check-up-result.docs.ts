@@ -1,65 +1,69 @@
-// import {applyDecorators} from '@nestjs/common';
-// import {ApiOperation, ApiResponse, ApiQuery} from '@nestjs/swagger';
-// import {CheckUpResultController} from './check-up-result.controller';
+import {applyDecorators} from '@nestjs/common';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiBearerAuth,
+  ApiParam,
+} from '@nestjs/swagger';
+import {CheckUpResultController} from './check-up-result.controller';
 
-// type SwaggerMethodDoc<T> = {
-//   [K in keyof T]: (description: string) => MethodDecorator;
-// };
+type SwaggerMethodDoc<T> = {
+  [K in keyof T]: (description: string) => MethodDecorator;
+};
 
-// export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
-//   create(summary) {
-//     return applyDecorators(
-//       ApiOperation({
-//         summary,
-//         description: '운동 기록을 생성하는 API 입니다.',
-//       }),
-//       ApiResponse({
-//         status: 201,
-//         type: ,
-//         description: 'The record has been successfully created.',
-//       }),
-//       ApiResponse({status: 403, description: 'Forbidden.'}),
-//     );
-//   },
-//   findAll(summary: string) {
-//     return applyDecorators(
-//       ApiOperation({
-//         summary,
-//         description:
-//           '운동 기록을 조회합니다. 최신 운동기록 조회는 duration를 사용해주세요. 기간내 운동기록 조회는 from, to를 사용해주세요.',
-//       }),
-//       ApiQuery({
-//         name: 'exerciseIdList',
-//         required: true,
-//         type: String,
-//         description: '조회하고 싶은 운동 Id 목록',
-//         example: '1,2',
-//       }),
-//       ApiQuery({
-//         name: 'duration',
-//         required: false,
-//         description:
-//           'exerciseIdList에 해당하는 운동 목록에 대해 최근에 운동한 기록을 조회합니다.',
-//         example: 'recent',
-//       }),
-//       ApiQuery({
-//         name: 'from',
-//         required: false,
-//         description: '조회하고 싶은 날짜의 시작',
-//         example: '2021-10-22 13:32',
-//       }),
-//       ApiQuery({
-//         name: 'to',
-//         required: false,
-//         description: '조회하고 싶은 날짜의 끝',
-//         example: '2021-10-24 13:32',
-//       }),
-//       ApiResponse({
-//         status: 200,
-//         type: ,
-//         description: 'The record has been successfully searched.',
-//       }),
-//       ApiResponse({status: 403, description: 'Forbidden.'}),
-//     );
-//   },
-// };
+export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
+  create(summary) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({
+        summary,
+        description: '검사 결과 정보를 생성하는 API 입니다.',
+      }),
+      ApiResponse({
+        status: 201,
+        description: '검사 결과 정보가 성공적으로 생성되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+  searchCheckUpResultByDate(summary: string) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({
+        summary,
+        description: '기간에 해당하는 검사 결과를 조회합니다.',
+      }),
+      ApiParam({
+        name: 'userId',
+        required: true,
+        type: String,
+        description: '사용자 ID',
+        example: '1',
+      }),
+      ApiParam({
+        name: 'duration',
+        required: true,
+        description: '기간의 시작',
+        example: '2021-01-01',
+      }),
+      ApiQuery({
+        name: 'from',
+        required: true,
+        description: '기간의 끝',
+        example: '2021-01-10',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '검사 결과 정보가 성공적으로 조회되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+};

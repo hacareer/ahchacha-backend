@@ -1,5 +1,11 @@
 import {applyDecorators} from '@nestjs/common';
-import {ApiOperation, ApiResponse, ApiQuery, ApiParam} from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiParam,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import {LocationController} from './location.controller';
 
 type SwaggerMethodDoc<T> = {
@@ -9,6 +15,7 @@ type SwaggerMethodDoc<T> = {
 export const ApiDocs: SwaggerMethodDoc<LocationController> = {
   create(summary) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '사용자 위치 정보를 생성하는 API 입니다.',
@@ -25,6 +32,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
   },
   findByUser(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '사용자 위치 정보를 조회하는 API 입니다.',
@@ -48,6 +56,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
   },
   update(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '사용자 위치 정보를 갱신하는 API 입니다.',

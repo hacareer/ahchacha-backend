@@ -1,65 +1,74 @@
-// import {applyDecorators} from '@nestjs/common';
-// import {ApiOperation, ApiResponse, ApiQuery} from '@nestjs/swagger';
-// import {ClinicController} from './clinic.controller';
+import {applyDecorators} from '@nestjs/common';
+import {ApiOperation, ApiResponse, ApiQuery, ApiParam} from '@nestjs/swagger';
+import {ClinicController} from './clinic.controller';
 
-// type SwaggerMethodDoc<T> = {
-//   [K in keyof T]: (description: string) => MethodDecorator;
-// };
+type SwaggerMethodDoc<T> = {
+  [K in keyof T]: (description: string) => MethodDecorator;
+};
 
-// export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
-//   create(summary) {
-//     return applyDecorators(
-//       ApiOperation({
-//         summary,
-//         description: '운동 기록을 생성하는 API 입니다.',
-//       }),
-//       ApiResponse({
-//         status: 201,
-//         type: ,
-//         description: 'The record has been successfully created.',
-//       }),
-//       ApiResponse({status: 403, description: 'Forbidden.'}),
-//     );
-//   },
-//   findAll(summary: string) {
-//     return applyDecorators(
-//       ApiOperation({
-//         summary,
-//         description:
-//           '운동 기록을 조회합니다. 최신 운동기록 조회는 duration를 사용해주세요. 기간내 운동기록 조회는 from, to를 사용해주세요.',
-//       }),
-//       ApiQuery({
-//         name: 'exerciseIdList',
-//         required: true,
-//         type: String,
-//         description: '조회하고 싶은 운동 Id 목록',
-//         example: '1,2',
-//       }),
-//       ApiQuery({
-//         name: 'duration',
-//         required: false,
-//         description:
-//           'exerciseIdList에 해당하는 운동 목록에 대해 최근에 운동한 기록을 조회합니다.',
-//         example: 'recent',
-//       }),
-//       ApiQuery({
-//         name: 'from',
-//         required: false,
-//         description: '조회하고 싶은 날짜의 시작',
-//         example: '2021-10-22 13:32',
-//       }),
-//       ApiQuery({
-//         name: 'to',
-//         required: false,
-//         description: '조회하고 싶은 날짜의 끝',
-//         example: '2021-10-24 13:32',
-//       }),
-//       ApiResponse({
-//         status: 200,
-//         type: ,
-//         description: 'The record has been successfully searched.',
-//       }),
-//       ApiResponse({status: 403, description: 'Forbidden.'}),
-//     );
-//   },
-// };
+export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
+  findByName(summary) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '해당 단어로 시작하는 선별진료소를 조회합니다.',
+      }),
+      ApiParam({
+        name: 'word',
+        required: true,
+        description: '조회하고 싶은 단어',
+        example: '강남',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '선별진료소 정보가 성공적으로 조회되었습니다.',
+      }),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+  findNearBy1Km(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description:
+          '사용자 위치의 경도와 위도를 사용해서 반경 1KM내에 위치한 선별진료소를 조회합니다.',
+      }),
+      ApiQuery({
+        name: 'lat',
+        required: true,
+        description: '사용자 위치의 경도',
+        example: '37.50832',
+      }),
+      ApiQuery({
+        name: 'lng',
+        required: true,
+        description: '사용자 위치의 위도',
+        example: '127.011803',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '선별진료소 정보가 성공적으로 조회되었습니다.',
+      }),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+  findOne(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '선별진료소 ID를 사용해서 사용자 정보를 조회합니다.',
+      }),
+      ApiParam({
+        name: 'clinicId',
+        required: true,
+        description: '선별진료소 ID',
+        example: '1',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '선별진료소 정보가 성공적으로 조회되었습니다.',
+      }),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+};

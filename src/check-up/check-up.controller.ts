@@ -40,6 +40,8 @@ export class CheckUpController {
     return this.checkUpService.findOne(+userId, +checkUpid);
   }
 
+  //TODO 기간으로 조회하는 API
+
   @UseGuards(JwtAuthGuard)
   @Patch(':userId/:checkUpid')
   update(
