@@ -19,11 +19,6 @@ export class CheckUpResultService {
   ) {}
 
   async create(user: User, createCheckUpResultDto: CreateCheckUpResultDto) {
-    const clinic = await this.clinicRepository.findOne({
-      where: {
-        id: createCheckUpResultDto.clinicId,
-      },
-    });
     const existingUser = await this.userRepository.findOne({
       where: {
         id: user.id,
@@ -35,7 +30,6 @@ export class CheckUpResultService {
     await this.checkUpResultRepository.save({
       startTime: createCheckUpResultDto.startTime,
       endTime: endTime,
-      clinic,
       user: existingUser,
     });
   }

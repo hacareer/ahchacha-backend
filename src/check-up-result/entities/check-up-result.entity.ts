@@ -26,9 +26,6 @@ export class CheckUpResult {
   @ManyToOne(() => User, (user) => user.checkUpResultList)
   user!: User;
 
-  @ManyToOne(() => Clinic, (clinic) => clinic.checkUpResultList)
-  clinic!: Clinic;
-
   /* Date Columns */
 
   @CreateDateColumn()

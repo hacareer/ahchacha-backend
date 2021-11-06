@@ -44,9 +44,6 @@ export class Clinic {
 
   /* Relations */
 
-  @OneToMany(() => CheckUpResult, (checkUpResult) => checkUpResult.clinic)
-  checkUpResultList: CheckUpResult[];
-
   @OneToMany(() => ClinicComment, (clinicComment) => clinicComment.clinic)
   clinicCommentList: ClinicComment[];
 
