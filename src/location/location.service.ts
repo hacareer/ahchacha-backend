@@ -51,15 +51,21 @@ export class LocationService {
     });
   }
 
-  findAll() {
-    return `This action returns all location`;
+  async findByUser(userId: number) {
+    const existingUser = await this.userRepository.findOne(userId);
+    return await this.locationRepository.findOne({
+      where: {
+        user: existingUser,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} location`;
-  }
-
-  update(id: number, updateLocationDto: UpdateLocationDto) {
-    return `This action updates a #${id} location`;
+  async update(id: number, updateLocationDto: UpdateLocationDto) {
+    const {lat, lng} = await this.getCoordinate(updateLocationDto.address);
+    return await this.locationRepository.update(id, {
+      address: updateLocationDto.address,
+      longitude: lng,
+      latitude: lat,
+    });
   }
 }

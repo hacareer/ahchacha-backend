@@ -5,7 +5,9 @@ import {
   Query,
   ParseFloatPipe,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
+import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {TransformInterceptor} from 'src/transform.interceptor';
 import {ClinicService} from './clinic.service';
 
@@ -14,16 +16,18 @@ import {ClinicService} from './clinic.service';
 export class ClinicController {
   constructor(private readonly clinicService: ClinicService) {}
 
-  @Get()
+  @UseGuards(JwtAuthGuard)
+  @Get('near/:lat/:lng')
   findNear(
-    @Query('lat', ParseFloatPipe) lat: number,
-    @Query('lng', ParseFloatPipe) lng: number,
+    @Param('lat', ParseFloatPipe) lat: number,
+    @Param('lng', ParseFloatPipe) lng: number,
   ) {
     return this.clinicService.findNear(lat, lng);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.clinicService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get(':clinicId')
+  findOne(@Param('clinicId') clinicId: string) {
+    return this.clinicService.findOne(+clinicId);
   }
 }

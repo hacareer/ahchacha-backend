@@ -9,10 +9,13 @@ export class SecondDoseService {
   constructor(
     @InjectRepository(SecondDose)
     private readonly secondDoseRepository: Repository<SecondDose>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async create(user: User) {
-    return await this.secondDoseRepository.save({user});
+    const existingUser = await this.userRepository.findOne(user.id);
+    return await this.secondDoseRepository.save({user: existingUser});
   }
 
   async countByUniv(univId: number, from: string, to: string) {

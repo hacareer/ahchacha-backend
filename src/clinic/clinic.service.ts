@@ -11,7 +11,6 @@ export class ClinicService {
   ) {}
 
   async findNear(lat, lng) {
-    console.log(lat, lng);
     const entityManager = getManager();
     return await entityManager.query(
       `
@@ -30,7 +29,7 @@ export class ClinicService {
   async findOne(id: number) {
     return await this.clinicRepository.findOne({
       where: {
-        id,
+        clinicId: id,
       },
     });
   }

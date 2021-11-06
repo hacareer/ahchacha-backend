@@ -23,21 +23,16 @@ export class LocationController {
     return this.locationService.create(user, createLocationDto);
   }
 
-  @Get()
-  findAll() {
-    return this.locationService.findAll();
+  @Get(':userId')
+  findByUser(@Param('userId') userId: string) {
+    return this.locationService.findByUser(+userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.locationService.findOne(+id);
-  }
-
-  @Patch(':id')
+  @Patch(':locationid')
   update(
-    @Param('id') id: string,
+    @Param('locationid') locationid: string,
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
-    return this.locationService.update(+id, updateLocationDto);
+    return this.locationService.update(+locationid, updateLocationDto);
   }
 }

@@ -19,7 +19,7 @@ export class UnivCommentService {
   async create(user: User, createUnivCommentDto: CreateUnivCommentDto) {
     const univ = await this.univRepository.findOne(createUnivCommentDto.univId);
     const existingUser = await this.userRepository.findOne(user.id);
-    await this.univCommentRepository.save({
+    return await this.univCommentRepository.save({
       content: createUnivCommentDto.content,
       user: existingUser,
       univ,

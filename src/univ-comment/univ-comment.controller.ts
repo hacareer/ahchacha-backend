@@ -27,6 +27,7 @@ export class UnivCommentController {
     return this.univCommentService.create(user, createUnivCommentDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':univId')
   findByUnivId(@Param('univId') univId: string) {
     return this.univCommentService.findByUnivId(+univId);

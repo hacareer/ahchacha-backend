@@ -5,12 +5,13 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {SecondDose} from './entities/second-dose.entity';
 import {UserModule} from './../user/user.module';
 import {AuthModule} from 'src/auth/auth.module';
+import {User} from 'src/user/entities/user.entity';
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
-    TypeOrmModule.forFeature([SecondDose]),
+    TypeOrmModule.forFeature([SecondDose, User]),
   ],
   controllers: [SecondDoseController],
   providers: [SecondDoseService],
