@@ -43,14 +43,14 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':id')
+  @Get(':userId')
   @ApiDocs.findUserById('특정 사용자 조회 API')
-  findUserById(@Param('id') id: string) {
-    return this.userService.findUserById(+id);
+  findUserById(@Param('userId') userId: string) {
+    return this.userService.findUserById(+userId);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('nickname/:nickname')
+  @Get('search/:nickname')
   @ApiDocs.checkUserBynickname('특정 닉네임 조회 API')
   checkUserBynickname(@Param('nickname') nickname: string) {
     return this.userService.checkUserBynickname(nickname);

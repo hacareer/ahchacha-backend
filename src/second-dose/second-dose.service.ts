@@ -13,7 +13,7 @@ export class SecondDoseService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(user: User) {
+  async create(user) {
     const existingUser = await this.userRepository.findOne(user.id);
     return await this.secondDoseRepository.save({user: existingUser});
   }

@@ -15,7 +15,7 @@ export class UnivService {
   ) {}
 
   async findAll() {
-    return `This action returns all univ`;
+    return await this.univRepository.find();
   }
 
   async findByName(word) {

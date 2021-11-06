@@ -76,7 +76,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
         description: '사용자 ID를 사용해서 사용자 정보를 조회합니다.',
       }),
       ApiParam({
-        name: 'id',
+        name: 'userId',
         required: true,
         type: String,
         description: '사용자 ID',

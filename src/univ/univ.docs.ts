@@ -1,5 +1,5 @@
 import {applyDecorators} from '@nestjs/common';
-import {ApiOperation, ApiResponse, ApiQuery} from '@nestjs/swagger';
+import {ApiOperation, ApiResponse, ApiQuery, ApiParam} from '@nestjs/swagger';
 import {UnivController} from './univ.controller';
 
 type SwaggerMethodDoc<T> = {
@@ -17,22 +17,21 @@ export const ApiDocs: SwaggerMethodDoc<UnivController> = {
         status: 200,
         description: '학교정보가 정상적으로 조회되었습니다.',
       }),
-      ApiResponse({status: 403, description: 'Forbidden.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
   findByName(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
-        description:
-          '운동 기록을 조회합니다. 최신 운동기록 조회는 duration를 사용해주세요. 기간내 운동기록 조회는 from, to를 사용해주세요.',
+        description: '해당 단어로 시작하는 학교정보를 조회합니다.',
       }),
       ApiQuery({
-        name: 'exerciseIdList',
+        name: 'word',
         required: true,
         type: String,
-        description: '조회하고 싶은 운동 Id 목록',
-        example: '1,2',
+        description: '조회하고 싶은 단어',
+        example: '서울',
       }),
       ApiResponse({
         status: 200,
@@ -45,15 +44,14 @@ export const ApiDocs: SwaggerMethodDoc<UnivController> = {
     return applyDecorators(
       ApiOperation({
         summary,
-        description:
-          '운동 기록을 조회합니다. 최신 운동기록 조회는 duration를 사용해주세요. 기간내 운동기록 조회는 from, to를 사용해주세요.',
+        description: '학교 ID를 사용해서 학교정보를 조회합니다.',
       }),
-      ApiQuery({
-        name: 'exerciseIdList',
+      ApiParam({
+        name: 'univId',
         required: true,
         type: String,
-        description: '조회하고 싶은 운동 Id 목록',
-        example: '1,2',
+        description: '학교 ID',
+        example: '1',
       }),
       ApiResponse({
         status: 200,
