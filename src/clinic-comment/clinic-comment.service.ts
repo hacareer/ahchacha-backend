@@ -19,24 +19,27 @@ export class ClinicCommentService {
   ) {}
 
   async create(user, createClinicCommentDto: CreateClinicCommentDto) {
-    const existingUser = await this.userRepository.findOne({id: user.id});
-    const existingClinic = await this.clinicRepository.findOne({
-      id: createClinicCommentDto.clinicid,
-    });
+    // const existingUser = await this.userRepository.findOne({id: user.id});
+    // const existingClinic = await this.clinicRepository.findOne({
+    //   id: createClinicCommentDto.clinicid,
+    // });
+    console.log(createClinicCommentDto);
     const contentList = createClinicCommentDto.contentList;
+    console.log(contentList);
     const unicCommentyList = await Promise.all(
       contentList.map(async (content) => {
-        const unicCommentyEntity = await this.clinicCommentRepository.save({
-          content,
-          user: existingUser,
-          clinic: existingClinic,
-        });
-        return unicCommentyEntity;
+        // const unicCommentyEntity = await this.clinicCommentRepository.save({
+        //   content,
+        //   user: existingUser,
+        //   clinic: existingClinic,
+        // });
+        // return unicCommentyEntity;
+        console.log(content);
       }),
     );
     return unicCommentyList;
   }
-  
+
   //TODO 개수
   async countContents(id: number) {
     return `This action returns a #${id} clinicComment`;
