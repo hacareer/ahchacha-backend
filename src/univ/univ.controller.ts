@@ -1,4 +1,4 @@
-import {Controller, Get, Param} from '@nestjs/common';
+import {Controller, Get, Param, Query} from '@nestjs/common';
 import {UnivService} from './univ.service';
 
 @Controller('univ')
@@ -10,8 +10,13 @@ export class UnivController {
     return this.univService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.univService.findOne(+id);
+  @Get('name')
+  findByName(@Query('word') word: string) {
+    return this.univService.findByName(word);
+  }
+
+  @Get(':univId')
+  findByUnivId(@Param('univId') univId: string) {
+    return this.univService.findByUnivId(+univId);
   }
 }
