@@ -39,7 +39,22 @@ export class ClinicCommentService {
   }
 
   //TODO 개수
-  async countContents(id: number) {
-    return `This action returns a #${id} clinicComment`;
+  async countContents(clinicId: number) {
+    const contents = ['T1', 'T2', 'T3', 'T4', 'T5'];
+    const existingClinic = await this.clinicRepository.findOne({
+      id: clinicId,
+    });
+    const CommentList = await Promise.all(
+      contents.map(async (content) => {
+        const number = await this.clinicCommentRepository.count({
+          where: {
+            content: content as ClinicTag,
+            clinic: existingClinic,
+          },
+        });
+        return {content, number};
+      }),
+    );
+    return CommentList;
   }
 }

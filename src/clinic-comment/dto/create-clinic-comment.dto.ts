@@ -7,10 +7,6 @@ export class CreateClinicCommentDto {
   contents: string;
 
   @IsNumber()
-  @ApiProperty({example: '1', description: '사용자 ID'})
-  userId: number;
-
-  @IsNumber()
   @ApiProperty({example: '1', description: '선별진료소 ID'})
   clinicid: number;
 }

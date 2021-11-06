@@ -18,13 +18,13 @@ import {UpdateClinicCommentDto} from './dto/update-clinic-comment.dto';
 export class ClinicCommentController {
   constructor(private readonly clinicCommentService: ClinicCommentService) {}
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   create(@User() user, @Body() createClinicCommentDto: CreateClinicCommentDto) {
     return this.clinicCommentService.create(user, createClinicCommentDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //@UseGuards(JwtAuthGuard)
   @Get(':clinicId')
   countContents(@Param('clinicId') clinicId: string) {
     return this.clinicCommentService.countContents(+clinicId);
