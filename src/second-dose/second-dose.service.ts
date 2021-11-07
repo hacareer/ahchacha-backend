@@ -21,7 +21,7 @@ export class SecondDoseService {
   }
 
   async countByUniv(univId: number, from: string, to: string) {
-    const secondDoseNumber = await this.secondDoseRepository
+    const number = await this.secondDoseRepository
       .createQueryBuilder('secondDose')
       .innerJoin('secondDose.user', 'user')
       .where('user.univId = :univId', {univId})
@@ -29,7 +29,7 @@ export class SecondDoseService {
         `secondDose.createdAt 
       BETWEEN '${from}' AND '${to}'`,
       )
-      .getMany();
-    return secondDoseNumber;
+      .getCount();
+    return {number};
   }
 }

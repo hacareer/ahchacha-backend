@@ -41,13 +41,13 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
         name: 'from',
         required: true,
         description: '기간의 시작',
-        example: '2021-01-01',
+        example: '2021-01-01 00:00',
       }),
       ApiQuery({
         name: 'to',
         required: true,
         description: '기간의 끝',
-        example: '2021-01-10',
+        example: '2021-01-10 00:00',
       }),
       ApiResponse({
         status: 200,

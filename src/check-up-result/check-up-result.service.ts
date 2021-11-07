@@ -24,9 +24,7 @@ export class CheckUpResultService {
         id: userId,
       },
     });
-    console.log(createCheckUpResultDto.startTime);
     const finishTime = new Date(createCheckUpResultDto.startTime);
-    console.log(finishTime);
     finishTime.setDate(finishTime.getDate() + 2);
     return await this.checkUpResultRepository.save({
       startTime: createCheckUpResultDto.startTime,
@@ -42,17 +40,13 @@ export class CheckUpResultService {
         id: userId,
       },
     });
-    console.log(from);
-    const fromDate = new Date(from);
-    const toDate = new Date(to);
-    console.log(fromDate);
     return await this.checkUpResultRepository
       .createQueryBuilder('checkUpResult')
       .innerJoin('checkUpResult.user', 'user')
       .where('user.id =:userId', {userId: existingUser.id})
       .andWhere(
         `checkUpResult.startTime 
-      BETWEEN '${fromDate}' AND '${toDate}'`,
+      BETWEEN '${from}' AND '${to}'`,
       )
       .getMany();
   }
