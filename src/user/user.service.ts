@@ -35,6 +35,19 @@ export class UserService {
     return user;
   }
 
+  async getLoginInfo(userId: number) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['location', 'univ'],
+    });
+    if (!user) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
+    return user;
+  }
+
   async checkUserBynickname(nickname: string) {
     const user = await this.userRepository.findOne({
       where: {

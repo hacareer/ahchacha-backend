@@ -14,7 +14,7 @@ import {User} from 'src/user/entities/user.entity';
 import {Univ} from 'src/univ/entities/univ.entity';
 import {UnivTag} from 'src/constants';
 
-@Entity('univComment')
+@Entity('univ-comment')
 export class UnivComment {
   @PrimaryGeneratedColumn('increment')
   id: number;

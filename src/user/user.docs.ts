@@ -68,23 +68,16 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  findUserById(summary: string) {
+  getLoginInfo(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '사용자 ID를 사용해서 사용자 정보를 조회합니다.',
-      }),
-      ApiParam({
-        name: 'userId',
-        required: true,
-        type: String,
-        description: '사용자 ID',
-        example: '1',
+        description: '현재 로그인한 사용자의 정보를 조회합니다.',
       }),
       ApiResponse({
         status: 200,
-        description: '해당 사용자 정보가 정상적으로 조회되었습니다.',
+        description: '사용자 정보가 정상적으로 조회되었습니다.',
       }),
       ApiResponse({status: 2, description: '사용자가 존재하지 않습니다.'}),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -16,7 +17,7 @@ export class SecondDose {
   id: number;
 
   /* Relations */
-
+  @JoinColumn()
   @OneToOne(() => User, (user) => user.secondDose)
   user!: User;
 

@@ -9,6 +9,7 @@ import {Location} from './entities/location.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from './../user/entities/user.entity';
+import {where} from 'sequelize';
 
 @Injectable()
 export class LocationService {
@@ -40,32 +41,34 @@ export class LocationService {
     return response;
   }
 
-  async create(user, createLocationDto: CreateLocationDto) {
-    const existingUser = await this.userRepository.findOne(user.id);
+  async create(userId, createLocationDto: CreateLocationDto) {
     const {lat, lng} = await this.getCoordinate(createLocationDto.address);
-    return await this.locationRepository.save({
+    const location = await this.locationRepository.save({
       address: createLocationDto.address,
       latitude: lat,
       longitude: lng,
-      user: existingUser,
     });
+    await this.userRepository.update(userId, {
+      location,
+    });
+    return location;
   }
 
-  async findByUser(userId: number) {
-    const existingUser = await this.userRepository.findOne(userId);
+  async getLocInfo(locationId: number) {
     return await this.locationRepository.findOne({
       where: {
-        user: existingUser,
+        id: locationId,
       },
     });
   }
 
-  async update(id: number, updateLocationDto: UpdateLocationDto) {
+  async update(locationId: number, updateLocationDto: UpdateLocationDto) {
     const {lat, lng} = await this.getCoordinate(updateLocationDto.address);
-    return await this.locationRepository.update(id, {
+    await this.locationRepository.update(locationId, {
       address: updateLocationDto.address,
       longitude: lng,
       latitude: lat,
     });
+    return 'update success';
   }
 }

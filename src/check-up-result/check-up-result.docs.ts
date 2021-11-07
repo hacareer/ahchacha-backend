@@ -37,21 +37,14 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
         summary,
         description: '기간에 해당하는 검사 결과를 조회합니다.',
       }),
-      ApiParam({
-        name: 'userId',
-        required: true,
-        type: String,
-        description: '사용자 ID',
-        example: '1',
-      }),
-      ApiParam({
-        name: 'duration',
+      ApiQuery({
+        name: 'from',
         required: true,
         description: '기간의 시작',
         example: '2021-01-01',
       }),
       ApiQuery({
-        name: 'from',
+        name: 'to',
         required: true,
         description: '기간의 끝',
         example: '2021-01-10',

@@ -5,7 +5,6 @@ import {ClinicTag} from 'src/constants';
 import {User} from 'src/user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
-import {UpdateClinicCommentDto} from './dto/update-clinic-comment.dto';
 import {ClinicComment} from './entities/clinic-comment.entity';
 
 @Injectable()
@@ -38,7 +37,6 @@ export class ClinicCommentService {
     return CommentList;
   }
 
-  //TODO 개수
   async countContents(clinicId: number) {
     const contents = ['T1', 'T2', 'T3', 'T4', 'T5'];
     const existingClinic = await this.clinicRepository.findOne({

@@ -22,7 +22,6 @@ export class ClinicController {
     return this.clinicService.findByName(word);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('search/:lat/:lng')
   @ApiDocs.findNearBy1Km('반경 1KM 선별소 조회 API')
   findNearBy1Km(

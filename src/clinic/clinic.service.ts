@@ -14,6 +14,7 @@ export class ClinicService {
   async findByName(word) {
     return await this.clinicRepository
       .createQueryBuilder('clinic')
+      .innerJoinAndSelect('clinic.operationHour', 'operationHour')
       .where('clinic.name like :name', {name: `${word}%`})
       .getMany();
   }
@@ -34,11 +35,12 @@ export class ClinicService {
     );
   }
 
-  async findOne(id: number) {
+  async findOne(clinicId: number) {
     return await this.clinicRepository.findOne({
       where: {
-        clinicId: id,
+        id: clinicId,
       },
+      relations: ['operationHour'],
     });
   }
 }

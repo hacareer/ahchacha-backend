@@ -31,12 +31,12 @@ export class CheckUpService {
     });
   }
 
-  async findAll(userId) {
+  async findAll(userId: number) {
     const existingUser = await this.userRepository.findOne({id: userId});
     return await this.checkUpRepository.find({where: {user: existingUser}});
   }
 
-  async findOne(userId, checkupId) {
+  async findOne(userId: number, checkupId: number) {
     const existingUser = await this.userRepository.findOne({id: userId});
     return await this.checkUpRepository.findOne({
       where: {
@@ -46,21 +46,18 @@ export class CheckUpService {
     });
   }
 
-  async update(userId, checkupId, updateCheckUpDto: UpdateCheckUpDto) {
+  async update(checkupId, updateCheckUpDto: UpdateCheckUpDto) {
     // TODO 로직 다시 짜기
+    const existingClinic = await this.clinicRepository.findOne(
+      updateCheckUpDto.clinicid,
+    );
     if (updateCheckUpDto.clinicid) {
-      const existingClinic = await this.clinicRepository.findOne(
-        updateCheckUpDto.clinicid,
-      );
       await this.checkUpRepository.update(
         {id: checkupId},
         {clinic: existingClinic},
       );
     }
     if (updateCheckUpDto.day) {
-      const existingClinic = await this.clinicRepository.findOne(
-        updateCheckUpDto.clinicid,
-      );
       await this.checkUpRepository.update(
         {id: checkupId},
         {day: updateCheckUpDto.day},
@@ -73,7 +70,7 @@ export class CheckUpService {
     });
   }
 
-  async remove(userId, checkupId) {
+  async remove(checkupId) {
     return await this.checkUpRepository.delete({id: checkupId});
   }
 }

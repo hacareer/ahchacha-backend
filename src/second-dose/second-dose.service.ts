@@ -13,8 +13,10 @@ export class SecondDoseService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(user) {
-    const existingUser = await this.userRepository.findOne(user.id);
+  async create(userId: number) {
+    const existingUser = await this.userRepository.findOne({
+      where: {id: userId},
+    });
     return await this.secondDoseRepository.save({user: existingUser});
   }
 
@@ -22,13 +24,12 @@ export class SecondDoseService {
     const secondDoseNumber = await this.secondDoseRepository
       .createQueryBuilder('secondDose')
       .innerJoin('secondDose.user', 'user')
-      .innerJoin('user.univId', 'secondDose')
       .where('user.univId = :univId', {univId})
       .andWhere(
         `secondDose.createdAt 
       BETWEEN '${from}' AND '${to}'`,
       )
-      .getCount();
+      .getMany();
     return secondDoseNumber;
   }
 }

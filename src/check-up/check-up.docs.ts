@@ -37,13 +37,6 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
         summary,
         description: '사용자의 모든 검사 예약 정보를 조회합니다.',
       }),
-      ApiParam({
-        name: 'userId',
-        required: true,
-        type: String,
-        description: '사용자 ID',
-        example: '1',
-      }),
       ApiResponse({
         status: 200,
         description:
@@ -61,13 +54,6 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiOperation({
         summary,
         description: '사용자의 검사 예약 정보를 조회합니다.',
-      }),
-      ApiParam({
-        name: 'userId',
-        required: true,
-        type: String,
-        description: '사용자 ID',
-        example: '1',
       }),
       ApiParam({
         name: 'checkUpId',
@@ -94,13 +80,6 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
         description: '사용자의 검사 예약 정보를 갱신합니다.',
       }),
       ApiParam({
-        name: 'userId',
-        required: true,
-        type: String,
-        description: '사용자 ID',
-        example: '1',
-      }),
-      ApiParam({
         name: 'checkUpId',
         required: true,
         type: String,
@@ -123,13 +102,6 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiOperation({
         summary,
         description: '사용자의 검사 예약 정보를 삭제합니다.',
-      }),
-      ApiParam({
-        name: 'userId',
-        required: true,
-        type: String,
-        description: '사용자 ID',
-        example: '1',
       }),
       ApiParam({
         name: 'checkUpId',

@@ -22,7 +22,7 @@ export class SecondDoseController {
   @Post()
   @ApiDocs.create('접종 정보 생성 API')
   create(@User() user) {
-    return this.secondDoseService.create(user);
+    return this.secondDoseService.create(user.id);
   }
 
   @UseGuards(JwtAuthGuard)

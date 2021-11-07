@@ -24,19 +24,19 @@ export class CheckUpResultController {
   @Post()
   @ApiDocs.create('검사 결과 생성 API')
   create(@User() user, @Body() createCheckUpResultDto: CreateCheckUpResultDto) {
-    return this.checkUpResultService.create(user, createCheckUpResultDto);
+    return this.checkUpResultService.create(user.id, createCheckUpResultDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':userId')
+  @Get()
   @ApiDocs.searchCheckUpResultByDate('검사 결과 조회 API')
   searchCheckUpResultByDate(
-    @Param('userId') userId: string,
+    @User() user,
     @Query('from') from: string,
     @Query('to') to: string,
   ) {
     return this.checkUpResultService.searchCheckUpResultByDate(
-      +userId,
+      user.id,
       from,
       to,
     );

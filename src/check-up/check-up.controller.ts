@@ -30,42 +30,35 @@ export class CheckUpController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':userId')
+  @Get()
   @ApiDocs.findAllByUser('모든 검사 예약 조회 API')
-  findAllByUser(@Param('userId') userId: string) {
-    return this.checkUpService.findAll(+userId);
+  findAllByUser(@User() user) {
+    return this.checkUpService.findAll(user.id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':userId/:checkUpId')
+  @Get(':checkUpId')
   @ApiDocs.findOneByUse('특정 검사 예약 조회 API')
-  findOneByUse(
-    @Param('userId') userId: string,
-    @Param('checkUpId') checkUpId: string,
-  ) {
-    return this.checkUpService.findOne(+userId, +checkUpId);
+  findOneByUse(@User() user, @Param('checkUpId') checkUpId: string) {
+    return this.checkUpService.findOne(user.id, +checkUpId);
   }
 
   //TODO 기간으로 조회하는 API
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':userId/:checkUpid')
+  @Patch(':checkUpid')
   @ApiDocs.update('검사 예약 갱신 API')
   update(
-    @Param('userId') userId: string,
     @Param('checkUpid') checkUpid: string,
     @Body() updateCheckUpDto: UpdateCheckUpDto,
   ) {
-    return this.checkUpService.update(+userId, +checkUpid, updateCheckUpDto);
+    return this.checkUpService.update(+checkUpid, updateCheckUpDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':userId/:checkUpid')
+  @Delete(':checkUpid')
   @ApiDocs.remove('검사 예약 삭제 API')
-  remove(
-    @Param('userId') userId: string,
-    @Param('checkUpid') checkUpid: string,
-  ) {
-    return this.checkUpService.remove(+userId, +checkUpid);
+  remove(@Param('checkUpid') checkUpid: string) {
+    return this.checkUpService.remove(+checkUpid);
   }
 }

@@ -42,12 +42,12 @@ export class User {
   vaccination: Vaccination;
 
   /* Relations */
-  @JoinColumn()
   @OneToOne(() => SecondDose, (secondDose) => secondDose.user)
   secondDose: SecondDose;
 
-  @OneToMany(() => Location, (location) => location.user)
-  locationList: Location[];
+  @JoinColumn()
+  @OneToOne(() => Location, (location) => location.user)
+  location: Location;
 
   @ManyToOne(() => Univ, (univ) => univ.userList)
   univ: Univ;

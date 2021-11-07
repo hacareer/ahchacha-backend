@@ -43,12 +43,15 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':userId')
-  @ApiDocs.findUserById('특정 사용자 조회 API')
-  findUserById(@Param('userId') userId: string) {
-    return this.userService.findUserById(+userId);
+  @Get()
+  @ApiDocs.getLoginInfo('현재 로그인 사용자 정보 API')
+  getLoginInfo(@User() user) {
+    return this.userService.getLoginInfo(user.id);
   }
 
+  // TODO 유저 학교 정보 업데이트
+
+  //TODO 유저 위치 정보 업데이트
   @UseGuards(JwtAuthGuard)
   @Get('search/:nickname')
   @ApiDocs.checkUserBynickname('특정 닉네임 조회 API')

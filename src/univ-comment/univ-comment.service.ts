@@ -16,13 +16,15 @@ export class UnivCommentService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
-  async create(user: User, createUnivCommentDto: CreateUnivCommentDto) {
-    const univ = await this.univRepository.findOne(createUnivCommentDto.univId);
-    const existingUser = await this.userRepository.findOne(user.id);
+  async create(userId: number, createUnivCommentDto: CreateUnivCommentDto) {
+    const existingUser = await this.userRepository.findOne({
+      where: {id: userId},
+      relations: ['univ'],
+    });
     return await this.univCommentRepository.save({
       content: createUnivCommentDto.content,
       user: existingUser,
-      univ,
+      univ: existingUser.univ,
     });
   }
 

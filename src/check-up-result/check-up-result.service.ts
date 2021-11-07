@@ -18,25 +18,42 @@ export class CheckUpResultService {
     private readonly clinicRepository: Repository<Clinic>,
   ) {}
 
-  async create(user: User, createCheckUpResultDto: CreateCheckUpResultDto) {
+  async create(userId: number, createCheckUpResultDto: CreateCheckUpResultDto) {
     const existingUser = await this.userRepository.findOne({
       where: {
-        id: user.id,
+        id: userId,
       },
     });
-    // TODO 한국시간으로 저장된는지 확인
-    const endTime = new Date(createCheckUpResultDto.startTime);
-    endTime.setDate(endTime.getDate() + 2);
-    await this.checkUpResultRepository.save({
+    console.log(createCheckUpResultDto.startTime);
+    const finishTime = new Date(createCheckUpResultDto.startTime);
+    console.log(finishTime);
+    finishTime.setDate(finishTime.getDate() + 2);
+    return await this.checkUpResultRepository.save({
       startTime: createCheckUpResultDto.startTime,
-      endTime: endTime,
+      finishTime,
       user: existingUser,
     });
   }
 
   // TODO query string 안 받고 그냥 넘길지 의논
-  async searchCheckUpResultByDate(id: number, from: string, to: string) {
-    const user = await this.userRepository.findOne(id);
-    return await this.checkUpResultRepository.find({where: user});
+  async searchCheckUpResultByDate(userId: number, from: string, to: string) {
+    const existingUser = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    console.log(from);
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+    console.log(fromDate);
+    return await this.checkUpResultRepository
+      .createQueryBuilder('checkUpResult')
+      .innerJoin('checkUpResult.user', 'user')
+      .where('user.id =:userId', {userId: existingUser.id})
+      .andWhere(
+        `checkUpResult.startTime 
+      BETWEEN '${fromDate}' AND '${toDate}'`,
+      )
+      .getMany();
   }
 }

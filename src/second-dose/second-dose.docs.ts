@@ -49,14 +49,14 @@ export const ApiDocs: SwaggerMethodDoc<SecondDoseController> = {
         required: true,
         type: String,
         description: '기간의 시작',
-        example: '2021-01-01',
+        example: '2021-01-01 00:00',
       }),
       ApiQuery({
         name: 'to',
         required: true,
         type: String,
         description: '기간의 끝',
-        example: '2021-01-10',
+        example: '2021-01-10 00:00',
       }),
       ApiResponse({
         status: 200,

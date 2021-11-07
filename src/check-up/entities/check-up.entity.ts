@@ -10,7 +10,7 @@ import {
 import {User} from 'src/user/entities/user.entity';
 import {Clinic} from 'src/clinic/entities/clinic.entity';
 
-@Entity('checkUp')
+@Entity('check-up')
 export class CheckUp {
   @PrimaryGeneratedColumn('increment')
   id: number;
