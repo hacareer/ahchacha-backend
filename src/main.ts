@@ -15,6 +15,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.enableCors();
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
   setupSwagger(app);
