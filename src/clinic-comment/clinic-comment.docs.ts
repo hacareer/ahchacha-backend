@@ -4,6 +4,7 @@ import {
   ApiResponse,
   ApiQuery,
   ApiBearerAuth,
+  ApiParam,
 } from '@nestjs/swagger';
 import {ClinicCommentController} from './clinic-comment.controller';
 
@@ -36,7 +37,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
         summary,
         description: '선별진료소에 해당하는 후기 개수를 조회합니다.',
       }),
-      ApiQuery({
+      ApiParam({
         name: 'clinicId',
         required: true,
         type: String,

@@ -13,7 +13,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
         summary,
         description: '해당 단어로 시작하는 선별진료소를 조회합니다.',
       }),
-      ApiParam({
+      ApiQuery({
         name: 'word',
         required: true,
         description: '조회하고 싶은 단어',
@@ -33,13 +33,13 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
         description:
           '사용자 위치의 경도와 위도를 사용해서 반경 1KM내에 위치한 선별진료소를 조회합니다.',
       }),
-      ApiQuery({
+      ApiParam({
         name: 'lat',
         required: true,
         description: '사용자 위치의 경도',
         example: '37.50832',
       }),
-      ApiQuery({
+      ApiParam({
         name: 'lng',
         required: true,
         description: '사용자 위치의 위도',
