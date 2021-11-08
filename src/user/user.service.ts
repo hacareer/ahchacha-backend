@@ -3,12 +3,15 @@ import {Repository} from 'typeorm';
 import {User} from 'src/user/entities/user.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Err} from 'src/error';
+import {Univ} from 'src/univ/entities/univ.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Univ)
+    private readonly univRepository: Repository<Univ>,
   ) {}
 
   async findUserByKakaoId(kakaoId: string) {
@@ -58,5 +61,15 @@ export class UserService {
       throw new BadRequestException(Err.USER.EXISTING_USER_NICKNAME);
     }
     return '닉네임 사용 가능합니다';
+  }
+
+  async updateUnivInfo(userId: number, univId: number) {
+    const univ = await this.univRepository.findOne({
+      where: {
+        id: univId,
+      },
+    });
+    await this.userRepository.update(userId, {univ});
+    return 'update success';
   }
 }

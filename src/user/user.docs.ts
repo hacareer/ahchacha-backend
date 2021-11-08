@@ -112,4 +112,29 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다ㄴ'}),
     );
   },
+  updateUnivInfo(summary: string) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({
+        summary,
+        description: '학교 정보를 갱신하는 API 입니다.',
+      }),
+      ApiParam({
+        name: 'univId',
+        required: true,
+        type: String,
+        description: '사용자 닉네임',
+        example: 'test',
+      }),
+      ApiResponse({
+        status: 200,
+        description: '사용자 학교 정보가 성공적으로 갱신되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다ㄴ'}),
+    );
+  },
 };

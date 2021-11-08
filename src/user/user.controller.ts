@@ -56,4 +56,11 @@ export class UserController {
   checkUserBynickname(@Param('nickname') nickname: string) {
     return this.userService.checkUserBynickname(nickname);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('univ/:univId')
+  @ApiDocs.updateUnivInfo('사용자 학교정보 갱신 API')
+  updateUnivInfo(@User() user, @Param('univId') univId: string) {
+    return this.userService.updateUnivInfo(user.id, +univId);
+  }
 }
