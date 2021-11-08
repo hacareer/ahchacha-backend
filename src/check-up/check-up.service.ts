@@ -21,56 +21,60 @@ export class CheckUpService {
   async create(user, createCheckUpDto: CreateCheckUpDto) {
     const existingUser = await this.userRepository.findOne({id: user.id});
     const existingClinic = await this.clinicRepository.findOne(
-      createCheckUpDto.clinicid,
+      createCheckUpDto.clinicId,
     );
-    // TODO 한국시간으로 저장 / 보내주는지 확인
-    return await this.checkUpRepository.save({
-      day: createCheckUpDto.day,
+    const result = await this.checkUpRepository.save({
+      date: createCheckUpDto.date,
       clinic: existingClinic,
       user: existingUser,
     });
+    return await this.checkUpRepository.findOne({where: {id: result.id}});
   }
 
   async findAll(userId: number) {
     const existingUser = await this.userRepository.findOne({id: userId});
-    return await this.checkUpRepository.find({where: {user: existingUser}});
+    return await this.checkUpRepository.find({
+      where: {user: existingUser},
+      relations: ['clinic'],
+    });
   }
 
-  async findOne(userId: number, checkupId: number) {
-    const existingUser = await this.userRepository.findOne({id: userId});
+  async findOne(checkupId: number) {
     return await this.checkUpRepository.findOne({
       where: {
-        user: existingUser,
         id: checkupId,
       },
+      relations: ['clinic'],
     });
   }
 
   async update(checkupId, updateCheckUpDto: UpdateCheckUpDto) {
     // TODO 로직 다시 짜기
     const existingClinic = await this.clinicRepository.findOne(
-      updateCheckUpDto.clinicid,
+      updateCheckUpDto.clinicId,
     );
-    if (updateCheckUpDto.clinicid) {
+    if (updateCheckUpDto.clinicId) {
       await this.checkUpRepository.update(
         {id: checkupId},
         {clinic: existingClinic},
       );
     }
-    if (updateCheckUpDto.day) {
+    if (updateCheckUpDto.date) {
       await this.checkUpRepository.update(
         {id: checkupId},
-        {day: updateCheckUpDto.day},
+        {date: updateCheckUpDto.date},
       );
     }
     return await this.checkUpRepository.findOne({
       where: {
         id: checkupId,
       },
+      relations: ['clinic'],
     });
   }
 
   async remove(checkupId) {
-    return await this.checkUpRepository.delete({id: checkupId});
+    await this.checkUpRepository.delete({id: checkupId});
+    return 'delete success';
   }
 }

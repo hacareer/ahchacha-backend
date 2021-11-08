@@ -3,10 +3,10 @@ import {IsNotEmpty, IsString} from 'class-validator';
 
 export class CreateCheckUpDto {
   @IsString()
-  @ApiProperty({example: '검진 예약 날짜', description: '2021-11-01-12:00'})
-  day: string;
+  @ApiProperty({example: '1', description: '선별진료소 ID'})
+  clinicId: string;
 
   @IsString()
-  @ApiProperty({example: '1', description: '선별진료소 ID'})
-  clinicid: number;
+  @ApiProperty({example: '2021-01-03T01:13Z', description: '검사 예약 날짜'})
+  date: string;
 }

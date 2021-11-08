@@ -15,8 +15,10 @@ export class CheckUp {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
-  day: Date;
+  @Column({
+    type: 'timestamp',
+  })
+  date: Date;
 
   /* Relations */
 
