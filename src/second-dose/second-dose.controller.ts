@@ -26,7 +26,7 @@ export class SecondDoseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':univId')
+  @Get('univ/:univId')
   @ApiDocs.countByUniv('학교별 접종자수 조회 API')
   countByUniv(
     @Param('univId') univId: number,

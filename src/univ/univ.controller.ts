@@ -14,7 +14,7 @@ export class UnivController {
     return this.univService.findAll();
   }
 
-  @Get('search')
+  @Get('word/')
   @ApiDocs.findByName('특정 학교 조회  API')
   findByName(@Query('word') word: string) {
     return this.univService.findByName(word);

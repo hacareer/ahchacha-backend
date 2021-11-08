@@ -21,14 +21,14 @@ export class CheckUpResultController {
   constructor(private readonly checkUpResultService: CheckUpResultService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post()
+  @Post('')
   @ApiDocs.create('검사 결과 생성 API')
   create(@User() user, @Body() createCheckUpResultDto: CreateCheckUpResultDto) {
     return this.checkUpResultService.create(user.id, createCheckUpResultDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('me')
   @ApiDocs.searchCheckUpResultByDate('검사 결과 조회 API')
   searchCheckUpResultByDate(
     @User() user,

@@ -22,14 +22,14 @@ export class ClinicCommentController {
   constructor(private readonly clinicCommentService: ClinicCommentService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post()
+  @Post('')
   @ApiDocs.create('선별진료소 후기 생성 API')
   create(@User() user, @Body() createClinicCommentDto: CreateClinicCommentDto) {
     return this.clinicCommentService.create(user, createClinicCommentDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('search/:clinicId')
+  @Get(':clinicId')
   @ApiDocs.countContents('선별진료소 후기 개수 조회 API ')
   countContents(@Param('clinicId') clinicId: string) {
     return this.clinicCommentService.countContents(+clinicId);

@@ -36,6 +36,7 @@ export class CheckUpService {
     return await this.checkUpRepository.find({
       where: {user: existingUser},
       relations: ['clinic'],
+      order: {date: 'ASC'},
     });
   }
 

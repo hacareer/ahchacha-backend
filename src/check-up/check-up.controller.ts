@@ -30,7 +30,7 @@ export class CheckUpController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('me')
   @ApiDocs.findAllByUser('모든 검사 예약 조회 API')
   findAllByUser(@User() user) {
     return this.checkUpService.findAll(user.id);

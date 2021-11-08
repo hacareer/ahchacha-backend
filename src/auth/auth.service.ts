@@ -80,7 +80,7 @@ export class AuthService {
   }
 
   async getKakaoId(kakaoUserDto: KakaoUserDto) {
-    const token = kakaoUserDto.idToken;
+    const token = kakaoUserDto.kakaoToken;
     const _url = 'https://kapi.kakao.com/v2/user/me';
     const _header = {
       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',

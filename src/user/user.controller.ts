@@ -1,6 +1,6 @@
 import {ApiTags, ApiBearerAuth} from '@nestjs/swagger';
 import {AuthService} from '../auth/auth.service';
-import {Body, Controller, Get, UseGuards, Param} from '@nestjs/common';
+import {Body, Controller, Get, UseGuards, Param, Patch} from '@nestjs/common';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {Post} from '@nestjs/common';
 import {JwtRefreshGuard} from 'src/auth/guard/jwt-refreshToken-auth.guard';
@@ -9,6 +9,7 @@ import {CreateUserDto} from './dto/create-user.dto';
 import {User} from 'src/common/decorator/user.decorator';
 import {UserService} from 'src/user/user.service';
 import {ApiDocs} from './user.docs';
+import {UpdateUserDto} from './dto/update-user.dto';
 
 @Controller('user')
 @ApiTags('user')
@@ -43,17 +44,14 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('/me')
   @ApiDocs.getLoginInfo('현재 로그인 사용자 정보 API')
   getLoginInfo(@User() user) {
     return this.userService.getLoginInfo(user.id);
   }
 
-  // TODO 유저 학교 정보 업데이트
-
-  //TODO 유저 위치 정보 업데이트
   @UseGuards(JwtAuthGuard)
-  @Get('search/:nickname')
+  @Get('nickname/:nickname')
   @ApiDocs.checkUserBynickname('특정 닉네임 조회 API')
   checkUserBynickname(@Param('nickname') nickname: string) {
     return this.userService.checkUserBynickname(nickname);
