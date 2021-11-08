@@ -41,6 +41,9 @@ export class User {
   })
   vaccination: Vaccination;
 
+  @Column({nullable: true})
+  deviceId: string;
+
   /* Relations */
   @OneToOne(() => SecondDose, (secondDose) => secondDose.user)
   secondDose: SecondDose;

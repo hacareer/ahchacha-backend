@@ -19,4 +19,7 @@ export class CreateUserDto {
     description: '사용자 위치(도로명 주소)',
   })
   address: string;
+
+  @ApiProperty({example: '123456789', description: '사용자 기기 ID'})
+  deviceId: string;
 }
