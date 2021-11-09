@@ -7,10 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
-import {Clinic} from 'src/clinic/entities/clinic.entity';
-import {User} from 'src/user/entities/user.entity';
-import {ClinicTag} from 'src/constants';
+import {Clinic} from './../../clinic/entities/clinic.entity';
+import {User} from './../../user/entities/user.entity';
+import {ClinicTag} from '../../constants';
 
 @Entity('clinic-comment')
 export class ClinicComment {

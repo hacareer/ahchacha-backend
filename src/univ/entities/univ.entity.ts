@@ -8,9 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
-import {User} from 'src/user/entities/user.entity';
-import {UnivComment} from 'src/univ-comment/entities/univ-comment.entity';
+import {User} from './../../user/entities/user.entity';
+import {UnivComment} from './../../univ-comment/entities/univ-comment.entity';
 
 @Entity('univ')
 export class Univ {

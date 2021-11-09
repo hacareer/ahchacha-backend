@@ -11,9 +11,8 @@ import {
 } from 'typeorm';
 import {OperationHour} from './operation-hour.entity';
 import {Label} from '../../constants';
-import {ClinicComment} from 'src/clinic-comment/entities/clinic-comment.entity';
-import {CheckUpResult} from 'src/check-up-result/entities/check-up-result.entity';
-import {CheckUp} from 'src/check-up/entities/check-up.entity';
+import {ClinicComment} from './../../clinic-comment/entities/clinic-comment.entity';
+import {CheckUp} from './../../check-up/entities/check-up.entity';
 
 @Entity('clinic')
 export class Clinic {

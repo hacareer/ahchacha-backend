@@ -1,3 +1,4 @@
+import {Vaccination} from '../../constants';
 import {
   Column,
   CreateDateColumn,
@@ -10,15 +11,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
-import {Vaccination} from '../../constants';
-import {SecondDose} from 'src/second-dose/entities/second-dose.entity';
+import {SecondDose} from './../../second-dose/entities/second-dose.entity';
+import {Location} from './../../location/entities/location.entity';
 import {Univ} from './../../univ/entities/univ.entity';
-import {Location} from '../../location/entities/location.entity';
-import {ClinicComment} from 'src/clinic-comment/entities/clinic-comment.entity';
-import {UnivComment} from 'src/univ-comment/entities/univ-comment.entity';
-import {CheckUpResult} from 'src/check-up-result/entities/check-up-result.entity';
-import {CheckUp} from 'src/check-up/entities/check-up.entity';
+import {CheckUp} from './../../check-up/entities/check-up.entity';
+import {CheckUpResult} from './../../check-up-result/entities/check-up-result.entity';
+import {ClinicComment} from './../../clinic-comment/entities/clinic-comment.entity';
+import {UnivComment} from './../../univ-comment/entities/univ-comment.entity';
 
 @Entity('user')
 export class User {

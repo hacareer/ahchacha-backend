@@ -4,15 +4,12 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
-import {User} from 'src/user/entities/user.entity';
-import {Univ} from 'src/univ/entities/univ.entity';
-import {UnivTag} from 'src/constants';
+import {UnivTag} from '../../constants';
+import {Univ} from './../../univ/entities/univ.entity';
+import {User} from './../../user/entities/user.entity';
 
 @Entity('univ-comment')
 export class UnivComment {

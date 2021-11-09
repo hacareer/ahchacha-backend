@@ -11,12 +11,12 @@ const config: TypeOrmModuleOptions = {
   entities: [path.join(__dirname, '**/*.entity{.ts,.js}')],
   migrations: [__dirname + '/src/migrations/*.ts'],
   cli: {
-    migrationsDir: __dirname + '/src/migrations',
+    migrationsDir: '/src/migrations',
   },
   autoLoadEntities: true,
   timezone: 'Z',
   charset: 'utf8mb4',
-  synchronize: false,
+  synchronize: true,
 };
 
 export = config;

@@ -7,8 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {User} from 'src/user/entities/user.entity';
-import {Clinic} from 'src/clinic/entities/clinic.entity';
+import {User} from './../../user/entities/user.entity';
 
 @Entity('check-up-result')
 export class CheckUpResult {

@@ -8,8 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
-import {User} from 'src/user/entities/user.entity';
+import {User} from './../../user/entities/user.entity';
 
 @Entity('second-dose')
 export class SecondDose {
