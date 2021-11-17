@@ -1,6 +1,6 @@
 import {ValidationPipe} from '@nestjs/common';
 import {NestFactory} from '@nestjs/core';
-import cookieParser from 'cookie-parser';
+import * as cookieParser from 'cookie-parser';
 import {AppModule} from './app.module';
 import {HttpExceptionFilter} from './httpException.filter';
 import {setupSwagger} from './swagger/index';
@@ -16,7 +16,7 @@ async function bootstrap() {
       },
     }),
   );
-  app.use(cookieParser());
+  // app.use(cookieParser());
   app.enableCors();
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
