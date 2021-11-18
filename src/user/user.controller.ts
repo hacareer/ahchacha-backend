@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Req,
+  Res,
 } from '@nestjs/common';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {Post} from '@nestjs/common';
@@ -29,17 +30,33 @@ export class UserController {
 
   @Post('auth/login')
   @ApiDocs.validateUser('로그인 API')
-  validateUser(@Body() kakaoUserDto: KakaoUserDto) {
-    return this.authService.validateUser(kakaoUserDto);
+  async validateUser(@Res() res, @Body() kakaoUserDto: KakaoUserDto) {
+    const token = await this.authService.validateUser(kakaoUserDto);
+    if (token.type === 'login') {
+      res.cookie('access_token', token.access_token);
+      res.cookie('refresh_token', token.refresh_token);
+    } else {
+      res.cookie('once_token', token.once_token);
+    }
+    res.end();
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiDocs.registUser('회원가입 API')
   @Post('auth/signup')
-  async registUser(@User() user, @Body() createUserDto: CreateUserDto) {
-    return this.authService.registUser(user, createUserDto);
+  async registUser(
+    @Res() res,
+    @User() user,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    const token = await this.authService.registUser(user, createUserDto);
+    if (token) {
+      res.cookie('access_token', token.access_token);
+      res.cookie('refresh_token', token.refresh_token);
+    }
+    res.end();
   }
-  // 리프레쉬 토큰을 이용한 엑세스 토큰 재발급하기
+
   @UseGuards(JwtRefreshGuard)
   @ApiDocs.refreshAccessToken('accessToken 재발급 API')
   @Get('auth/refresh-accesstoken')

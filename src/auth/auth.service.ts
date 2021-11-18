@@ -32,7 +32,7 @@ export class AuthService {
     };
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '1000m',
+      expiresIn: '5m',
     });
   }
 
@@ -69,11 +69,12 @@ export class AuthService {
 
     return this.jwtService.sign(payload, {
       secret: process.env.JWT_SECRET,
-      expiresIn: '1000m',
+      expiresIn: '15m',
     });
   }
 
   async tokenValidate(token: string) {
+    console.log('pass');
     return await this.jwtService.verify(token, {
       secret: process.env.JWT_SECRET,
     });
