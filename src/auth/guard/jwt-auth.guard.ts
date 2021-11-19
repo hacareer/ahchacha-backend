@@ -31,7 +31,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const token = authorization.replace('Bearer ', '');
     const tokenValidate = await this.validate(token);
     if (tokenValidate.tokenReissue) {
-      response.setHeader('access_token', tokenValidate.new_token);
+      response.setHeader('accessToken', tokenValidate.new_token);
       response.setHeader('accessTokenReissue', true);
     } else {
       response.setHeader('accessTokenReissue', false);

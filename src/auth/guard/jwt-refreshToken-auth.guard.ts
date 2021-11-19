@@ -34,12 +34,12 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
     const refreshToken = authorization.replace('Bearer ', '');
     const refreshTokenValidate = await this.validate(refreshToken);
     if (refreshTokenValidate.refreshTokenReissue) {
-      response.setHeader('access_token', refreshTokenValidate.newAccessToken);
+      response.setHeader('accessToken', refreshTokenValidate.newAccessToken);
       response.setHeader('accessTokenReissue', true);
-      response.setHeader('refresh_token', refreshTokenValidate.newRefreshToken);
+      response.setHeader('refreshToken', refreshTokenValidate.newRefreshToken);
       response.setHeader('refreshTokenReissue', true);
     } else {
-      response.setHeader('access_token', refreshTokenValidate.newAccessToken);
+      response.setHeader('accessToken', refreshTokenValidate.newAccessToken);
       response.setHeader('accessTokenReissue', true);
       response.setHeader('refreshTokenReissue', false);
     }
