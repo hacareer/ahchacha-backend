@@ -32,9 +32,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const tokenValidate = await this.validate(token);
     if (tokenValidate.tokenReissue) {
       response.setHeader('access_token', tokenValidate.new_token);
-      response.setHeader('tokenReissue', true);
+      response.setHeader('accessTokenReissue', true);
     } else {
-      response.setHeader('tokenReissue', false);
+      response.setHeader('accessTokenReissue', false);
     }
     request.user = tokenValidate.user ? tokenValidate.user : tokenValidate;
     return true;
@@ -57,7 +57,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
           // 로그인 토큰의남은 시간이 5분 미만일때
           // 엑세스 토큰 정보로 유저를 찾는다.
           const user = await this.userService.findUserById(tokenVerify.id);
-          const new_token = await this.authService.createLoginToken(user);
+          const new_token = await this.authService.createAccessToken(user);
           return {
             user,
             new_token,

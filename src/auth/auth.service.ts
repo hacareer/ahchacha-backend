@@ -24,7 +24,7 @@ export class AuthService {
     private locationService: LocationService,
   ) {}
 
-  async createLoginToken(user: User) {
+  async createAccessToken(user: User) {
     const payload = {
       id: user.id,
       nickname: user.nickname,
@@ -101,7 +101,6 @@ export class AuthService {
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
     // 유저가 없을때
     if (user === null) {
-      console.log('일회용 토큰 발급');
       const once_token = this.onceToken(kakaoId);
       return {
         type: 'once',
@@ -110,8 +109,7 @@ export class AuthService {
     }
 
     // 유저가 있을때
-    console.log('로그인 토큰 발급');
-    const access_token = await this.createLoginToken(user);
+    const access_token = await this.createAccessToken(user);
     const refresh_token = await this.createRefreshToken(user);
     return {
       type: 'login',
@@ -144,7 +142,7 @@ export class AuthService {
             address,
           });
         }
-        const access_token = await this.createLoginToken(createdUser);
+        const access_token = await this.createAccessToken(createdUser);
         const refresh_token = await this.createRefreshToken(createdUser);
         return {
           access_token,

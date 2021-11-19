@@ -35,7 +35,7 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
     const refreshTokenValidate = await this.validate(refreshToken);
 
     response.setHeader('access_token', refreshTokenValidate);
-    response.setHeader('tokenReissue', true);
+    response.setHeader('accessTokenReissue', true);
 
     return true;
   }
@@ -48,7 +48,7 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
       const tokenVerify = await this.authService.tokenValidate(token);
       const user = await this.userService.findUserById(tokenVerify.id);
       if (user.refreshToken === refreshToken) {
-        return await this.authService.createLoginToken(user);
+        return await this.authService.createAccessToken(user);
       } else {
         throw new Error('no permission');
       }

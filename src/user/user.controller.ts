@@ -1,4 +1,4 @@
-import {ApiTags, ApiBearerAuth} from '@nestjs/swagger';
+import {ApiTags} from '@nestjs/swagger';
 import {AuthService} from '../auth/auth.service';
 import {
   Body,
@@ -30,31 +30,15 @@ export class UserController {
 
   @Post('auth/login')
   @ApiDocs.validateUser('로그인 API')
-  async validateUser(@Res() res, @Body() kakaoUserDto: KakaoUserDto) {
-    const token = await this.authService.validateUser(kakaoUserDto);
-    if (token.type === 'login') {
-      res.cookie('access_token', token.access_token);
-      res.cookie('refresh_token', token.refresh_token);
-    } else {
-      res.cookie('once_token', token.once_token);
-    }
-    res.end();
+  validateUser(@Body() kakaoUserDto: KakaoUserDto) {
+    return this.authService.validateUser(kakaoUserDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiDocs.registUser('회원가입 API')
   @Post('auth/signup')
-  async registUser(
-    @Res() res,
-    @User() user,
-    @Body() createUserDto: CreateUserDto,
-  ) {
-    const token = await this.authService.registUser(user, createUserDto);
-    if (token) {
-      res.cookie('access_token', token.access_token);
-      res.cookie('refresh_token', token.refresh_token);
-    }
-    res.end();
+  async registUser(@User() user, @Body() createUserDto: CreateUserDto) {
+    return this.authService.registUser(user, createUserDto);
   }
 
   @UseGuards(JwtRefreshGuard)
