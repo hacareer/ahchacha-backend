@@ -33,25 +33,51 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
 
     const refreshToken = authorization.replace('Bearer ', '');
     const refreshTokenValidate = await this.validate(refreshToken);
-
-    response.setHeader('access_token', refreshTokenValidate);
-    response.setHeader('accessTokenReissue', true);
-
+    if (refreshTokenValidate.refreshTokenReissue) {
+      response.setHeader('access_token', refreshTokenValidate.newAccessToken);
+      response.setHeader('accessTokenReissue', true);
+      response.setHeader('refresh_token', refreshTokenValidate.newRefreshToken);
+      response.setHeader('refreshTokenReissue', true);
+    } else {
+      response.setHeader('access_token', refreshTokenValidate.newAccessToken);
+      response.setHeader('accessTokenReissue', true);
+      response.setHeader('refreshTokenReissue', false);
+    }
     return true;
   }
 
   async validate(refreshToken: string) {
     try {
+      let tokens;
+      let refreshTokenReissue;
       const bytes = CryptoJS.AES.decrypt(refreshToken, process.env.AES_KEY);
       const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
       const tokenVerify = await this.authService.tokenValidate(token);
       const user = await this.userService.findUserById(tokenVerify.id);
       if (user.refreshToken === refreshToken) {
-        return await this.authService.createAccessToken(user);
+        const newAccessToken = await this.authService.createAccessToken(user);
+        tokens.push(newAccessToken);
       } else {
         throw new Error('no permission');
       }
+      // 토큰의 남은 시간 체크
+      const tokenExp = new Date(tokenVerify['exp'] * 1000);
+      const current_time = new Date();
+
+      const time_remaining = Math.floor(
+        (tokenExp.getTime() - current_time.getTime()) / 1000 / 60 / 60 / 24,
+      );
+
+      if (time_remaining < 30) {
+        const newRefreshToken = await this.authService.createRefreshToken(user);
+        refreshTokenReissue = true;
+        tokens.push(newRefreshToken);
+      } else {
+        refreshTokenReissue = false;
+      }
+      tokens.push(refreshTokenReissue);
+      return tokens;
     } catch (error) {
       switch (error.message) {
         // 토큰에 대한 오류를 판단합니다.
