@@ -48,16 +48,14 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
 
   async validate(refreshToken: string) {
     try {
-      let tokens;
-      let refreshTokenReissue;
+      let newAccessToken;
       const bytes = CryptoJS.AES.decrypt(refreshToken, process.env.AES_KEY);
       const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
       const tokenVerify = await this.authService.tokenValidate(token);
       const user = await this.userService.findUserById(tokenVerify.id);
       if (user.refreshToken === refreshToken) {
-        const newAccessToken = await this.authService.createAccessToken(user);
-        tokens.push(newAccessToken);
+        newAccessToken = await this.authService.createAccessToken(user);
       } else {
         throw new Error('no permission');
       }
@@ -71,13 +69,17 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
 
       if (time_remaining < 30) {
         const newRefreshToken = await this.authService.createRefreshToken(user);
-        refreshTokenReissue = true;
-        tokens.push(newRefreshToken);
+        return {
+          newAccessToken,
+          newRefreshToken,
+          refreshTokenReissue: true,
+        };
       } else {
-        refreshTokenReissue = false;
+        return {
+          newAccessToken,
+          refreshTokenReissue: false,
+        };
       }
-      tokens.push(refreshTokenReissue);
-      return tokens;
     } catch (error) {
       switch (error.message) {
         // 토큰에 대한 오류를 판단합니다.
