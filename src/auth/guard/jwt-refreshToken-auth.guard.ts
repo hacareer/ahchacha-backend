@@ -67,6 +67,7 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
         (tokenExp.getTime() - current_time.getTime()) / 1000 / 60 / 60 / 24,
       );
 
+      console.log(time_remaining);
       if (time_remaining < 30) {
         const newRefreshToken = await this.authService.createRefreshToken(user);
         return {
