@@ -24,7 +24,6 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    const response = context.switchToHttp().getResponse();
 
     const {authorization} = request.headers;
     if (authorization === undefined) {
@@ -33,53 +32,21 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
 
     const refreshToken = authorization.replace('Bearer ', '');
     const refreshTokenValidate = await this.validate(refreshToken);
-    if (refreshTokenValidate.refreshTokenReissue) {
-      response.setHeader('accessToken', refreshTokenValidate.newAccessToken);
-      response.setHeader('accessTokenReissue', true);
-      response.setHeader('refreshToken', refreshTokenValidate.newRefreshToken);
-      response.setHeader('refreshTokenReissue', true);
-    } else {
-      response.setHeader('accessToken', refreshTokenValidate.newAccessToken);
-      response.setHeader('accessTokenReissue', true);
-      response.setHeader('refreshTokenReissue', false);
-    }
+    request.user = refreshTokenValidate;
     return true;
   }
 
   async validate(refreshToken: string) {
     try {
-      let newAccessToken;
       const bytes = CryptoJS.AES.decrypt(refreshToken, process.env.AES_KEY);
       const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
       const tokenVerify = await this.authService.tokenValidate(token);
       const user = await this.userService.findUserById(tokenVerify.id);
       if (user.refreshToken === refreshToken) {
-        newAccessToken = await this.authService.createAccessToken(user);
+        return user;
       } else {
         throw new Error('no permission');
-      }
-      // 토큰의 남은 시간 체크
-      const tokenExp = new Date(tokenVerify['exp'] * 1000);
-      const current_time = new Date();
-
-      const time_remaining = Math.floor(
-        (tokenExp.getTime() - current_time.getTime()) / 1000 / 60 / 60 / 24,
-      );
-
-      console.log(time_remaining);
-      if (time_remaining < 30) {
-        const newRefreshToken = await this.authService.createRefreshToken(user);
-        return {
-          newAccessToken,
-          newRefreshToken,
-          refreshTokenReissue: true,
-        };
-      } else {
-        return {
-          newAccessToken,
-          refreshTokenReissue: false,
-        };
       }
     } catch (error) {
       switch (error.message) {

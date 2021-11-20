@@ -44,12 +44,8 @@ export class UserController {
   @UseGuards(JwtRefreshGuard)
   @ApiDocs.refreshAccessToken('accessToken 재발급 API')
   @Get('auth/refresh-accesstoken')
-  async refreshAccessToken() {
-    return {
-      success: true,
-      code: 200,
-      data: 'new accessToken Issuance success',
-    };
+  async refreshAccessToken(@User() user) {
+    return this.authService.createAccessToken(user);
   }
 
   @UseGuards(JwtAuthGuard)
