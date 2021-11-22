@@ -3,6 +3,9 @@ import * as path from 'path';
 
 const config: TypeOrmModuleOptions = {
   type: 'mysql',
+  extra: {
+    decimalNumbers: true,
+  },
   host: process.env.DB_HOST || 'localhost',
   port: +process.env.DB_PORT || 3306,
   username: process.env.DB_USERNAME || 'root',
@@ -16,7 +19,7 @@ const config: TypeOrmModuleOptions = {
   autoLoadEntities: true,
   timezone: 'Z',
   charset: 'utf8mb4',
-  synchronize: true,
+  synchronize: false,
 };
 
 export = config;
