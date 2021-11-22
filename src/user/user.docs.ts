@@ -37,7 +37,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiOperation({
         summary,
         description:
-          '회원가입을 진행합니다. 사용자 등록 후 accessToken, reFreshToken을 발급합니다.',
+          '회원가입을 진행합니다. 사용자 등록 후 accessToken, refreshToken을 발급합니다.',
       }),
       ApiResponse({
         status: 201,
@@ -50,17 +50,36 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  refreshAccessToken(summary: string) {
+  getAccessToken(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: 'reFreshToken을을 이용해 accessToken을 재발급합니다',
+        description: 'refreshToken을 이용해 accessToken을 재발급합니다',
       }),
       ApiResponse({
         status: 200,
         type: refreshAccessTokenDto,
-        description: 'accessToken을 재발급되었습니다.',
+        description: 'refreshToken이 재발급되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
+  getRefreshToken(summary: string) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({
+        summary,
+        description:
+          'refreshToken을 이용해 새로운 refreshToken을 재발급합니다. ',
+      }),
+      ApiResponse({
+        status: 200,
+        type: refreshAccessTokenDto,
+        description: 'refreshToken을 재발급되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),

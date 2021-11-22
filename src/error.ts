@@ -18,6 +18,10 @@ export const Err = {
       code: 410,
       message: '토큰이 만료되었습니다.',
     },
+    JWT_NOT_REISSUED: {
+      code: 405,
+      message: '토큰 갱신 기간이 아닙니다.',
+    },
     NO_PERMISSION: {
       code: 403,
       message: '해당 요청의 권한이 없습니다',

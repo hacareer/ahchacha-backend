@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, BadRequestException} from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 import * as CryptoJS from 'crypto-js';
 import {Repository} from 'typeorm';
@@ -10,6 +10,7 @@ import {lastValueFrom, map} from 'rxjs';
 import {InjectRepository} from '@nestjs/typeorm';
 import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
+import {Err} from './../error';
 
 @Injectable()
 export class AuthService {
@@ -48,6 +49,41 @@ export class AuthService {
     });
     const tokenVerify = await this.tokenValidate(token);
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
+
+    const refreshToken = CryptoJS.AES.encrypt(
+      JSON.stringify(token),
+      process.env.AES_KEY,
+    ).toString();
+
+    await await this.userRepository
+      .createQueryBuilder('user')
+      .update()
+      .set({refreshToken})
+      .where('user.id = :id', {id: user.id})
+      .execute();
+    return {refreshToken, tokenExp};
+  }
+
+  async reissueRefreshToken(user: User) {
+    const payload = {
+      id: user.id,
+      nickname: user.nickname,
+      type: 'refreshToken',
+    };
+    const token = this.jwtService.sign(payload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: '20700m',
+    });
+    const tokenVerify = await this.tokenValidate(token);
+    const tokenExp = new Date(tokenVerify['exp'] * 1000);
+    const current_time = new Date();
+    const time_remaining = Math.floor(
+      (tokenExp.getTime() - current_time.getTime()) / 1000 / 60 / 60,
+    );
+
+    if (time_remaining > 10) {
+      throw new BadRequestException(Err.TOKEN.JWT_NOT_REISSUED);
+    }
 
     const refreshToken = CryptoJS.AES.encrypt(
       JSON.stringify(token),

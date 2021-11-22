@@ -42,10 +42,22 @@ export class UserController {
   }
 
   @UseGuards(JwtRefreshGuard)
-  @ApiDocs.refreshAccessToken('accessToken 재발급 API')
-  @Get('auth/refresh-accesstoken')
-  async refreshAccessToken(@User() user) {
+  @ApiDocs.getAccessToken('accessToken 재발급 API')
+  @Get('auth/accessToken')
+  async getAccessToken(@User() user) {
     return this.authService.createAccessToken(user);
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @ApiDocs.getRefreshToken('refreshToken 재발급 API')
+  @Get('auth/refreshToken')
+  async getRefreshToken(@User() user) {
+    const access_token = await this.authService.createAccessToken(user);
+    const refresh_token = await this.authService.reissueRefreshToken(user);
+    return {
+      access_token,
+      refresh_token,
+    };
   }
 
   @UseGuards(JwtAuthGuard)
