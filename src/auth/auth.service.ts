@@ -46,6 +46,13 @@ export class AuthService {
       secret: process.env.JWT_SECRET,
       expiresIn: '1000m',
     });
+    const tokenVerify = await this.tokenValidate(token);
+    const tokenExp = new Date(tokenVerify['exp'] * 1000);
+    const current_time = new Date();
+
+    const time_remaining = Math.floor(
+      (tokenExp.getTime() - current_time.getTime()) / 1000 / 60,
+    );
 
     const refreshToken = CryptoJS.AES.encrypt(
       JSON.stringify(token),
@@ -58,7 +65,7 @@ export class AuthService {
       .set({refreshToken})
       .where('user.id = :id', {id: user.id})
       .execute();
-    return refreshToken;
+    return {refreshToken, time_remaining};
   }
 
   onceToken(kakaoId: string) {
@@ -74,7 +81,6 @@ export class AuthService {
   }
 
   async tokenValidate(token: string) {
-    console.log('pass');
     return await this.jwtService.verify(token, {
       secret: process.env.JWT_SECRET,
     });
