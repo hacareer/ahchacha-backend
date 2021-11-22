@@ -142,10 +142,14 @@ export class AuthService {
           });
           user.univ = univ;
         }
+        const lat = null;
+        const lng = null;
         const createdUser = await this.userRepository.save(user);
         if (address) {
           await this.locationService.create(createdUser, {
             address,
+            lat,
+            lng,
           });
         }
         const access_token = await this.createAccessToken(createdUser);
