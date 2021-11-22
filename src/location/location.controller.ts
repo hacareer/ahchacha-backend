@@ -34,13 +34,6 @@ export class LocationController {
     return this.locationService.getLocInfo(+locationId);
   }
 
-  @Post('test')
-  getCoordinate() {
-    const lat = 37.50825;
-    const long = 127.011803;
-    return this.locationService.getCoordinate(+lat, +long);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Patch(':locationId')
   @ApiDocs.update('위치 정보 갱신 API')

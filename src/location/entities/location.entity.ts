@@ -17,10 +17,10 @@ export class Location {
   @Column()
   address: string;
 
-  @Column({type: 'decimal', precision: 7, scale: 5, default: 0})
+  @Column({type: 'decimal', precision: 13, scale: 8, default: 0})
   latitude: number;
 
-  @Column({type: 'decimal', precision: 9, scale: 6, default: 0})
+  @Column({type: 'decimal', precision: 13, scale: 8, default: 0})
   longitude: number;
 
   /* Relations */

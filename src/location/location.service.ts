@@ -1,15 +1,12 @@
 import {Injectable} from '@nestjs/common';
-import * as node_geocoder from 'node-geocoder';
 import {CreateLocationDto} from './dto/create-location.dto';
 import {UpdateLocationDto} from './dto/update-location.dto';
 import {HttpService} from '@nestjs/axios';
-import {response} from 'express';
 import {map, lastValueFrom} from 'rxjs';
 import {Location} from './entities/location.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from './../user/entities/user.entity';
-import {where} from 'sequelize';
 
 @Injectable()
 export class LocationService {
@@ -100,11 +97,14 @@ export class LocationService {
   }
 
   async update(locationId: number, updateLocationDto: UpdateLocationDto) {
-    const {lat, lng} = await this.getAddress(updateLocationDto.address);
+    const address = await this.getCoordinate(
+      updateLocationDto.lat,
+      updateLocationDto.lng,
+    );
     await this.locationRepository.update(locationId, {
-      address: updateLocationDto.address,
-      longitude: lng,
-      latitude: lat,
+      address,
+      latitude: updateLocationDto.lat,
+      longitude: updateLocationDto.lng,
     });
     return 'update success';
   }

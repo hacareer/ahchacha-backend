@@ -78,13 +78,4 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  getCoordinate(summary) {
-    return applyDecorators(
-      ApiBearerAuth(),
-      ApiOperation({
-        summary,
-        description: '사용자 위치 정보를 생성하는 API 입니다.',
-      }),
-    );
-  },
 };
