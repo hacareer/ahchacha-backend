@@ -62,7 +62,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/my')
-  @ApiDocs.getLoginInfo('현재 로그인 사용자 정보 API')
+  @ApiDocs.getLoginInfo('로그인 사용자 정보 조회 API')
   getLoginInfo(@User() user) {
     return this.userService.getLoginInfo(user.id);
   }
