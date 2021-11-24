@@ -4,6 +4,7 @@ import {User} from 'src/user/entities/user.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Err} from 'src/error';
 import {Univ} from 'src/univ/entities/univ.entity';
+import {UpdateUserDto} from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -63,13 +64,20 @@ export class UserService {
     return '닉네임 사용 가능합니다';
   }
 
-  async updateUnivInfo(userId: number, univId: number) {
-    const univ = await this.univRepository.findOne({
-      where: {
-        id: univId,
-      },
-    });
-    await this.userRepository.update(userId, {univ});
+  async updateUserInfo(userId: number, updateUserDto: UpdateUserDto) {
+    if (updateUserDto.univId) {
+      const univ = await this.univRepository.findOne({
+        where: {
+          id: updateUserDto.univId,
+        },
+      });
+      await this.userRepository.update(userId, {univ});
+    }
+    if (updateUserDto.nickname) {
+      await this.userRepository.update(userId, {
+        nickname: updateUserDto.nickname,
+      });
+    }
     return 'update success';
   }
 }
