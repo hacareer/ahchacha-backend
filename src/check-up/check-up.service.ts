@@ -23,12 +23,11 @@ export class CheckUpService {
     const existingClinic = await this.clinicRepository.findOne(
       createCheckUpDto.clinicId,
     );
-    const result = await this.checkUpRepository.save({
+    return await this.checkUpRepository.save({
       date: createCheckUpDto.date,
       clinic: existingClinic,
       user: existingUser,
     });
-    return await this.checkUpRepository.findOne({where: {id: result.id}});
   }
 
   async findAll(userId: number) {
