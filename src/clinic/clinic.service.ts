@@ -19,7 +19,7 @@ export class ClinicService {
       .getMany();
   }
 
-  async findNearBy1Km(lat, lng) {
+  async findNearBy5Km(lat, lng) {
     const entityManager = getManager();
     return await entityManager.query(
       `
@@ -28,9 +28,9 @@ export class ClinicService {
         -radians(${lng}))+sin(radians(${lat}))*sin(radians(latitude))))
       AS distance
       FROM path_finder.clinic
-      HAVING distance <= 1
+      HAVING distance <= 5
       ORDER BY distance 
-      LIMIT 0,1000
+      LIMIT 0,5000
     `,
     );
   }

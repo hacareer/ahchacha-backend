@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  ParseFloatPipe,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
-import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {Controller, Get, Param, ParseFloatPipe, Query} from '@nestjs/common';
 import {ClinicService} from './clinic.service';
 import {ApiTags} from '@nestjs/swagger';
 import {ApiDocs} from './clinic.docs';
@@ -29,11 +21,11 @@ export class ClinicController {
   }
 
   @Get('area/:lat/:lng')
-  @ApiDocs.findNearBy1Km('반경 1KM 선별소 조회 API')
-  findNearBy1Km(
+  @ApiDocs.findNearBy5Km('반경 5KM 선별소 조회 API')
+  findNearBy5Km(
     @Param('lat', ParseFloatPipe) lat: number,
     @Param('lng', ParseFloatPipe) lng: number,
   ) {
-    return this.clinicService.findNearBy1Km(lat, lng);
+    return this.clinicService.findNearBy5Km(lat, lng);
   }
 }
