@@ -26,23 +26,23 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  findNearBy5Km(summary: string) {
+  findNearBy1Km(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
         description:
-          '사용자 위치의 경도와 위도를 사용해서 반경 5KM내에 위치한 선별진료소를 조회합니다.',
+          '사용자 위치의 경도와 위도를 사용해서 반경 1KM내에 위치한 선별진료소를 조회합니다.',
       }),
       ApiParam({
         name: 'lat',
         required: true,
-        description: '사용자 위치의 위도',
+        description: '사용자 위치의 경도',
         example: '37.50832',
       }),
       ApiParam({
         name: 'lng',
         required: true,
-        description: '사용자 위치의 경도',
+        description: '사용자 위치의 위도',
         example: '127.011803',
       }),
       ApiResponse({
