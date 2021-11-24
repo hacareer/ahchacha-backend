@@ -1,5 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
+import {Vaccination} from 'src/constants';
 
 export class CreateUserDto {
   @IsString()
@@ -9,10 +10,10 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @ApiProperty({example: 'NO', description: '앱 진입시 백신 2차 접종 유무'})
-  vaccination: string;
+  vaccination: Vaccination;
 
   @ApiProperty({example: '1', description: '사용자 학교 ID'})
-  univId: string;
+  univId: number;
 
   @ApiProperty({
     example: '서울특별시 서초구 신반포로 241',

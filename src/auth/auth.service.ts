@@ -11,6 +11,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
 import {Err} from './../error';
+import {CreateUserDto} from 'src/user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -156,16 +157,17 @@ export class AuthService {
     };
   }
 
-  async registUser(user, createUserDto) {
+  async registUser(user, createUserDto: CreateUserDto) {
     try {
       const {id, type} = user;
-      const {nickname, vaccination, univId, address} = createUserDto;
+      const {nickname, vaccination, univId, address, deviceId} = createUserDto;
       // 1회용 토큰인경우
       if (type === 'onceToken') {
         const user = new User();
         user.kakaoAccount = id;
         user.nickname = nickname;
         user.vaccination = vaccination;
+        user.deviceId = deviceId;
         if (univId) {
           const univ = await this.univRepository.findOne({
             where: {
