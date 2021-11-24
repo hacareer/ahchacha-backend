@@ -61,6 +61,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
       ApiParam({
         name: 'clinicId',
         required: true,
+        type: Number,
         description: '선별진료소 ID',
         example: '1',
       }),

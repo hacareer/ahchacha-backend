@@ -61,7 +61,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/me')
+  @Get('/my')
   @ApiDocs.getLoginInfo('현재 로그인 사용자 정보 API')
   getLoginInfo(@User() user) {
     return this.userService.getLoginInfo(user.id);
@@ -75,9 +75,9 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('univ/:univId')
-  @ApiDocs.updateUnivInfo('사용자 학교정보 갱신 API')
-  updateUnivInfo(@User() user, @Param('univId') univId: string) {
-    return this.userService.updateUnivInfo(user.id, +univId);
+  @Patch('/my')
+  @ApiDocs.updateUserInfo('사용자 정보 갱신 API')
+  updateUserInfo(@User() user, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.updateUserInfo(user.id, updateUserDto);
   }
 }

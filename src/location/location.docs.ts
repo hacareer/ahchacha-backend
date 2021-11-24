@@ -40,7 +40,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       ApiParam({
         name: 'locationId',
         required: true,
-        type: String,
+        type: Number,
         description: '위치 ID',
         example: '1',
       }),
@@ -64,7 +64,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       ApiParam({
         name: 'locationId',
         required: true,
-        type: String,
+        type: Number,
         description: '위치 ID',
         example: '1',
       }),

@@ -11,6 +11,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
 import {Err} from './../error';
+import {CreateUserDto} from 'src/user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -49,6 +50,7 @@ export class AuthService {
     });
     const tokenVerify = await this.tokenValidate(token);
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
+    const test = new Date();
 
     const refreshToken = CryptoJS.AES.encrypt(
       JSON.stringify(token),
@@ -155,16 +157,17 @@ export class AuthService {
     };
   }
 
-  async registUser(user, createUserDto) {
+  async registUser(user, createUserDto: CreateUserDto) {
     try {
       const {id, type} = user;
-      const {nickname, vaccination, univId, address} = createUserDto;
+      const {nickname, vaccination, univId, address, deviceId} = createUserDto;
       // 1회용 토큰인경우
       if (type === 'onceToken') {
         const user = new User();
         user.kakaoAccount = id;
         user.nickname = nickname;
         user.vaccination = vaccination;
+        user.deviceId = deviceId;
         if (univId) {
           const univ = await this.univRepository.findOne({
             where: {
@@ -175,14 +178,16 @@ export class AuthService {
         }
         const lat = null;
         const lng = null;
-        const createdUser = await this.userRepository.save(user);
+        let createdUser = await this.userRepository.save(user);
         if (address) {
-          await this.locationService.create(createdUser, {
+          const location = await this.locationService.create({
             address,
             lat,
             lng,
           });
+          user.location = location;
         }
+        createdUser = await this.userRepository.save(user);
         const access_token = await this.createAccessToken(createdUser);
         const refresh_token = await this.createRefreshToken(createdUser);
         return {
@@ -193,7 +198,6 @@ export class AuthService {
     } catch (error) {
       console.log(error);
     }
-    // 그 외의 경우
     return false;
   }
 }

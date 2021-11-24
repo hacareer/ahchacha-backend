@@ -22,25 +22,25 @@ export class LocationController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @ApiDocs.create('사용자 위치 정보 생성 API')
+  @ApiDocs.create('위치 정보 생성 API')
   create(@User() user, @Body() createLocationDto: CreateLocationDto) {
-    return this.locationService.create(user.id, createLocationDto);
+    return this.locationService.create(createLocationDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':locationId')
   @ApiDocs.getLocInfo('위치 정보 조회 API')
-  getLocInfo(@Param('locationId') locationId: string) {
-    return this.locationService.getLocInfo(+locationId);
+  getLocInfo(@Param('locationId') locationId: number) {
+    return this.locationService.getLocInfo(locationId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':locationId')
   @ApiDocs.update('위치 정보 갱신 API')
   update(
-    @Param('locationId') locationId: string,
+    @Param('locationId') locationId: number,
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
-    return this.locationService.update(+locationId, updateLocationDto);
+    return this.locationService.update(locationId, updateLocationDto);
   }
 }

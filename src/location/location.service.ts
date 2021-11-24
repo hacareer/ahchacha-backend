@@ -59,7 +59,7 @@ export class LocationService {
     return response;
   }
 
-  async create(userId, createLocationDto: CreateLocationDto) {
+  async create(createLocationDto: CreateLocationDto) {
     let lat;
     let lng;
     let address;
@@ -81,9 +81,6 @@ export class LocationService {
       address: address,
       latitude: lat,
       longitude: lng,
-    });
-    await this.userRepository.update(userId, {
-      location,
     });
     return location;
   }

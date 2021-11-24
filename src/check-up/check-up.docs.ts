@@ -2,7 +2,6 @@ import {applyDecorators} from '@nestjs/common';
 import {
   ApiOperation,
   ApiResponse,
-  ApiQuery,
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
@@ -58,7 +57,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiParam({
         name: 'checkUpId',
         required: true,
-        type: String,
+        type: Number,
         description: '검사 예약 ID',
         example: '1',
       }),
@@ -78,13 +77,6 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiOperation({
         summary,
         description: '사용자의 검사 예약 정보를 갱신합니다.',
-      }),
-      ApiParam({
-        name: 'checkUpId',
-        required: true,
-        type: String,
-        description: '검사 예약 ID',
-        example: '1',
       }),
       ApiResponse({
         status: 200,
@@ -106,7 +98,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiParam({
         name: 'checkUpId',
         required: true,
-        type: String,
+        type: Number,
         description: '검사 예약 ID',
         example: '1',
       }),

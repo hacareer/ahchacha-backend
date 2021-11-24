@@ -131,19 +131,12 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다ㄴ'}),
     );
   },
-  updateUnivInfo(summary: string) {
+  updateUserInfo(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '학교 정보를 갱신하는 API 입니다.',
-      }),
-      ApiParam({
-        name: 'univId',
-        required: true,
-        type: String,
-        description: '사용자 닉네임',
-        example: 'test',
+        description: '사용자 정보를 갱신하는 API 입니다.',
       }),
       ApiResponse({
         status: 200,

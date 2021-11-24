@@ -18,8 +18,8 @@ export class ClinicController {
 
   @Get(':clinicId')
   @ApiDocs.findOne('특정 선별소 조회 API')
-  findOne(@Param('clinicId') clinicId: string) {
-    return this.clinicService.findOne(+clinicId);
+  findOne(@Param('clinicId') clinicId: number) {
+    return this.clinicService.findOne(clinicId);
   }
 
   @Get('word/')

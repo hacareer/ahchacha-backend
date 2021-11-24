@@ -21,7 +21,7 @@ export class UnivCommentController {
   @UseGuards(JwtAuthGuard)
   @Get('univ/:univId')
   @ApiDocs.findAllByUnivId('학교 댓글 조회 API')
-  findAllByUnivId(@Param('univId') univId: string) {
-    return this.univCommentService.findAllByUnivId(+univId);
+  findAllByUnivId(@Param('univId') univId: number) {
+    return this.univCommentService.findAllByUnivId(univId);
   }
 }
