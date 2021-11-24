@@ -22,9 +22,9 @@ export class LocationController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @ApiDocs.create('사용자 위치 정보 생성 API')
+  @ApiDocs.create('위치 정보 생성 API')
   create(@User() user, @Body() createLocationDto: CreateLocationDto) {
-    return this.locationService.create(user.id, createLocationDto);
+    return this.locationService.create(createLocationDto);
   }
 
   @UseGuards(JwtAuthGuard)

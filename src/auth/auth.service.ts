@@ -49,6 +49,7 @@ export class AuthService {
     });
     const tokenVerify = await this.tokenValidate(token);
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
+    const test = new Date();
 
     const refreshToken = CryptoJS.AES.encrypt(
       JSON.stringify(token),
@@ -175,14 +176,16 @@ export class AuthService {
         }
         const lat = null;
         const lng = null;
-        const createdUser = await this.userRepository.save(user);
+        let createdUser = await this.userRepository.save(user);
         if (address) {
-          await this.locationService.create(createdUser, {
+          const location = await this.locationService.create({
             address,
             lat,
             lng,
           });
+          user.location = location;
         }
+        createdUser = await this.userRepository.save(user);
         const access_token = await this.createAccessToken(createdUser);
         const refresh_token = await this.createRefreshToken(createdUser);
         return {
@@ -193,7 +196,6 @@ export class AuthService {
     } catch (error) {
       console.log(error);
     }
-    // 그 외의 경우
     return false;
   }
 }
