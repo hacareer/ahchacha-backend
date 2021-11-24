@@ -22,12 +22,21 @@ Pathfinder는 위드코로나 이후 맞이할 변화에 대한 정확한 이해
 ✔ **학교 게시판 서비스**   
 같은 학교 내에서 사용자들 사이의 코로나에 대한 의견을 공유할 수 있습니다.
 
-## NestJS 실행
+## Quick Start
+`node`: 14.16.0  
+`npm`: 6.14.11
+- 로컬 서버 실행
 ```
-npm i
+git clone https://github.com/hacareer/ahchacha-backend.git
+cd ahchacha-backend
+npm install
 npm run start
 ```
+- 테스트 서버 실행
+ ```
+ http://13.125.231.69
+ ```
+## ERD
+## Server 아키텍쳐
+## API 문서
 
-## Swagger
-1. ``` npm run start ```
-2. 서버주소/api/docs
