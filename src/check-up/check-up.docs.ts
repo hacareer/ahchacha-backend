@@ -78,13 +78,6 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
         summary,
         description: '사용자의 검사 예약 정보를 갱신합니다.',
       }),
-      ApiParam({
-        name: 'checkUpId',
-        required: true,
-        type: Number,
-        description: '검사 예약 ID',
-        example: '1',
-      }),
       ApiResponse({
         status: 200,
         description: '사용자의 검사 예약 정보를 성공적으로 갱신하였습니다.',

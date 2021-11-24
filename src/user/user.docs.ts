@@ -141,7 +141,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiParam({
         name: 'univId',
         required: true,
-        type: String,
+        type: Number,
         description: '사용자 닉네임',
         example: 'test',
       }),

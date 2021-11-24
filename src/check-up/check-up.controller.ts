@@ -48,11 +48,8 @@ export class CheckUpController {
   @UseGuards(JwtAuthGuard)
   @Patch(':checkUpId')
   @ApiDocs.update('검사 예약 갱신 API')
-  update(
-    @Param('checkUpId') checkUpId: number,
-    @Body() updateCheckUpDto: UpdateCheckUpDto,
-  ) {
-    return this.checkUpService.update(checkUpId, updateCheckUpDto);
+  update(@Body() updateCheckUpDto: UpdateCheckUpDto) {
+    return this.checkUpService.update(updateCheckUpDto);
   }
 
   @UseGuards(JwtAuthGuard)
