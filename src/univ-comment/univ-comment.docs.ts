@@ -40,7 +40,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivCommentController> = {
       ApiParam({
         name: 'univId',
         required: true,
-        type: String,
+        type: Number,
         description: '학교 ID',
         example: '1',
       }),

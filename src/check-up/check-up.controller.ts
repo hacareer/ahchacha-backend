@@ -39,8 +39,8 @@ export class CheckUpController {
   @UseGuards(JwtAuthGuard)
   @Get(':checkUpId')
   @ApiDocs.findOneByUse('특정 검사 예약 조회 API')
-  findOneByUse(@Param('checkUpId') checkUpId: string) {
-    return this.checkUpService.findOne(+checkUpId);
+  findOneByUse(@Param('checkUpId') checkUpId: number) {
+    return this.checkUpService.findOne(checkUpId);
   }
 
   //TODO 기간으로 조회하는 API
@@ -49,16 +49,16 @@ export class CheckUpController {
   @Patch(':checkUpId')
   @ApiDocs.update('검사 예약 갱신 API')
   update(
-    @Param('checkUpId') checkUpId: string,
+    @Param('checkUpId') checkUpId: number,
     @Body() updateCheckUpDto: UpdateCheckUpDto,
   ) {
-    return this.checkUpService.update(+checkUpId, updateCheckUpDto);
+    return this.checkUpService.update(checkUpId, updateCheckUpDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':checkUpId')
   @ApiDocs.remove('검사 예약 삭제 API')
-  remove(@Param('checkUpId') checkUpId: string) {
-    return this.checkUpService.remove(+checkUpId);
+  remove(@Param('checkUpId') checkUpId: number) {
+    return this.checkUpService.remove(checkUpId);
   }
 }

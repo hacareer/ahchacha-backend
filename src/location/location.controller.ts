@@ -30,17 +30,17 @@ export class LocationController {
   @UseGuards(JwtAuthGuard)
   @Get(':locationId')
   @ApiDocs.getLocInfo('위치 정보 조회 API')
-  getLocInfo(@Param('locationId') locationId: string) {
-    return this.locationService.getLocInfo(+locationId);
+  getLocInfo(@Param('locationId') locationId: number) {
+    return this.locationService.getLocInfo(locationId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':locationId')
   @ApiDocs.update('위치 정보 갱신 API')
   update(
-    @Param('locationId') locationId: string,
+    @Param('locationId') locationId: number,
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
-    return this.locationService.update(+locationId, updateLocationDto);
+    return this.locationService.update(locationId, updateLocationDto);
   }
 }
