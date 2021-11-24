@@ -3,6 +3,9 @@ import * as path from 'path';
 
 const config: TypeOrmModuleOptions = {
   type: 'mysql',
+  extra: {
+    decimalNumbers: true,
+  },
   host: process.env.DB_HOST || 'localhost',
   port: +process.env.DB_PORT || 3306,
   username: process.env.DB_USERNAME || 'root',
@@ -11,7 +14,7 @@ const config: TypeOrmModuleOptions = {
   entities: [path.join(__dirname, '**/*.entity{.ts,.js}')],
   migrations: [__dirname + '/src/migrations/*.ts'],
   cli: {
-    migrationsDir: __dirname + '/src/migrations',
+    migrationsDir: '/src/migrations',
   },
   autoLoadEntities: true,
   timezone: 'Z',

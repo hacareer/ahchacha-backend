@@ -1,42 +1,28 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { UnivService } from './univ.service';
-import { CreateUnivDto } from './dto/create-univ.dto';
-import { UpdateUnivDto } from './dto/update-univ.dto';
+import {Controller, Get, Param, Query} from '@nestjs/common';
+import {ApiTags} from '@nestjs/swagger';
+import {ApiDocs} from './univ.docs';
+import {UnivService} from './univ.service';
 
 @Controller('univ')
+@ApiTags('univ')
 export class UnivController {
   constructor(private readonly univService: UnivService) {}
 
-  @Post()
-  create(@Body() createUnivDto: CreateUnivDto) {
-    return this.univService.create(createUnivDto);
-  }
-
   @Get()
+  @ApiDocs.findAll('모든 학교 조회  API')
   findAll() {
     return this.univService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.univService.findOne(+id);
+  @Get('word')
+  @ApiDocs.findByName('특정 학교 조회  API')
+  findByName(@Query('word') word: string) {
+    return this.univService.findByName(word);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUnivDto: UpdateUnivDto) {
-    return this.univService.update(+id, updateUnivDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.univService.remove(+id);
+  @Get(':univId')
+  @ApiDocs.findByUnivId('특정 학교 조회  API')
+  findByUnivId(@Param('univId') univId: string) {
+    return this.univService.findByUnivId(+univId);
   }
 }

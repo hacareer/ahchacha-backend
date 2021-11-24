@@ -3,32 +3,31 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
+import {User} from './../../user/entities/user.entity';
 
 @Entity('second-dose')
 export class SecondDose {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '2차 접종 id' })
   id: number;
 
   /* Relations */
-
+  @JoinColumn()
   @OneToOne(() => User, (user) => user.secondDose)
   user!: User;
 
   /* Date Columns */
 
-  @CreateDateColumn()
+  @CreateDateColumn({select: false})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({select: false})
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({select: false})
   deletedAt: Date | null;
 }

@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { getManager, Repository } from 'typeorm';
-import { Clinic } from './entities/clinic.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import {Injectable} from '@nestjs/common';
+import {getManager, Repository} from 'typeorm';
+import {Clinic} from './entities/clinic.entity';
+import {InjectRepository} from '@nestjs/typeorm';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class ClinicService {
@@ -10,8 +11,15 @@ export class ClinicService {
     private readonly clinicRepository: Repository<Clinic>,
   ) {}
 
-  async findNear(lat, lng) {
-    console.log(lat, lng);
+  async findByName(word) {
+    return await this.clinicRepository
+      .createQueryBuilder('clinic')
+      .innerJoinAndSelect('clinic.operationHour', 'operationHour')
+      .where('clinic.name like :name', {name: `${word}%`})
+      .getMany();
+  }
+
+  async findNearBy1Km(lat, lng) {
     const entityManager = getManager();
     return await entityManager.query(
       `
@@ -27,11 +35,12 @@ export class ClinicService {
     );
   }
 
-  async findOne(id: number) {
+  async findOne(clinicId: number) {
     return await this.clinicRepository.findOne({
       where: {
-        id,
+        id: clinicId,
       },
+      relations: ['operationHour'],
     });
   }
 }

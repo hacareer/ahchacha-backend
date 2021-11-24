@@ -1,45 +1,27 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { UnivCommentService } from './univ-comment.service';
-import { CreateUnivCommentDto } from './dto/create-univ-comment.dto';
-import { UpdateUnivCommentDto } from './dto/update-univ-comment.dto';
+import {Controller, Get, Post, Body, Param, UseGuards} from '@nestjs/common';
+import {UnivCommentService} from './univ-comment.service';
+import {CreateUnivCommentDto} from './dto/create-univ-comment.dto';
+import {JwtAuthGuard} from './../auth/guard/jwt-auth.guard';
+import {User} from 'src/common/decorator/user.decorator';
+import {ApiTags} from '@nestjs/swagger';
+import {ApiDocs} from './univ-comment.docs';
 
 @Controller('univ-comment')
+@ApiTags('univ-comment')
 export class UnivCommentController {
   constructor(private readonly univCommentService: UnivCommentService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createUnivCommentDto: CreateUnivCommentDto) {
-    return this.univCommentService.create(createUnivCommentDto);
+  @ApiDocs.create('학교 댓글 생성 API')
+  create(@User() user, @Body() createUnivCommentDto: CreateUnivCommentDto) {
+    return this.univCommentService.create(user.id, createUnivCommentDto);
   }
 
-  @Get()
-  findAll() {
-    return this.univCommentService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.univCommentService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateUnivCommentDto: UpdateUnivCommentDto,
-  ) {
-    return this.univCommentService.update(+id, updateUnivCommentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.univCommentService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get('univ/:univId')
+  @ApiDocs.findAllByUnivId('학교 댓글 조회 API')
+  findAllByUnivId(@Param('univId') univId: string) {
+    return this.univCommentService.findAllByUnivId(+univId);
   }
 }

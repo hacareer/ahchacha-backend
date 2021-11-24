@@ -1,26 +1,31 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUnivDto } from './dto/create-univ.dto';
-import { UpdateUnivDto } from './dto/update-univ.dto';
+import {Injectable} from '@nestjs/common';
+import {InjectRepository} from '@nestjs/typeorm';
+import {User} from 'src/user/entities/user.entity';
+import {Repository} from 'typeorm';
+import {CreateUnivDto} from './dto/create-univ.dto';
+import {Univ} from './entities/univ.entity';
 
 @Injectable()
 export class UnivService {
-  create(createUnivDto: CreateUnivDto) {
-    return 'This action adds a new univ';
+  constructor(
+    @InjectRepository(Univ)
+    private readonly univRepository: Repository<Univ>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+
+  async findAll() {
+    return await this.univRepository.find();
   }
 
-  findAll() {
-    return `This action returns all univ`;
+  async findByName(word) {
+    return await this.univRepository
+      .createQueryBuilder('univ')
+      .where('univ.name like :name', {name: `${word}%`})
+      .getMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} univ`;
-  }
-
-  update(id: number, updateUnivDto: UpdateUnivDto) {
-    return `This action updates a #${id} univ`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} univ`;
+  async findByUnivId(univId: number) {
+    return await this.univRepository.findOne({id: univId});
   }
 }

@@ -8,14 +8,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
-import { UnivComment } from 'src/univ-comment/entities/univ-comment.entity';
+import {User} from './../../user/entities/user.entity';
+import {UnivComment} from './../../univ-comment/entities/univ-comment.entity';
 
 @Entity('univ')
 export class Univ {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '대학 id' })
   id: number;
 
   @Column()
@@ -31,12 +29,12 @@ export class Univ {
 
   /* Date Columns */
 
-  @CreateDateColumn()
+  @CreateDateColumn({select: false})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({select: false})
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({select: false})
   deletedAt: Date | null;
 }

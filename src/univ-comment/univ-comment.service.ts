@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUnivCommentDto } from './dto/create-univ-comment.dto';
-import { UpdateUnivCommentDto } from './dto/update-univ-comment.dto';
+import {Injectable} from '@nestjs/common';
+import {CreateUnivCommentDto} from './dto/create-univ-comment.dto';
+import {User} from 'src/user/entities/user.entity';
+import {Univ} from 'src/univ/entities/univ.entity';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {UnivComment} from './entities/univ-comment.entity';
 
 @Injectable()
 export class UnivCommentService {
-  create(createUnivCommentDto: CreateUnivCommentDto) {
-    return 'This action adds a new univComment';
+  constructor(
+    @InjectRepository(Univ)
+    private readonly univRepository: Repository<Univ>,
+    @InjectRepository(UnivComment)
+    private readonly univCommentRepository: Repository<UnivComment>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+  async create(userId: number, createUnivCommentDto: CreateUnivCommentDto) {
+    const existingUser = await this.userRepository.findOne({
+      where: {id: userId},
+      relations: ['univ'],
+    });
+    return await this.univCommentRepository.save({
+      content: createUnivCommentDto.content,
+      user: existingUser,
+      univ: existingUser.univ,
+    });
   }
 
-  findAll() {
-    return `This action returns all univComment`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} univComment`;
-  }
-
-  update(id: number, updateUnivCommentDto: UpdateUnivCommentDto) {
-    return `This action updates a #${id} univComment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} univComment`;
+  async findAllByUnivId(univId) {
+    return await this.univCommentRepository
+      .createQueryBuilder('univComment')
+      .leftJoinAndSelect('univComment.user', 'user')
+      .where('univComment.univId = :univId', {univId})
+      .select(['univComment.content', 'user.nickname'])
+      .getMany();
   }
 }

@@ -9,17 +9,18 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
 import {OperationHour} from './operation-hour.entity';
 import {Label} from '../../constants';
-import {CheckUp} from 'src/check-up/entities/check-up.entity';
-import {ClinicComment} from 'src/clinic-comment/entities/clinic-comment.entity';
+import {ClinicComment} from './../../clinic-comment/entities/clinic-comment.entity';
+import {CheckUp} from './../../check-up/entities/check-up.entity';
 
 @Entity('clinic')
 export class Clinic {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '선별진료소 id'})
   id: number;
+
+  @Column()
+  name: string;
 
   @Column({
     type: 'enum',
@@ -42,11 +43,11 @@ export class Clinic {
 
   /* Relations */
 
-  @OneToMany(() => CheckUp, (checkUp) => checkUp.clinic)
-  checkUpList: CheckUp[];
-
   @OneToMany(() => ClinicComment, (clinicComment) => clinicComment.clinic)
   clinicCommentList: ClinicComment[];
+
+  @OneToMany(() => CheckUp, (checkUp) => checkUp.clinic)
+  checkUpList: CheckUp[];
 
   @JoinColumn()
   @OneToOne(() => OperationHour, (operationHour) => operationHour.clinic)
@@ -54,12 +55,12 @@ export class Clinic {
 
   /* Date Columns */
 
-  @CreateDateColumn()
+  @CreateDateColumn({select: false})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({select: false})
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({select: false})
   deletedAt: Date | null;
 }

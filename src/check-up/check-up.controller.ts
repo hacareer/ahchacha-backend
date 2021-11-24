@@ -6,33 +6,59 @@ import {
   Patch,
   Param,
   Delete,
-  Req,
+  UseGuards,
 } from '@nestjs/common';
-import { CheckUpService } from './check-up.service';
-import { CreateCheckUpDto } from './dto/create-check-up.dto';
-import { UpdateCheckUpDto } from './dto/update-check-up.dto';
+import {ApiTags} from '@nestjs/swagger';
+import {userInfo} from 'os';
+import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {User} from 'src/common/decorator/user.decorator';
+import {ApiDocs} from './check-up.docs';
+import {CheckUpService} from './check-up.service';
+import {CreateCheckUpDto} from './dto/create-check-up.dto';
+import {UpdateCheckUpDto} from './dto/update-check-up.dto';
 
 @Controller('check-up')
+@ApiTags('check-up')
 export class CheckUpController {
   constructor(private readonly checkUpService: CheckUpService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Req() req, @Body() createCheckUpDto: CreateCheckUpDto) {
-    return this.checkUpService.create(req.user, createCheckUpDto);
+  @ApiDocs.create('검사 예약 생성 API')
+  create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
+    return this.checkUpService.create(user, createCheckUpDto);
   }
 
-  @Get()
-  findAll() {
-    return this.checkUpService.findAll();
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  @ApiDocs.findAllByUser('모든 검사 예약 조회 API')
+  findAllByUser(@User() user) {
+    return this.checkUpService.findAll(user.id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.checkUpService.findOne(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get(':checkUpId')
+  @ApiDocs.findOneByUse('특정 검사 예약 조회 API')
+  findOneByUse(@Param('checkUpId') checkUpId: string) {
+    return this.checkUpService.findOne(+checkUpId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCheckUpDto: UpdateCheckUpDto) {
-    return this.checkUpService.update(+id, updateCheckUpDto);
+  //TODO 기간으로 조회하는 API
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':checkUpId')
+  @ApiDocs.update('검사 예약 갱신 API')
+  update(
+    @Param('checkUpId') checkUpId: string,
+    @Body() updateCheckUpDto: UpdateCheckUpDto,
+  ) {
+    return this.checkUpService.update(+checkUpId, updateCheckUpDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':checkUpId')
+  @ApiDocs.remove('검사 예약 삭제 API')
+  remove(@Param('checkUpId') checkUpId: string) {
+    return this.checkUpService.remove(+checkUpId);
   }
 }

@@ -4,22 +4,24 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
-import { Univ } from 'src/univ/entities/univ.entity';
+import {UnivTag} from '../../constants';
+import {Univ} from './../../univ/entities/univ.entity';
+import {User} from './../../user/entities/user.entity';
 
-@Entity('univComment')
+@Entity('univ-comment')
 export class UnivComment {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '후기 id' })
   id: number;
 
-  // TODO 후기 tag 추가
+  @Column({
+    type: 'enum',
+    enum: UnivTag,
+    nullable: true,
+  })
+  content: UnivTag;
 
   /* Relations */
 
@@ -31,12 +33,12 @@ export class UnivComment {
 
   /* Date Columns */
 
-  @CreateDateColumn()
+  @CreateDateColumn({select: false})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({select: false})
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({select: false})
   deletedAt: Date | null;
 }

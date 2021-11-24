@@ -4,11 +4,11 @@ import {
   HttpException,
   Injectable,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from '@nestjs/passport';
-import { UserService } from 'src/user/user.service';
-import { AuthService } from '../auth.service';
-import { Err } from './../../error';
+import {JwtService} from '@nestjs/jwt';
+import {AuthGuard} from '@nestjs/passport';
+import {UserService} from 'src/user/user.service';
+import {AuthService} from '../auth.service';
+import {Err} from './../../error';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -21,21 +21,14 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    const response = context.switchToHttp().getResponse();
 
-    const { authorization } = request.headers;
+    const {authorization} = request.headers;
     if (authorization === undefined) {
       throw new BadRequestException(Err.TOKEN.NOT_SEND_TOKEN);
     }
 
     const token = authorization.replace('Bearer ', '');
     const tokenValidate = await this.validate(token);
-    if (tokenValidate.tokenReissue) {
-      response.setHeader('access_token', tokenValidate.new_token);
-      response.setHeader('tokenReissue', true);
-    } else {
-      response.setHeader('tokenReissue', false);
-    }
     request.user = tokenValidate.user ? tokenValidate.user : tokenValidate;
     return true;
   }
@@ -44,43 +37,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     try {
       // 토큰 검증
       const tokenVerify = await this.authService.tokenValidate(token);
-      console.log(tokenVerify);
-
-      // 토큰의 남은 시간 체크
-      const tokenExp = new Date(tokenVerify['exp'] * 1000);
-      const current_time = new Date();
-
-      const time_remaining = Math.floor(
-        (tokenExp.getTime() - current_time.getTime()) / 1000 / 60,
-      );
-
-      if (tokenVerify.type === 'loginToken') {
-        if (time_remaining < 5) {
-          // 로그인 토큰의남은 시간이 5분 미만일때
-          // 엑세스 토큰 정보로 유저를 찾는다.
-          const user = await this.userService.findUserById(tokenVerify.id);
-          const refreshToken = await this.authService.tokenValidate(
-            user.refreshToken,
-          );
-          const refreshTokenUser = await this.userService.findUserById(
-            refreshToken.id,
-          );
-          const new_token = await this.authService.createLoginToken(
-            refreshTokenUser,
-          );
-          return {
-            user: refreshTokenUser,
-            new_token,
-            tokenReissue: true,
-          };
-        } else {
-          // 로그인 토큰의남은 시간이 5분 이상일때
-          const user = await this.userService.findUserById(tokenVerify.id);
-          return {
-            user,
-            tokenReissue: false,
-          };
-        }
+      if (tokenVerify.type === 'accessToken') {
+        const user = await this.userService.findUserById(tokenVerify.id);
+        return user;
       } else {
         return tokenVerify;
       }

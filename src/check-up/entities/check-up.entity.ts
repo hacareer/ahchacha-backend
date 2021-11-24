@@ -7,39 +7,35 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {ApiProperty} from '@nestjs/swagger';
-import {User} from 'src/user/entities/user.entity';
-import {Result} from '../../constants';
-import {Clinic} from 'src/clinic/entities/clinic.entity';
+import {User} from './../../user/entities/user.entity';
+import {Clinic} from './../../clinic/entities/clinic.entity';
 
 @Entity('check-up')
 export class CheckUp {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '검사기록 id'})
   id: number;
 
-  @Column()
-  startTime: Date;
-
-  @Column()
-  finishTime: Date;
+  @Column({
+    type: 'timestamp',
+  })
+  date: Date;
 
   /* Relations */
 
   @ManyToOne(() => User, (user) => user.checkUpList)
-  user!: User;
+  user: User;
 
   @ManyToOne(() => Clinic, (clinic) => clinic.checkUpList)
-  clinic!: Clinic;
+  clinic: Clinic;
 
   /* Date Columns */
 
-  @CreateDateColumn()
+  @CreateDateColumn({select: false})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({select: false})
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({select: false})
   deletedAt: Date | null;
 }

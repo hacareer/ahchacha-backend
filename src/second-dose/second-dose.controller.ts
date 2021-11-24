@@ -2,44 +2,37 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
+  Req,
+  Query,
+  UseGuards,
   Param,
-  Delete,
 } from '@nestjs/common';
-import { SecondDoseService } from './second-dose.service';
-import { CreateSecondDoseDto } from './dto/create-second-dose.dto';
-import { UpdateSecondDoseDto } from './dto/update-second-dose.dto';
+import {SecondDoseService} from './second-dose.service';
+import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {User} from 'src/common/decorator/user.decorator';
+import {ApiDocs} from './second-dose.docs';
+import {ApiTags} from '@nestjs/swagger';
 
 @Controller('second-dose')
+@ApiTags('second-dose')
 export class SecondDoseController {
   constructor(private readonly secondDoseService: SecondDoseService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createSecondDoseDto: CreateSecondDoseDto) {
-    return this.secondDoseService.create(createSecondDoseDto);
+  @ApiDocs.create('접종 정보 생성 API')
+  create(@User() user) {
+    return this.secondDoseService.create(user.id);
   }
 
-  @Get()
-  findAll() {
-    return this.secondDoseService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.secondDoseService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateSecondDoseDto: UpdateSecondDoseDto,
+  @UseGuards(JwtAuthGuard)
+  @Get('univ/:univId')
+  @ApiDocs.countByUniv('학교별 접종자수 조회 API')
+  countByUniv(
+    @Param('univId') univId: number,
+    @Query('from') from: string,
+    @Query('to') to: string,
   ) {
-    return this.secondDoseService.update(+id, updateSecondDoseDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.secondDoseService.remove(+id);
+    return this.secondDoseService.countByUniv(univId, from, to);
   }
 }

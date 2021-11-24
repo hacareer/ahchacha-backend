@@ -4,22 +4,24 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
-import { Clinic } from 'src/clinic/entities/clinic.entity';
-import { User } from 'src/user/entities/user.entity';
+import {Clinic} from './../../clinic/entities/clinic.entity';
+import {User} from './../../user/entities/user.entity';
+import {ClinicTag} from '../../constants';
 
-@Entity('clinicComment')
+@Entity('clinic-comment')
 export class ClinicComment {
   @PrimaryGeneratedColumn('increment')
-  @ApiProperty({ description: '후기 id' })
   id: number;
 
-  // TODO 후기 tag 추가
+  @Column({
+    type: 'enum',
+    enum: ClinicTag,
+    nullable: true,
+  })
+  content: ClinicTag;
 
   /* Relations */
 
@@ -31,12 +33,12 @@ export class ClinicComment {
 
   /* Date Columns */
 
-  @CreateDateColumn()
+  @CreateDateColumn({select: false})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({select: false})
   updatedAt: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({select: false})
   deletedAt: Date | null;
 }
