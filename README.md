@@ -24,20 +24,23 @@ Pathfinder는 위드코로나 이후 맞이할 변화에 대한 정확한 이해
 
 ## Quick Start
 `node`: 14.16.0  
-`npm`: 6.14.11
-- 로컬 서버
+`npm`: 6.14.11  
+⛏ 로컬 서버
 ```
 git clone https://github.com/hacareer/ahchacha-backend.git
 cd ahchacha-backend
 npm install
 npm run start
 ```
-- 테스트 서버
+🛠 테스트 서버
  ```
  http://13.125.231.69
  ```
 ## ERD
+![image](https://user-images.githubusercontent.com/66551410/143317686-37ad8307-d557-48d7-bf06-2d14bc4eb5d8.png)
 ## Server 아키텍쳐
 ![image](https://user-images.githubusercontent.com/66551410/143316350-74f983ff-01bd-4dba-bbb3-4abcb88862bf.png)
-## API 문서
-
+## Swagger
+```
+ http://13.125.231.69/api/docs
+```
