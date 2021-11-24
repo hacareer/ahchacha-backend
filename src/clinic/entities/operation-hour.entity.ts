@@ -16,23 +16,23 @@ export class OperationHour {
   @ApiProperty({description: '운영시간 id'})
   id: number;
 
-  @Column()
-  weekdayOpen: Date;
+  @Column({nullable: true})
+  weekdayOpen: string;
 
-  @Column()
-  weekdayClose: Date;
+  @Column({nullable: true})
+  weekdayClose: string;
 
-  @Column()
-  saturdayOpen: Date;
+  @Column({nullable: true})
+  saturdayOpen: string;
 
-  @Column()
-  saturdayClose: Date;
+  @Column({nullable: true})
+  saturdayClose: string;
 
-  @Column()
-  sundayOpen: Date;
+  @Column({nullable: true})
+  sundayOpen: string;
 
-  @Column()
-  sundayClose: Date;
+  @Column({nullable: true})
+  sundayClose: string;
 
   /* Relations */
 
