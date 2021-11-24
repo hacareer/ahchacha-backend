@@ -22,7 +22,7 @@ export class UnivController {
 
   @Get(':univId')
   @ApiDocs.findByUnivId('특정 학교 조회  API')
-  findByUnivId(@Param('univId') univId: string) {
-    return this.univService.findByUnivId(+univId);
+  findByUnivId(@Param('univId') univId: number) {
+    return this.univService.findByUnivId(univId);
   }
 }
