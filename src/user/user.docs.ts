@@ -83,6 +83,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 405, description: '토큰 갱신 기간이 아닙니다.'}),
       ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
