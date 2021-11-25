@@ -17,6 +17,7 @@ import {CheckUpService} from './check-up.service';
 import {CreateCheckUpDto} from './dto/create-check-up.dto';
 import {UpdateCheckUpDto} from './dto/update-check-up.dto';
 import {PushNotificationService} from './../push-notification/push-notification.service';
+import {UserService} from 'src/user/user.service';
 
 @Controller('check-up')
 @ApiTags('check-up')
@@ -24,15 +25,18 @@ export class CheckUpController {
   constructor(
     private readonly checkUpService: CheckUpService,
     private readonly pushNotificationService: PushNotificationService,
+    private readonly userService: UserService,
   ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiDocs.create('검사 예약 생성 API')
   async create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
+    const {deviceId} = await this.userService.getLoginInfo(user.id);
     await this.pushNotificationService.scheduleAlarm({
       date: createCheckUpDto.date,
       userId: user.id,
+      deviceId: deviceId,
     });
     return this.checkUpService.create(user, createCheckUpDto);
   }
