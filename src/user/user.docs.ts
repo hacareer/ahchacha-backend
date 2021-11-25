@@ -2,14 +2,14 @@ import {applyDecorators} from '@nestjs/common';
 import {
   ApiOperation,
   ApiResponse,
-  ApiQuery,
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
 import {UserController} from './user.controller';
 import {validateUserResponseDto} from './responseDto/validateUserResponse.dto';
 import {registerUserResponseDto} from './responseDto/registerUserReponse.dto';
-import {refreshAccessTokenDto} from './responseDto/refreshAccessToken.dto';
+import {refreshTokenResponseDto} from './responseDto/refreshTokenResponse.dto';
+import {accessTokenResponseDto} from './responseDto/accessTokenResponse.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -29,6 +29,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
         description: '정상적으로 토큰이 발급되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다.'}),
+      ApiResponse({status: 500, description: '유효하지 않은 토큰입니다.'}),
     );
   },
   registUser(summary: string) {
@@ -59,7 +60,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
-        type: refreshAccessTokenDto,
+        type: accessTokenResponseDto,
         description: 'refreshToken이 재발급되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -78,11 +79,15 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
-        type: refreshAccessTokenDto,
+        type: refreshTokenResponseDto,
         description: 'refreshToken을 재발급되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({
+        status: 405,
+        description: '토큰 만료 7일전부터 갱신이 가능합니다.',
+      }),
       ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );

@@ -8,5 +8,5 @@ export class UpdateUserDto {
   nickname: string;
 
   @ApiProperty({example: '1', description: '사용자 학교 ID'})
-  univId: string;
+  univId: number;
 }

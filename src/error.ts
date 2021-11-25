@@ -20,7 +20,7 @@ export const Err = {
     },
     JWT_NOT_REISSUED: {
       code: 405,
-      message: '토큰 갱신 기간이 아닙니다.',
+      message: '토큰 만료 7일전부터 갱신이 가능합니다.',
     },
     NO_PERMISSION: {
       code: 403,

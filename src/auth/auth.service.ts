@@ -178,16 +178,15 @@ export class AuthService {
         }
         const lat = null;
         const lng = null;
-        let createdUser = await this.userRepository.save(user);
+        const createdUser = await this.userRepository.save(user);
         if (address) {
-          const location = await this.locationService.create({
+          const location = await this.locationService.create(createdUser.id, {
             address,
             lat,
             lng,
           });
           user.location = location;
         }
-        createdUser = await this.userRepository.save(user);
         const access_token = await this.createAccessToken(createdUser);
         const refresh_token = await this.createRefreshToken(createdUser);
         return {

@@ -17,6 +17,7 @@ export class SecondDoseService {
     const existingUser = await this.userRepository.findOne({
       where: {id: userId},
     });
+    console.log(existingUser);
     return await this.secondDoseRepository.save({user: existingUser});
   }
 
