@@ -25,6 +25,7 @@ Pathfinder는 위드코로나 이후 맞이할 변화에 대한 정확한 이해
 ## Quick Start
 `node`: 14.16.0  
 `npm`: 6.14.11  
+
 ⛏ 로컬 서버
 ```
 git clone https://github.com/hacareer/ahchacha-backend.git
