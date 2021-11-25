@@ -59,7 +59,7 @@ export class LocationService {
     return response;
   }
 
-  async create(createLocationDto: CreateLocationDto) {
+  async create(userId: number, createLocationDto: CreateLocationDto) {
     let lat;
     let lng;
     let address;
@@ -68,8 +68,7 @@ export class LocationService {
       lat = coordinate.lat;
       lng = coordinate.lng;
       address = createLocationDto.address;
-    }
-    if (createLocationDto.lat !== null && createLocationDto.lng) {
+    } else {
       lat = createLocationDto.lat;
       lng = createLocationDto.lng;
       address = await this.getCoordinate(
@@ -82,6 +81,7 @@ export class LocationService {
       latitude: lat,
       longitude: lng,
     });
+    await this.userRepository.update(userId, {location});
     return location;
   }
 
@@ -94,14 +94,26 @@ export class LocationService {
   }
 
   async update(locationId: number, updateLocationDto: UpdateLocationDto) {
-    const address = await this.getCoordinate(
-      updateLocationDto.lat,
-      updateLocationDto.lng,
-    );
+    let lat;
+    let lng;
+    let address;
+    if (updateLocationDto.address) {
+      const coordinate = await this.getAddress(updateLocationDto.address);
+      lat = coordinate.lat;
+      lng = coordinate.lng;
+      address = updateLocationDto.address;
+    } else {
+      lat = updateLocationDto.lat;
+      lng = updateLocationDto.lng;
+      address = await this.getCoordinate(
+        updateLocationDto.lat,
+        updateLocationDto.lng,
+      );
+    }
     await this.locationRepository.update(locationId, {
       address,
-      latitude: updateLocationDto.lat,
-      longitude: updateLocationDto.lng,
+      latitude: lat,
+      longitude: lng,
     });
     return 'update success';
   }
