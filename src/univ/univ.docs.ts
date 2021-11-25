@@ -1,5 +1,11 @@
 import {applyDecorators} from '@nestjs/common';
-import {ApiOperation, ApiResponse, ApiQuery, ApiParam} from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiParam,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import {UnivController} from './univ.controller';
 
 type SwaggerMethodDoc<T> = {
@@ -9,6 +15,7 @@ type SwaggerMethodDoc<T> = {
 export const ApiDocs: SwaggerMethodDoc<UnivController> = {
   findAll(summary) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '모든 학교정보를 조회합니다.',
@@ -22,6 +29,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivController> = {
   },
   findByUnivId(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '학교 ID를 사용해서 학교정보를 조회합니다.',
@@ -42,6 +50,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivController> = {
   },
   findByName(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '해당 단어로 시작하는 학교정보를 조회합니다.',
