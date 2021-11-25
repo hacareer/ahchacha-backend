@@ -45,7 +45,8 @@ export class UserController {
   @ApiDocs.getAccessToken('accessToken 재발급 API')
   @Get('auth/accessToken')
   async getAccessToken(@User() user) {
-    return this.authService.createAccessToken(user);
+    const access_token = await this.authService.createAccessToken(user);
+    return {access_token};
   }
 
   @UseGuards(JwtRefreshGuard)
@@ -62,7 +63,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/my')
-  @ApiDocs.getLoginInfo('로그인 사용자 정보 조회 API')
+  @ApiDocs.getLoginInfo('사용자 정보 조회 API')
   getLoginInfo(@User() user) {
     return this.userService.getLoginInfo(user.id);
   }

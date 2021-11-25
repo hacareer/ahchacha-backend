@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  ParseFloatPipe,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
-import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {Controller, Get, Param, ParseFloatPipe, Query} from '@nestjs/common';
 import {ClinicService} from './clinic.service';
 import {ApiTags} from '@nestjs/swagger';
 import {ApiDocs} from './clinic.docs';
