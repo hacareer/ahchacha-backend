@@ -48,26 +48,26 @@ export class CheckUpService {
     });
   }
 
-  async update(updateCheckUpDto: UpdateCheckUpDto) {
+  async update(checkUpId, updateCheckUpDto: UpdateCheckUpDto) {
     // TODO 로직 다시 짜기
     const existingClinic = await this.clinicRepository.findOne(
       updateCheckUpDto.clinicId,
     );
     if (updateCheckUpDto.clinicId) {
       await this.checkUpRepository.update(
-        {id: updateCheckUpDto.checkupId},
+        {id: checkUpId},
         {clinic: existingClinic},
       );
     }
     if (updateCheckUpDto.date) {
       await this.checkUpRepository.update(
-        {id: updateCheckUpDto.checkupId},
+        {id: checkUpId},
         {date: updateCheckUpDto.date},
       );
     }
     return await this.checkUpRepository.findOne({
       where: {
-        id: updateCheckUpDto.checkupId,
+        id: checkUpId,
       },
       relations: ['clinic'],
     });

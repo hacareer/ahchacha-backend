@@ -21,7 +21,7 @@ export class ClinicController {
   }
 
   @Get('area/:lat/:lng')
-  @ApiDocs.findNearBy5Km('반경 1KM 선별소 조회 API')
+  @ApiDocs.findNearBy5Km('반경 5KM 선별소 조회 API')
   findNearBy5Km(
     @Param('lat', ParseFloatPipe) lat: number,
     @Param('lng', ParseFloatPipe) lng: number,
