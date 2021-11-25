@@ -29,7 +29,7 @@ export class ClinicCommentController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':clinicId')
+  @Get('clinic/:clinicId')
   @ApiDocs.countContents('선별진료소 후기 개수 조회 API ')
   countContents(@Param('clinicId') clinicId: number) {
     return this.clinicCommentService.countContents(clinicId);
