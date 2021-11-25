@@ -7,6 +7,7 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {CheckUp} from './entities/check-up.entity';
 import {User} from 'src/user/entities/user.entity';
 import {Clinic} from 'src/clinic/entities/clinic.entity';
+import {PushNotificationService} from './../push-notification/push-notification.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import {Clinic} from 'src/clinic/entities/clinic.entity';
     TypeOrmModule.forFeature([CheckUp, User, Clinic]),
   ],
   controllers: [CheckUpController],
-  providers: [CheckUpService],
+  providers: [CheckUpService, PushNotificationService],
 })
 export class CheckUpModule {}
