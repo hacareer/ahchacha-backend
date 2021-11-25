@@ -1,5 +1,11 @@
 import {applyDecorators} from '@nestjs/common';
-import {ApiOperation, ApiResponse, ApiQuery, ApiParam} from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiQuery,
+  ApiParam,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import {ClinicController} from './clinic.controller';
 
 type SwaggerMethodDoc<T> = {
@@ -9,6 +15,7 @@ type SwaggerMethodDoc<T> = {
 export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
   findByName(summary) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '해당 단어로 시작하는 선별진료소를 조회합니다.',
@@ -28,6 +35,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
   },
   findNearBy5Km(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description:
@@ -54,6 +62,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
   },
   findOne(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '선별진료소 ID를 사용해서 사용자 정보를 조회합니다.',
