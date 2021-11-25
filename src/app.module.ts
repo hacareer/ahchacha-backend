@@ -15,6 +15,7 @@ import {CheckUpModule} from './check-up/check-up.module';
 import * as ormconfig from '../ormconfig';
 import {UserModule} from 'src/user/user.module';
 import {ScheduleModule} from '@nestjs/schedule';
+import {PushNotificationModule} from './push-notification/push-notification.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import {ScheduleModule} from '@nestjs/schedule';
     CheckUpResultModule,
     CheckUpModule,
     ScheduleModule.forRoot(),
+    PushNotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
