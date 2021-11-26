@@ -10,8 +10,6 @@ export class UnivService {
   constructor(
     @InjectRepository(Univ)
     private readonly univRepository: Repository<Univ>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
   ) {}
 
   async findAll() {

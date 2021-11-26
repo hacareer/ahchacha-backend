@@ -137,6 +137,7 @@ export class LocationService {
           }),
         ),
     );
-    return response;
+    const {lat, lng} = response;
+    return {latitude: lat, longitude: lng};
   }
 }

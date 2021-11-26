@@ -17,18 +17,17 @@ export class ClinicController {
   constructor(private readonly clinicService: ClinicService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get('word')
+  @ApiDocs.findByName('특정선별소 조회 API')
+  findByName(@Query('word') word: string) {
+    return this.clinicService.findByName(word);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':clinicId')
   @ApiDocs.findOne('특정 선별소 조회 API')
   findOne(@Param('clinicId') clinicId: number) {
     return this.clinicService.findOne(clinicId);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get(':word')
-  @ApiDocs.findByName('특정선별소 조회 API')
-  findByName(@Query('word') word: string) {
-    console.log(word);
-    return this.clinicService.findByName(word);
   }
 
   @UseGuards(JwtAuthGuard)

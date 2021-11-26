@@ -17,16 +17,16 @@ export class UnivController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':univId')
-  @ApiDocs.findByUnivId('특정 학교 조회  API')
-  findByUnivId(@Param('univId') univId: number) {
-    return this.univService.findByUnivId(univId);
-  }
-
-  @UseGuards(JwtAuthGuard)
   @Get('word')
   @ApiDocs.findByName('특정 학교 조회  API')
   findByName(@Query('word') word: string) {
     return this.univService.findByName(word);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':univId')
+  @ApiDocs.findByUnivId('특정 학교 조회  API')
+  findByUnivId(@Param('univId') univId: number) {
+    return this.univService.findByUnivId(univId);
   }
 }
