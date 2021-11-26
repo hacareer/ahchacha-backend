@@ -32,14 +32,23 @@ export class CheckUpController {
   @Post()
   @ApiDocs.create('검사 예약 생성 API')
   async create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
+    const createdCheckUpService = await this.checkUpService.create(
+      user,
+      createCheckUpDto,
+    );
     const {deviceId, nickname} = await this.userService.getLoginInfo(user.id);
-    await this.pushNotificationService.scheduleAlarm({
-      date: createCheckUpDto.date,
-      userId: user.id,
-      deviceId: deviceId,
-      nickname,
-    });
-    return this.checkUpService.create(user, createCheckUpDto);
+    if (createCheckUpDto.notificationTime.length > 0) {
+      await this.pushNotificationService.scheduleAlarm({
+        date: createCheckUpDto.date,
+        userId: user.id,
+        deviceId: deviceId,
+        nickname,
+        notification: createCheckUpDto.notificationTime,
+        clinicName: createdCheckUpService.clinic.name,
+        clinicAddress: createdCheckUpService.clinic.address,
+      });
+    }
+    return createdCheckUpService;
   }
 
   @UseGuards(JwtAuthGuard)
