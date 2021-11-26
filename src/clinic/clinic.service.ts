@@ -2,6 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {getManager, Repository} from 'typeorm';
 import {Clinic} from './entities/clinic.entity';
 import {InjectRepository} from '@nestjs/typeorm';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class ClinicService {
@@ -11,7 +12,6 @@ export class ClinicService {
   ) {}
 
   async findByName(word) {
-    console.log(word);
     return await this.clinicRepository
       .createQueryBuilder('clinic')
       .innerJoinAndSelect('clinic.operationHour', 'operationHour')
