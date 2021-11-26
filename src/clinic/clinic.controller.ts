@@ -24,9 +24,10 @@ export class ClinicController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('word/')
+  @Get(':word')
   @ApiDocs.findByName('특정선별소 조회 API')
   findByName(@Query('word') word: string) {
+    console.log(word);
     return this.clinicService.findByName(word);
   }
 

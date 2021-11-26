@@ -39,18 +39,18 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
       ApiOperation({
         summary,
         description:
-          '사용자 위치의 경도와 위도를 사용해서 반경 5KM내에 위치한 선별진료소를 조회합니다.',
+          '위도와 경도를 사용해서 반경 5KM내에 위치한 선별진료소를 조회합니다.',
       }),
       ApiParam({
         name: 'lat',
         required: true,
-        description: '사용자 위치의 경도',
+        description: '위도',
         example: '37.50832',
       }),
       ApiParam({
         name: 'lng',
         required: true,
-        description: '사용자 위치의 위도',
+        description: '경도',
         example: '127.011803',
       }),
       ApiResponse({
