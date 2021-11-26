@@ -16,16 +16,29 @@ import {ApiDocs} from './check-up.docs';
 import {CheckUpService} from './check-up.service';
 import {CreateCheckUpDto} from './dto/create-check-up.dto';
 import {UpdateCheckUpDto} from './dto/update-check-up.dto';
+import {PushNotificationService} from './../push-notification/push-notification.service';
+import {UserService} from 'src/user/user.service';
 
 @Controller('check-up')
 @ApiTags('check-up')
 export class CheckUpController {
-  constructor(private readonly checkUpService: CheckUpService) {}
+  constructor(
+    private readonly checkUpService: CheckUpService,
+    private readonly pushNotificationService: PushNotificationService,
+    private readonly userService: UserService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiDocs.create('검사 예약 생성 API')
-  create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
+  async create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
+    const {deviceId, nickname} = await this.userService.getLoginInfo(user.id);
+    await this.pushNotificationService.scheduleAlarm({
+      date: createCheckUpDto.date,
+      userId: user.id,
+      deviceId: deviceId,
+      nickname,
+    });
     return this.checkUpService.create(user, createCheckUpDto);
   }
 
@@ -52,6 +65,7 @@ export class CheckUpController {
     @Param('checkUpId') checkUpId: number,
     @Body() updateCheckUpDto: UpdateCheckUpDto,
   ) {
+    // TODO 푸시 알림 수정
     return this.checkUpService.update(checkUpId, updateCheckUpDto);
   }
 
@@ -59,6 +73,7 @@ export class CheckUpController {
   @Delete(':checkUpId')
   @ApiDocs.remove('검사 예약 삭제 API')
   remove(@Param('checkUpId') checkUpId: number) {
+    // TODO 푸시 알림 삭제
     return this.checkUpService.remove(checkUpId);
   }
 }
