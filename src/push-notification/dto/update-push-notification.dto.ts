@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreatePushNotificationDto } from './create-push-notification.dto';
+import {PartialType} from '@nestjs/swagger';
+import {CreatePushNotificationDto} from './create-push-notification.dto';
 
-export class UpdatePushNotificationDto extends PartialType(CreatePushNotificationDto) {}
+export class UpdatePushNotificationDto extends PartialType(
+  CreatePushNotificationDto,
+) {}

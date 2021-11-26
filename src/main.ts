@@ -30,7 +30,6 @@ async function bootstrap() {
     credential: admin.credential.cert(adminConfig),
     databaseURL: 'https://ahchacha-8f274-default-rtdb.firebaseio.com/',
   });
-
   app.enableCors();
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
