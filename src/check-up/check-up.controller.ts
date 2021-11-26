@@ -32,11 +32,12 @@ export class CheckUpController {
   @Post()
   @ApiDocs.create('검사 예약 생성 API')
   async create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
-    const {deviceId} = await this.userService.getLoginInfo(user.id);
+    const {deviceId, nickname} = await this.userService.getLoginInfo(user.id);
     await this.pushNotificationService.scheduleAlarm({
       date: createCheckUpDto.date,
       userId: user.id,
       deviceId: deviceId,
+      nickname,
     });
     return this.checkUpService.create(user, createCheckUpDto);
   }
@@ -64,6 +65,7 @@ export class CheckUpController {
     @Param('checkUpId') checkUpId: number,
     @Body() updateCheckUpDto: UpdateCheckUpDto,
   ) {
+    // TODO 푸시 알림 수정
     return this.checkUpService.update(checkUpId, updateCheckUpDto);
   }
 
@@ -71,6 +73,7 @@ export class CheckUpController {
   @Delete(':checkUpId')
   @ApiDocs.remove('검사 예약 삭제 API')
   remove(@Param('checkUpId') checkUpId: number) {
+    // TODO 푸시 알림 삭제
     return this.checkUpService.remove(checkUpId);
   }
 }

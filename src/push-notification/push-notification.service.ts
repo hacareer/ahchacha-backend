@@ -10,11 +10,10 @@ export class PushNotificationService {
 
   async scheduleAlarm(createPushNotificationDto: CreatePushNotificationDto) {
     const registrationToken = createPushNotificationDto.deviceId;
-
     const message = {
       notification: {
-        title: '테스트',
-        body: '✨검사 2시간 전 알람입니다.',
+        title: `${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람이에요.`,
+        body: `${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다. ${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다. ${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다. ${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다.`,
       },
       token: registrationToken,
     };
@@ -23,7 +22,7 @@ export class PushNotificationService {
     const job = new CronJob(date, async () => {
       await admin
         .messaging()
-        .sendToDevice(registrationToken, message)
+        .send(message)
         .then((response) => {
           console.log('Successfully sent message:', response);
         })

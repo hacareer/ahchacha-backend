@@ -21,7 +21,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiOperation({
         summary,
         description:
-          '가입된 사용자일 경우 accessToken, reFreshToken을 발급합니다. 새로운 사용자일 경우 onceToken을 발급합니다.',
+          '가입된 사용자일 경우 accessToken, refreshToken을 발급합니다. 새로운 사용자일 경우 onceToken을 발급합니다.',
       }),
       ApiResponse({
         status: 201,
