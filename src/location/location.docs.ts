@@ -78,4 +78,21 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
+  changeAddresstoCoordinate(summary: string) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({
+        summary,
+        description: '주소를 위도, 경도로 변환해주는 API 입니다.',
+      }),
+      ApiResponse({
+        status: 201,
+        description: '위치 정보가 성공적으로 갱신되었습니다.',
+      }),
+      ApiResponse({status: 400, description: 'Token 전송 안됨'}),
+      ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
+      ApiResponse({status: 410, description: '토큰이 만료되었습니다.'}),
+      ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
+    );
+  },
 };

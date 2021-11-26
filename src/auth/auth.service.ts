@@ -50,7 +50,6 @@ export class AuthService {
     });
     const tokenVerify = await this.tokenValidate(token);
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
-    const test = new Date();
 
     const refreshToken = CryptoJS.AES.encrypt(
       JSON.stringify(token),
