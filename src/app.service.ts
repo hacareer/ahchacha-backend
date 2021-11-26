@@ -3,7 +3,7 @@ import {Injectable} from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    console.log(new Date());
-    return 'Server Running';
+    const time = new Date();
+    return `Server Running, Time is ${time}`;
   }
 }
