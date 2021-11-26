@@ -7,6 +7,7 @@ import {Location} from './entities/location.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from './../user/entities/user.entity';
+import {ChangeAddressToCoordinateDto} from './dto/change-address-to-coordinate.dto';
 
 @Injectable()
 export class LocationService {
@@ -116,5 +117,26 @@ export class LocationService {
       longitude: lng,
     });
     return 'update success';
+  }
+
+  async changeAddresstoCoordinate(
+    changeAddressToCoordinateDto: ChangeAddressToCoordinateDto,
+  ) {
+    const _url = 'https://maps.googleapis.com/maps/api/geocode/json';
+    const response = await lastValueFrom(
+      this.httpService
+        .get(_url, {
+          params: {
+            address: `${changeAddressToCoordinateDto.address}`,
+            key: process.env.API_KEY,
+          },
+        })
+        .pipe(
+          map((response) => {
+            return response.data.results[0].geometry.location;
+          }),
+        ),
+    );
+    return response;
   }
 }

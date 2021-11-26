@@ -14,6 +14,7 @@ import {User} from 'src/common/decorator/user.decorator';
 import {ApiTags} from '@nestjs/swagger';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {ApiDocs} from './location.docs';
+import {ChangeAddressToCoordinateDto} from './dto/change-address-to-coordinate.dto';
 
 @Controller('location')
 @ApiTags('location')
@@ -42,5 +43,16 @@ export class LocationController {
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
     return this.locationService.update(locationId, updateLocationDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('coordinate')
+  @ApiDocs.changeAddresstoCoordinate('좌표 제공 API')
+  changeAddresstoCoordinate(
+    @Body() changeAddressToCoordinateDto: ChangeAddressToCoordinateDto,
+  ) {
+    return this.locationService.changeAddresstoCoordinate(
+      changeAddressToCoordinateDto,
+    );
   }
 }
