@@ -34,8 +34,8 @@ export class ClinicController {
   @Get('area/:lat/:lng')
   @ApiDocs.findNearBy5Km('반경 5KM 선별소 조회 API')
   findNearBy5Km(
-    @Query('lat', ParseFloatPipe) lat: number,
-    @Query('lng', ParseFloatPipe) lng: number,
+    @Param('lat', ParseFloatPipe) lat: number,
+    @Param('lng', ParseFloatPipe) lng: number,
   ) {
     return this.clinicService.findNearBy5Km(lat, lng);
   }
