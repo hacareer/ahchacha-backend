@@ -64,6 +64,7 @@ export class CheckUpController {
     @Param('checkUpId') checkUpId: number,
     @Body() updateCheckUpDto: UpdateCheckUpDto,
   ) {
+    // TODO 푸시 알림 수정
     return this.checkUpService.update(checkUpId, updateCheckUpDto);
   }
 
@@ -71,6 +72,7 @@ export class CheckUpController {
   @Delete(':checkUpId')
   @ApiDocs.remove('검사 예약 삭제 API')
   remove(@Param('checkUpId') checkUpId: number) {
+    // TODO 푸시 알림 삭제
     return this.checkUpService.remove(checkUpId);
   }
 }
