@@ -24,4 +24,25 @@ enum UnivTag {
   '대면 수업 힘들어요' = 'T5',
 }
 
-export {Vaccination, ClinicTag, UnivTag, Label};
+enum NotificationTime {
+  '15M' = '15',
+  '30M' = '30',
+  '1H' = '60',
+  '1D' = '1440',
+}
+
+enum NotificationWord {
+  '15M' = '15분 전',
+  '30M' = '30분 전',
+  '1H' = '1시간 전',
+  '1D' = '하루 전',
+}
+
+export {
+  Vaccination,
+  ClinicTag,
+  UnivTag,
+  Label,
+  NotificationTime,
+  NotificationWord,
+};

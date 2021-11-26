@@ -3,6 +3,7 @@ import {SchedulerRegistry} from '@nestjs/schedule';
 import {CronJob} from 'cron';
 import {CreatePushNotificationDto} from './dto/create-push-notification.dto';
 import * as admin from 'firebase-admin';
+import {NotificationTime, NotificationWord} from 'src/constants';
 
 @Injectable()
 export class PushNotificationService {
@@ -10,15 +11,21 @@ export class PushNotificationService {
 
   async scheduleAlarm(createPushNotificationDto: CreatePushNotificationDto) {
     const registrationToken = createPushNotificationDto.deviceId;
+    const notificationWord =
+      NotificationWord[createPushNotificationDto.notification];
     const message = {
       notification: {
-        title: `${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람이에요.`,
-        body: `${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다. ${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다. ${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다. ${createPushNotificationDto.nickname}님, PCR 검사 2시간 전 알람입니다.`,
+        title: `${createPushNotificationDto.nickname}님, PCR 검사 ${notificationWord} 알람이에요.`,
+        body: `선별진료소 이름 : ${createPushNotificationDto.clinicName}\n선별진료소 주소 : ${createPushNotificationDto.clinicAddress}`,
       },
       token: registrationToken,
     };
+    const timebeforeCheck =
+      NotificationTime[createPushNotificationDto.notification];
+    parseInt(timebeforeCheck);
     const date = new Date(createPushNotificationDto.date);
-    date.setHours(date.getHours() - 11);
+    date.setMinutes(date.getMinutes() - timebeforeCheck);
+    date.setHours(date.getHours() - 9);
     const job = new CronJob(date, async () => {
       await admin
         .messaging()
