@@ -22,7 +22,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivCommentController> = {
         summary,
         description:
           '학교 댓글을 생성하는 API 입니다. <br />' +
-          "enum UnivCommentTag { '백신미접종자 차별 화나요' = 'T1',  '저는 이제 백신 다 맞았어요' = 'T2',   '백신 아직 불안해요' = 'T3',   '마스크 불편해요' = 'T4',   '대면 수업 힘들어요' = 'T5'}",
+          "enum UnivCommentTag { '백신미접종자 차별 화나요' = 'T1', '저는 이제 백신 다 맞았어요' = 'T2', '백신 아직 불안해요' = 'T3', '마스크 불편해요' = 'T4', '대면 수업 힘들어요' = 'T5'}",
       }),
       ApiResponse({
         status: 201,

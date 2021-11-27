@@ -7,6 +7,9 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import {ClinicCommentController} from './clinic-comment.controller';
+import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
+import {CreateCinicCommentResponseDto} from './response-dto/create-clinic-comment-reponse.dto';
+import {GetCinicCommentResponseDto} from './response-dto/get-clinic-comment-num-response.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -18,10 +21,13 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '선별진료소 후기 정보를 생성하는 API 입니다.',
+        description:
+          '선별진료소 후기 정보를 생성하는 API 입니다.  <br />' +
+          "enum UnivCommentTag { '검사가 빨리 끝나요' = 'T1', '교통이 불편해요' = 'T2', '늦게까지 해요' = 'T3', '근처에 주차공간이 있어요' = 'T4', '검사자수가 많아요' = 'T5'}",
       }),
       ApiResponse({
         status: 201,
+        type: CreateCinicCommentResponseDto,
         description: '선별진료소 후기 정보가 성공적으로 생성되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -35,7 +41,9 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '선별진료소에 해당하는 후기 개수를 조회합니다.',
+        description:
+          '선별진료소에 해당하는 후기 개수를 조회합니다.<br />' +
+          "enum UnivCommentTag { '검사가 빨리 끝나요' = 'T1', '교통이 불편해요' = 'T2', '늦게까지 해요' = 'T3', '근처에 주차공간이 있어요' = 'T4', '검사자수가 많아요' = 'T5'}",
       }),
       ApiParam({
         name: 'clinicId',
@@ -46,6 +54,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
       }),
       ApiResponse({
         status: 200,
+        type: GetCinicCommentResponseDto,
         description: '선별진료소 후기 개수가 성공적으로 조회되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import {Clinic} from './../../clinic/entities/clinic.entity';
 import {User} from './../../user/entities/user.entity';
-import {ClinicTag} from '../../constants';
+import {ClinicCommentTag} from '../../constants';
 
 @Entity('clinic-comment')
 export class ClinicComment {
@@ -18,10 +18,10 @@ export class ClinicComment {
 
   @Column({
     type: 'enum',
-    enum: ClinicTag,
+    enum: ClinicCommentTag,
     nullable: true,
   })
-  content: ClinicTag;
+  content: ClinicCommentTag;
 
   /* Relations */
 

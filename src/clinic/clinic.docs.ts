@@ -8,6 +8,7 @@ import {
 } from '@nestjs/swagger';
 import {ClinicController} from './clinic.controller';
 import {CreateClinicResponseDto} from './response-dto/create-clinic-hour.dto';
+import { OnlyClinicResponseDto } from './response-dto/only-clinic-response.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -57,7 +58,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
       }),
       ApiResponse({
         status: 200,
-        type: CreateClinicResponseDto,
+        type: OnlyClinicResponseDto,
         description: '선별진료소 정보가 성공적으로 조회되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),

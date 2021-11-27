@@ -8,7 +8,7 @@ enum Label {
   PERMANENT = 'PERMANENT',
 }
 
-enum ClinicTag {
+enum ClinicCommentTag {
   '검사가 빨리 끝나요' = 'T1',
   '교통이 불편해요' = 'T2',
   '늦게까지 해요' = 'T3',
@@ -40,7 +40,7 @@ enum NotificationWord {
 
 export {
   Vaccination,
-  ClinicTag,
+  ClinicCommentTag,
   UnivCommentTag,
   Label,
   NotificationTime,
