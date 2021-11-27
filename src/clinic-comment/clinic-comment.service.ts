@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Clinic} from 'src/clinic/entities/clinic.entity';
-import {ClinicTag} from 'src/constants';
+import {ClinicCommentTag} from 'src/constants';
 import {User} from 'src/user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
@@ -27,7 +27,7 @@ export class ClinicCommentService {
     const CommentList = await Promise.all(
       contentList.map(async (content) => {
         const commentyEntity = await this.clinicCommentRepository.save({
-          content: content as ClinicTag,
+          content: content as ClinicCommentTag,
           user: existingUser,
           clinic: existingClinic,
         });
@@ -46,7 +46,7 @@ export class ClinicCommentService {
       contents.map(async (content) => {
         const number = await this.clinicCommentRepository.count({
           where: {
-            content: content as ClinicTag,
+            content: content as ClinicCommentTag,
             clinic: existingClinic,
           },
         });

@@ -4,7 +4,7 @@ import {LocationResponseDto} from './location-response.dto';
 
 export class ChangeAddressToCoordinateResponseDto extends BaseResponseDto {
   @ApiProperty({example: 200})
-  code: number;
+  statusCode: number;
 
   @ApiProperty({
     example: '{ "latitude": "37.50832", "longitude": "127.011803"}',

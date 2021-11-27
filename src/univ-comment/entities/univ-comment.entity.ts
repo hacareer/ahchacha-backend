@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {UnivTag} from '../../constants';
+import {UnivCommentTag} from '../../constants';
 import {Univ} from './../../univ/entities/univ.entity';
 import {User} from './../../user/entities/user.entity';
 
@@ -18,10 +18,10 @@ export class UnivComment {
 
   @Column({
     type: 'enum',
-    enum: UnivTag,
+    enum: UnivCommentTag,
     nullable: true,
   })
-  content: UnivTag;
+  content: UnivCommentTag;
 
   /* Relations */
 
