@@ -15,8 +15,8 @@ export class PushNotificationService {
       NotificationWord[createPushNotificationDto.notification];
     const message = {
       notification: {
-        title: `${createPushNotificationDto.nickname}님, PCR 검사 ${notificationWord} 알람이에요.`,
-        body: `선별진료소 이름 : ${createPushNotificationDto.clinicName}\n선별진료소 주소 : ${createPushNotificationDto.clinicAddress}`,
+        title: `${createPushNotificationDto.nickname}님, ${notificationWord}시간 후에 PCR 검사를 꼭 받으세요.`,
+        body: `${createPushNotificationDto.clinicName}(${createPushNotificationDto.clinicAddress})`,
       },
       token: registrationToken,
     };
