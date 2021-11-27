@@ -13,10 +13,13 @@ export class PushNotificationService {
     const registrationToken = createPushNotificationDto.deviceId;
     const notificationWord =
       NotificationWord[createPushNotificationDto.notification];
+    const clinicName = createPushNotificationDto.clinicName;
+    const clinicAddress = createPushNotificationDto.clinicAddress;
+    const replacedClinicAddress = clinicAddress.replace(clinicName, '');
     const message = {
       notification: {
         title: `${createPushNotificationDto.nickname}님, ${notificationWord}시간 후에 PCR 검사를 꼭 받으세요.`,
-        body: `${createPushNotificationDto.clinicName}(${createPushNotificationDto.clinicAddress})`,
+        body: `${clinicName}(${replacedClinicAddress})`,
       },
       token: registrationToken,
     };
