@@ -28,7 +28,7 @@ export class CheckUpResultController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('me')
+  @Get('my')
   @ApiDocs.searchCheckUpResultByDate('검사 결과 조회 API')
   searchCheckUpResultByDate(
     @User() user,
