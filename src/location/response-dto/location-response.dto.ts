@@ -16,11 +16,11 @@ export class LocationResponseDto {
     example: '37.50825',
     description: '현재 사용자 위치(위도)',
   })
-  lat: number;
+  latitude: number;
 
   @ApiProperty({
     example: '127.011803',
     description: '현재 사용자 위치(경도)',
   })
-  lng: number;
+  longitude: number;
 }
