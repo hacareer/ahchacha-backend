@@ -6,10 +6,12 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import {UserController} from './user.controller';
-import {validateUserResponseDto} from './responseDto/validateUserResponse.dto';
-import {registerUserResponseDto} from './responseDto/registerUserReponse.dto';
-import {refreshTokenResponseDto} from './responseDto/refreshTokenResponse.dto';
-import {accessTokenResponseDto} from './responseDto/accessTokenResponse.dto';
+import {validateUserResponseDto} from './response-dto/validate-user-response.dto';
+import {registerUserResponseDto} from './response-dto/register-user-reponse.dto';
+import {refreshTokenResponseDto} from './response-dto/refresh-token-response.dto';
+import {accessTokenResponseDto} from './response-dto/access-token-response.dto';
+import {CreateUserResponseDto} from './response-dto/creat-user-response.dto';
+import {UpdateUserResponseDto} from './response-dto/update-user-response.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -21,7 +23,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiOperation({
         summary,
         description:
-          '가입된 사용자일 경우 accessToken, refreshToken을 발급합니다. 새로운 사용자일 경우 onceToken을 발급합니다.',
+          '가입된 사용자일 경우 access token, refresh token을 반환합니다. <br /> 새로운 사용자일 경우 once token을 반환합니다.',
       }),
       ApiResponse({
         status: 201,
@@ -38,7 +40,8 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiOperation({
         summary,
         description:
-          '회원가입을 진행합니다. 사용자 등록 후 accessToken, refreshToken을 발급합니다.',
+          '회원가입을 진행합니다. <br /> 회원가입 완료 후 access token, refresh token을 반환합니다. <br />' +
+          "enum Vaccination { YES = 'YES',  NO = 'NO' }",
       }),
       ApiResponse({
         status: 201,
@@ -56,7 +59,8 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: 'refreshToken을 이용해 accessToken을 재발급합니다',
+        description:
+          'refresh token을 사용해서 access token을 발급합니다 <br /> 발급된 access token은 15분간 유효합니다.',
       }),
       ApiResponse({
         status: 200,
@@ -75,7 +79,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiOperation({
         summary,
         description:
-          'refreshToken을 이용해 새로운 refreshToken을 재발급합니다. ',
+          '기존 refresh token을 사용해서 새로운 refresh token을 재발급합니다. <br /> refresh token은 2주간 유효하며, refresh token 만료가 1주일 이내로 남은 시점에서 토큰 갱신 요청을 하면 갱신된 access token과 갱신된 refresh token이 함께 반환됩니다. ',
       }),
       ApiResponse({
         status: 200,
@@ -101,6 +105,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
+        type: CreateUserResponseDto,
         description: '사용자 정보가 정상적으로 조회되었습니다.',
       }),
       ApiResponse({status: 2, description: '사용자가 존재하지 않습니다.'}),
@@ -145,6 +150,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
+        type: UpdateUserResponseDto,
         description: '사용자 학교 정보가 성공적으로 갱신되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

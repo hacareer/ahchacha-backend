@@ -78,6 +78,6 @@ export class UserService {
         nickname: updateUserDto.nickname,
       });
     }
-    return 'update success';
+    return 'Record successfully updated';
   }
 }
