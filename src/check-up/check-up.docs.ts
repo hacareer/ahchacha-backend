@@ -6,6 +6,10 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import {CheckUpController} from './check-up.controller';
+import {GetCheckUpResponseDto} from './response-dto/get-check-up-response.dto';
+import {CreateCheckUpResponseDto} from './response-dto/create-check-up-response.dto';
+import {BaseUpdateResponseDto} from './../common/dto/base-update-response.dto';
+import {DeleteCheckUpResponseDto} from './response-dto/delete-check-up-response.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -22,6 +26,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({
         status: 201,
         description: '검사 예약 정보가 성공적으로 생성되었습니다.',
+        type: CreateCheckUpResponseDto,
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
@@ -38,6 +43,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       }),
       ApiResponse({
         status: 200,
+        type: GetCheckUpResponseDto,
         description:
           '사용자의 모든 검사 예약 정보를 성공적으로 조회하였습니다.',
       }),
@@ -63,6 +69,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       }),
       ApiResponse({
         status: 200,
+        type: GetCheckUpResponseDto,
         description: '사용자의 검사 예약 정보를 성공적으로 조회하였습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -81,6 +88,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({
         status: 200,
         description: '사용자의 검사 예약 정보를 성공적으로 갱신하였습니다.',
+        type: BaseUpdateResponseDto,
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
@@ -104,6 +112,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       }),
       ApiResponse({
         status: 200,
+        type: DeleteCheckUpResponseDto,
         description: '사용자의 검사 예약 정보를 성공적으로 삭제하였습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

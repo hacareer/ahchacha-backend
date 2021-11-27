@@ -4,7 +4,7 @@ import {CinicCommentResponseDto} from './clinic-comment-response.dto';
 
 export class CreateCinicCommentResponseDto extends BaseResponseDto {
   @ApiProperty({example: 201})
-  code: number;
+  statusCode: number;
 
   @ApiProperty()
   data: CinicCommentResponseDto;

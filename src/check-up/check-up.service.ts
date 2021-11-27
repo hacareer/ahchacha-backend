@@ -65,16 +65,11 @@ export class CheckUpService {
         {date: updateCheckUpDto.date},
       );
     }
-    return await this.checkUpRepository.findOne({
-      where: {
-        id: checkUpId,
-      },
-      relations: ['clinic'],
-    });
+    return 'Record successfully updated';
   }
 
   async remove(checkupId) {
     await this.checkUpRepository.delete({id: checkupId});
-    return 'delete success';
+    return 'Record successfully deleted';
   }
 }
