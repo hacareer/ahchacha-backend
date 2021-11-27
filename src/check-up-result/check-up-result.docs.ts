@@ -7,6 +7,8 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import {CheckUpResultController} from './check-up-result.controller';
+import {CreateCheckUpResultResponseDto} from './response-dto/create-check-up-result-response.dto';
+import {GetCheckUpResultResponseDto} from './response-dto/get-check-up-result-response.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -22,6 +24,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
       }),
       ApiResponse({
         status: 201,
+        type: CreateCheckUpResultResponseDto,
         description: '검사 결과 정보가 성공적으로 생성되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -51,6 +54,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
       }),
       ApiResponse({
         status: 200,
+        type: GetCheckUpResultResponseDto,
         description: '검사 결과 정보가 성공적으로 조회되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

@@ -3,8 +3,9 @@ import {IsNotEmpty} from 'class-validator';
 import {ClinicCommentTag, UnivCommentTag} from 'src/constants';
 import {userResponseDto} from './../../user/response-dto/user-response.dto';
 import {OnlyClinicDto} from './../../clinic/response-dto/only-clinic.dto';
+import {BaseResponseDto} from './../../common/dto/base-response.dto';
 
-export class CinicCommentResponseDto {
+export class CinicCommentResponseDto extends BaseResponseDto {
   @ApiProperty({example: '1'})
   id: number;
 
