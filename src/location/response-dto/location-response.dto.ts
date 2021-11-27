@@ -1,5 +1,3 @@
-import {User} from 'src/user/entities/user.entity';
-import {IsString, IsNotEmpty, IsNumber} from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
 
 export class LocationResponseDto {

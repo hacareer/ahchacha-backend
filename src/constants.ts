@@ -16,7 +16,7 @@ enum ClinicTag {
   '검사자수가 많아요' = 'T5',
 }
 
-enum UnivTag {
+enum UnivCommentTag {
   '백신미접종자 차별 화나요' = 'T1',
   '저는 이제 백신 다 맞았어요' = 'T2',
   '백신 아직 불안해요' = 'T3',
@@ -41,7 +41,7 @@ enum NotificationWord {
 export {
   Vaccination,
   ClinicTag,
-  UnivTag,
+  UnivCommentTag,
   Label,
   NotificationTime,
   NotificationWord,
