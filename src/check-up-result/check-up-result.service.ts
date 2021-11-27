@@ -35,6 +35,12 @@ export class CheckUpResultService {
 
   // TODO query string 안 받고 그냥 넘길지 의논
   async searchCheckUpResultByDate(userId: number, from: string, to: string) {
+    if (from === undefined) {
+      from = '1800-01-01 00:00';
+    }
+    if (to === undefined) {
+      to = '2800-01-01 00:00';
+    }
     const existingUser = await this.userRepository.findOne({
       where: {
         id: userId,
