@@ -23,7 +23,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
         summary,
         description:
           '선별진료소 후기 정보를 생성하는 API 입니다.  <br />' +
-          "enum UnivCommentTag { '검사가 빨리 끝나요' = 'T1', '교통이 불편해요' = 'T2', '늦게까지 해요' = 'T3', '근처에 주차공간이 있어요' = 'T4', '검사자수가 많아요' = 'T5'}",
+          "UnivCommentTag { 'T1' (검사가 빨리 끝나요) / 'T2' (교통이 불편해요) / 'T3' (늦게까지 해요) / 'T4' (근처에 주차공간이 있어요) / 'T5' (검사자수가 많아요) }",
       }),
       ApiResponse({
         status: 201,
@@ -43,7 +43,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
         summary,
         description:
           '선별진료소에 해당하는 후기 개수를 조회합니다.<br />' +
-          "enum UnivCommentTag { '검사가 빨리 끝나요' = 'T1', '교통이 불편해요' = 'T2', '늦게까지 해요' = 'T3', '근처에 주차공간이 있어요' = 'T4', '검사자수가 많아요' = 'T5'}",
+          "UnivCommentTag { 'T1' (검사가 빨리 끝나요) / 'T2' (교통이 불편해요) / 'T3' (늦게까지 해요) / 'T4' (근처에 주차공간이 있어요) / 'T5' (검사자수가 많아요) }",
       }),
       ApiParam({
         name: 'clinicId',

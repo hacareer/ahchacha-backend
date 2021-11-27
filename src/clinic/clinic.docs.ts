@@ -8,7 +8,7 @@ import {
 } from '@nestjs/swagger';
 import {ClinicController} from './clinic.controller';
 import {CreateClinicResponseDto} from './response-dto/create-clinic-hour.dto';
-import { OnlyClinicResponseDto } from './response-dto/only-clinic-response.dto';
+import {OnlyClinicResponseDto} from './response-dto/only-clinic-response.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -20,7 +20,9 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '해당 단어로 시작하는 선별진료소를 조회합니다.',
+        description:
+          '해당 단어로 시작하는 선별진료소를 조회합니다.<br />' +
+          "Label { 'TEMPORARY' / 'PERMANENT' }",
       }),
       ApiQuery({
         name: 'word',
@@ -42,7 +44,8 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
       ApiOperation({
         summary,
         description:
-          '위도와 경도를 사용해서 반경 5KM내에 위치한 선별진료소를 조회합니다.',
+          '위도와 경도를 사용해서 반경 5KM내에 위치한 선별진료소를 조회합니다.<br />' +
+          "Label { 'TEMPORARY' / 'PERMANENT' }",
       }),
       ApiParam({
         name: 'lat',
@@ -69,7 +72,9 @@ export const ApiDocs: SwaggerMethodDoc<ClinicController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '선별진료소 ID를 사용해서 사용자 정보를 조회합니다.',
+        description:
+          '선별진료소 ID를 사용해서 선별진료소 정보를 조회합니다.<br />' +
+          "Label { 'TEMPORARY' / 'PERMANENT' }",
       }),
       ApiParam({
         name: 'clinicId',

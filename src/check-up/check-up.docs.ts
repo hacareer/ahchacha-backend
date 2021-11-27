@@ -21,7 +21,9 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '검사 예약 정보를 생성합니다.',
+        description:
+          '검사 예약 정보를 생성합니다.<br />' +
+          "NotificationTime { '15M' / '30M' / '1H' / '1D' }",
       }),
       ApiResponse({
         status: 201,
