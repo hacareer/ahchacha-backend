@@ -6,7 +6,12 @@ import {
   ApiParam,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import {CreateLocationDto} from './dto/create-location.dto';
 import {LocationController} from './location.controller';
+import {BaseUpdateResponseDto} from './../common/dto/base-update-response.dto';
+import {ChangeAddressToCoordinateDto} from './dto/change-address-to-coordinate.dto';
+import {CreateLocationResponseDto} from './response-dto/create-location-response.dto';
+import {ChangeAddressToCoordinateResponseDto} from './response-dto/change-addr-to-coor-response.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -22,6 +27,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       }),
       ApiResponse({
         status: 201,
+        type: CreateLocationResponseDto,
         description: '사용자 위치 정보가 성공적으로 생성되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -46,6 +52,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       }),
       ApiResponse({
         status: 200,
+        type: CreateLocationResponseDto,
         description: '위치 정보가 성공적으로 조회되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -70,6 +77,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       }),
       ApiResponse({
         status: 200,
+        type: BaseUpdateResponseDto,
         description: '위치 정보가 성공적으로 갱신되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -87,6 +95,7 @@ export const ApiDocs: SwaggerMethodDoc<LocationController> = {
       }),
       ApiResponse({
         status: 201,
+        type: ChangeAddressToCoordinateResponseDto,
         description: '위치 정보가 성공적으로 갱신되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
