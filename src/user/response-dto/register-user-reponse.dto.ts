@@ -3,7 +3,7 @@ import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class registerUserResponseDto extends BaseResponseDto {
   @ApiProperty({example: 201})
-  code: number;
+  statusCode: number;
 
   @ApiProperty({example: {access_token: '12345678', refresh_token: '12345678'}})
   data: any;

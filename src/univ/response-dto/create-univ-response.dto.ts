@@ -4,7 +4,7 @@ import {univResponseDto} from './univ-response.dto';
 
 export class CreateUnivResponseDto extends BaseResponseDto {
   @ApiProperty({example: 200})
-  code: number;
+  statusCode: number;
 
   @ApiProperty()
   data: univResponseDto;

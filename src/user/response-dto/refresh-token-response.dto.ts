@@ -3,7 +3,7 @@ import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class refreshTokenResponseDto extends BaseResponseDto {
   @ApiProperty({example: 200})
-  code: number;
+  statusCode: number;
 
   @ApiProperty({
     example:

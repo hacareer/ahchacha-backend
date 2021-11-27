@@ -4,7 +4,7 @@ import {userResponseDto} from './user-response.dto';
 
 export class CreateUserResponseDto extends BaseResponseDto {
   @ApiProperty({example: 200})
-  code: number;
+  statusCode: number;
 
   @ApiProperty()
   data: userResponseDto;

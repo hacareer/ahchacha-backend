@@ -4,7 +4,7 @@ import {UnivCommentResponseDto} from './univ-comment-response.dto';
 
 export class CreateUnivCommentResponseDto extends BaseResponseDto {
   @ApiProperty({example: 201})
-  code: number;
+  statusCode: number;
 
   @ApiProperty()
   data: UnivCommentResponseDto;

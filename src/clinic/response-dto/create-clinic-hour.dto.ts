@@ -4,7 +4,7 @@ import {clinicResponseDto} from './clinic-response.dto';
 
 export class CreateClinicResponseDto extends BaseResponseDto {
   @ApiProperty({example: 200})
-  code: number;
+  statusCode: number;
 
   @ApiProperty()
   data: clinicResponseDto;
