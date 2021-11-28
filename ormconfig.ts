@@ -8,7 +8,7 @@ const config: TypeOrmModuleOptions = {
   },
   host:
     process.env.DB_HOST ||
-    'path-finder-mysql.cmsrcdbvejea.ap-northeast-2.rds.amazonaws.com',
+    'localhost',
   port: +process.env.DB_PORT || 3306,
   username: process.env.DB_USERNAME || 'pathfinder',
   password: process.env.DB_PASSWORD || 'pathfinder1234',
