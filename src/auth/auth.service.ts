@@ -59,7 +59,7 @@ export class AuthService {
     const tokenVerify = await this.tokenValidate(token);
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
 
-    const refreshToken = CryptoJS.AES.encrypt(
+    const refresh_token = CryptoJS.AES.encrypt(
       JSON.stringify(token),
       process.env.AES_KEY,
     ).toString();
@@ -67,10 +67,10 @@ export class AuthService {
     await await this.userRepository
       .createQueryBuilder('user')
       .update()
-      .set({refreshToken})
+      .set({refreshToken: refresh_token})
       .where('user.id = :id', {id: user.id})
       .execute();
-    return {refreshToken, tokenExp};
+    return {refresh_token, tokenExp};
   }
 
   async reissueRefreshToken(user: User) {
@@ -102,7 +102,7 @@ export class AuthService {
       throw new BadRequestException(Err.TOKEN.JWT_NOT_REISSUED);
     }
 
-    const refreshToken = CryptoJS.AES.encrypt(
+    const refresh_token = CryptoJS.AES.encrypt(
       JSON.stringify(token),
       process.env.AES_KEY,
     ).toString();
@@ -110,17 +110,17 @@ export class AuthService {
     await await this.userRepository
       .createQueryBuilder('user')
       .update()
-      .set({refreshToken})
+      .set({refreshToken: refresh_token})
       .where('user.id = :id', {id: user.id})
       .execute();
     const access_token = await this.createAccessToken(user);
-    return {access_token, refresh_token: {refreshToken, tokenExp}};
+    return {access_token, refresh_token: {refresh_token, tokenExp}};
   }
 
   onceToken(kakaoId: string) {
     const payload = {
       id: kakaoId,
-      type: 'onceToken',
+      type: 'once_token',
     };
 
     return this.jwtService.sign(payload, {
@@ -161,7 +161,7 @@ export class AuthService {
     if (user === null) {
       const once_token = this.onceToken(kakaoId);
       return {
-        type: 'once',
+        type: 'once_token',
         once_token,
       };
     }
@@ -170,60 +170,50 @@ export class AuthService {
     const access_token = await this.createAccessToken(user);
     const refresh_token = await this.createRefreshToken(user);
     return {
-      type: 'login',
+      type: 'login_token',
       access_token,
       refresh_token,
     };
   }
 
   async registUser(user, createUserDto: CreateUserDto) {
-    const existingUser = await this.userRepository.findOne({
-      where: {
-        kakaoAccount: user.id,
-      },
-    });
-    if (existingUser) {
+    const {id, type} = user;
+    const {nickname, vaccination, univId, address, deviceId} = createUserDto;
+    if (type === 'login_token') {
       throw new BadRequestException(Err.USER.EXISTING_USER);
     }
-    try {
-      const {id, type} = user;
-      const {nickname, vaccination, univId, address, deviceId} = createUserDto;
-      // 1회용 토큰인경우
-      if (type === 'onceToken') {
-        const user = new User();
-        user.kakaoAccount = id;
-        user.nickname = nickname;
-        user.vaccination = vaccination;
-        user.deviceId = deviceId;
-        if (univId) {
-          const univ = await this.univRepository.findOne({
-            where: {
-              id: univId,
-            },
-          });
-          user.univ = univ;
-        }
-        const lat = null;
-        const lng = null;
-        const createdUser = await this.userRepository.save(user);
-        if (address) {
-          const location = await this.locationService.create(createdUser.id, {
-            address,
-            lat,
-            lng,
-          });
-          user.location = location;
-        }
-        const access_token = await this.createAccessToken(createdUser);
-        const refresh_token = await this.createRefreshToken(createdUser);
-        return {
-          access_token,
-          refresh_token,
-        };
+    // 1회용 토큰인경우
+    if (type === 'once_token') {
+      const user = new User();
+      user.kakaoAccount = id;
+      user.nickname = nickname;
+      user.vaccination = vaccination;
+      user.deviceId = deviceId;
+      if (univId) {
+        const univ = await this.univRepository.findOne({
+          where: {
+            id: univId,
+          },
+        });
+        user.univ = univ;
       }
-    } catch (error) {
-      console.log(error);
+      const lat = null;
+      const lng = null;
+      const createdUser = await this.userRepository.save(user);
+      if (address) {
+        const location = await this.locationService.create(createdUser.id, {
+          address,
+          lat,
+          lng,
+        });
+        user.location = location;
+      }
+      const access_token = await this.createAccessToken(createdUser);
+      const refresh_token = await this.createRefreshToken(createdUser);
+      return {
+        access_token,
+        refresh_token,
+      };
     }
-    return false;
   }
 }
