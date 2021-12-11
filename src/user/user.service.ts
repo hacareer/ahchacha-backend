@@ -65,6 +65,15 @@ export class UserService {
   }
 
   async updateUserInfo(userId: number, updateUserDto: UpdateUserDto) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['location', 'univ'],
+    });
+    if (!user) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
     if (updateUserDto.univId) {
       const univ = await this.univRepository.findOne({
         where: {
