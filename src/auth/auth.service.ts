@@ -6,7 +6,7 @@ import {UserService} from './../user/user.service';
 import {User} from 'src/user/entities/user.entity';
 import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
 import {HttpService} from '@nestjs/axios';
-import {lastValueFrom, map} from 'rxjs';
+import {catchError, lastValueFrom, map} from 'rxjs';
 import {InjectRepository} from '@nestjs/typeorm';
 import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
@@ -147,12 +147,18 @@ export class AuthService {
         map((response) => {
           return response.data.id;
         }),
+        catchError(() => {
+          throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
+        }),
       ),
     );
   }
 
   async validateUser(kakaoUserDto: KakaoUserDto) {
     const kakaoId = await this.getKakaoId(kakaoUserDto);
+    if (!kakaoId) {
+      throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
+    }
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
     // 유저가 없을때
     if (user === null) {
