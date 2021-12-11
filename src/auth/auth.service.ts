@@ -27,6 +27,14 @@ export class AuthService {
   ) {}
 
   async createAccessToken(user: User) {
+    const existingUser = await this.userRepository.findOne({
+      where: {
+        id: user.id,
+      },
+    });
+    if (!existingUser) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
     const payload = {
       id: user.id,
       nickname: user.nickname,
