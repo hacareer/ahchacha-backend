@@ -31,6 +31,15 @@ Pathfinder는 위드코로나 이후 맞이할 변화에 대한 정확한 이해
 `node`: 14.16.0  
 `npm`: 6.14.11  
 
+### .env 설정
+```
+JWT_SECRET=<JWT SECRET KEY>
+AES_KEY=<AES KEY>
+API_KEY=<Geocoding API KEY>
+FIREBASE_PROJECT_ID=<FIREBASE PROJECT ID>
+FIREBASE_PRIVATE_KEY=<FIREBASE PRIVATE KEY>
+```
+
 ⛏ 로컬 서버
 ```
 git clone https://github.com/hacareer/ahchacha-backend.git
