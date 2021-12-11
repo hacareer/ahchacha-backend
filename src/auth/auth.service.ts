@@ -156,9 +156,6 @@ export class AuthService {
 
   async validateUser(kakaoUserDto: KakaoUserDto) {
     const kakaoId = await this.getKakaoId(kakaoUserDto);
-    if (!kakaoId) {
-      throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
-    }
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
     // 유저가 없을때
     if (user === null) {
@@ -180,6 +177,14 @@ export class AuthService {
   }
 
   async registUser(user, createUserDto: CreateUserDto) {
+    const existingUser = await this.userRepository.findOne({
+      where: {
+        kakaoAccount: user.id,
+      },
+    });
+    if (existingUser) {
+      throw new BadRequestException(Err.USER.EXISTING_USER);
+    }
     try {
       const {id, type} = user;
       const {nickname, vaccination, univId, address, deviceId} = createUserDto;

@@ -8,6 +8,10 @@ export const Err = {
       code: 400,
       message: '사용자가 존재하지 않습니다.',
     },
+    EXISTING_USER: {
+      code: 400,
+      message: '이미 존재하는 사용자입니다.',
+    },
   },
   TOKEN: {
     INVALID_TOKEN: {
