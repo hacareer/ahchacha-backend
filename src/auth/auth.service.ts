@@ -66,6 +66,14 @@ export class AuthService {
   }
 
   async reissueRefreshToken(user: User) {
+    const existingUser = await this.userRepository.findOne({
+      where: {
+        id: user.id,
+      },
+    });
+    if (!existingUser) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
     const payload = {
       id: user.id,
       nickname: user.nickname,
@@ -97,7 +105,8 @@ export class AuthService {
       .set({refreshToken})
       .where('user.id = :id', {id: user.id})
       .execute();
-    return {refreshToken, tokenExp};
+    const access_token = await this.createAccessToken(user);
+    return {access_token, refresh_token: {refreshToken, tokenExp}};
   }
 
   onceToken(kakaoId: string) {

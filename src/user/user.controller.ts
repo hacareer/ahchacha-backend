@@ -11,7 +11,7 @@ import {
   Res,
 } from '@nestjs/common';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
-import {Post} from '@nestjs/common';
+import {Post, BadRequestException} from '@nestjs/common';
 import {JwtRefreshGuard} from 'src/auth/guard/jwt-refreshToken-auth.guard';
 import {KakaoUserDto} from './dto/kakao-user.dto';
 import {CreateUserDto} from './dto/create-user.dto';
@@ -19,6 +19,7 @@ import {User} from 'src/common/decorator/user.decorator';
 import {UserService} from 'src/user/user.service';
 import {ApiDocs} from './user.docs';
 import {UpdateUserDto} from './dto/update-user.dto';
+import {Err} from 'src/error';
 
 @Controller('user')
 @ApiTags('user')
@@ -53,12 +54,7 @@ export class UserController {
   @ApiDocs.getRefreshToken('refreshToken 재발급 API')
   @Get('auth/refreshToken')
   async getRefreshToken(@User() user) {
-    const access_token = await this.authService.createAccessToken(user);
-    const refresh_token = await this.authService.reissueRefreshToken(user);
-    return {
-      access_token,
-      refresh_token,
-    };
+    return await this.authService.reissueRefreshToken(user);
   }
 
   @UseGuards(JwtAuthGuard)
