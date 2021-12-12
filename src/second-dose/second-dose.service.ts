@@ -1,10 +1,10 @@
 import {Injectable, BadRequestException} from '@nestjs/common';
-import {User} from 'src/user/entities/user.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {SecondDose} from './entities/second-dose.entity';
 import {Univ} from './../univ/entities/univ.entity';
-import {Err} from 'src/error';
+import {User} from './../user/entities/user.entity';
+import {Err} from './../error';
 
 @Injectable()
 export class SecondDoseService {
