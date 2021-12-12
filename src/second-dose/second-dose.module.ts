@@ -6,12 +6,13 @@ import {SecondDose} from './entities/second-dose.entity';
 import {UserModule} from './../user/user.module';
 import {AuthModule} from 'src/auth/auth.module';
 import {User} from 'src/user/entities/user.entity';
+import {Univ} from './../univ/entities/univ.entity';
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
-    TypeOrmModule.forFeature([SecondDose, User]),
+    TypeOrmModule.forFeature([SecondDose, User, Univ]),
   ],
   controllers: [SecondDoseController],
   providers: [SecondDoseService],
