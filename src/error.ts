@@ -42,7 +42,12 @@ export const Err = {
   KAKAO: {
     NOT_FOUND: {
       code: 400,
-      message: '존재하지 않는 카카오 계정입니다.',
+      message: '카카오 계정이 존재하지 않습니다.',
     },
   },
+  UNIV: {
+    NOT_FOUND: {
+      code: 400,
+      message: '학교 존재하지 않습니다.',
+    },
 };

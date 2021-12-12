@@ -16,62 +16,61 @@ export class UserService {
   ) {}
 
   async findUserByKakaoId(kakaoId: string): Promise<User> {
-    const user = await this.userRepository.findOne({
+    const existingUser = await this.userRepository.findOne({
       where: {
         kakaoAccount: kakaoId,
       },
     });
-    if (!user) {
+    if (!existingUser) {
       return null;
     }
-    return user;
+    return existingUser;
   }
 
   async findUserById(id: number) {
-    const user = await this.userRepository.findOne({
+    const existingUser = await this.userRepository.findOne({
       where: {
         id,
       },
     });
-    if (!user) {
+    if (!existingUser) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
     }
-    return user;
+    return existingUser;
   }
 
   async getLoginInfo(userId: number) {
-    const user = await this.userRepository.findOne({
+    const existingUser = await this.userRepository.findOne({
       where: {
         id: userId,
       },
       relations: ['location', 'univ'],
     });
-    if (!user) {
+    if (!existingUser) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
     }
-    return user;
+    return existingUser;
   }
 
   async checkUserBynickname(nickname: string) {
-    const user = await this.userRepository.findOne({
+    const existingUser = await this.userRepository.findOne({
       where: {
         nickname,
       },
     });
-    if (user) {
+    if (existingUser) {
       throw new BadRequestException(Err.USER.EXISTING_USER_NICKNAME);
     }
     return '닉네임 사용 가능합니다';
   }
 
   async updateUserInfo(userId: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.findOne({
+    const existingUser = await this.userRepository.findOne({
       where: {
         id: userId,
       },
-      relations: ['location', 'univ'],
     });
-    if (!user) {
+    if (!existingUser) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
     }
     if (updateUserDto.univId) {
