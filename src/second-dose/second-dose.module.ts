@@ -4,9 +4,9 @@ import {SecondDoseController} from './second-dose.controller';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {SecondDose} from './entities/second-dose.entity';
 import {UserModule} from './../user/user.module';
-import {AuthModule} from 'src/auth/auth.module';
-import {User} from 'src/user/entities/user.entity';
 import {Univ} from './../univ/entities/univ.entity';
+import {AuthModule} from './../auth/auth.module';
+import {User} from './../user/entities/user.entity';
 
 @Module({
   imports: [
