@@ -10,9 +10,7 @@ import {Err} from './../error';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(Univ)
-    private readonly univRepository: Repository<Univ>,
+    private readonly userRepository: Repository<User>, // @InjectRepository(Univ) // private readonly univRepository: Repository<Univ>,
   ) {}
 
   async findUserByKakaoId(kakaoId: string) {
@@ -74,19 +72,19 @@ export class UserService {
     if (!user) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
     }
-    if (updateUserDto.univId) {
-      const univ = await this.univRepository.findOne({
-        where: {
-          id: updateUserDto.univId,
-        },
-      });
-      await this.userRepository.update(userId, {univ});
-    }
-    if (updateUserDto.nickname) {
-      await this.userRepository.update(userId, {
-        nickname: updateUserDto.nickname,
-      });
-    }
+    // if (updateUserDto.univId) {
+    //   const univ = await this.univRepository.findOne({
+    //     where: {
+    //       id: updateUserDto.univId,
+    //     },
+    //   });
+    //   await this.userRepository.update(userId, {univ});
+    // }
+    // if (updateUserDto.nickname) {
+    //   await this.userRepository.update(userId, {
+    //     nickname: updateUserDto.nickname,
+    //   });
+    // }
     return 'Record successfully updated';
   }
 }

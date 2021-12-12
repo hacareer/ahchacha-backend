@@ -10,16 +10,16 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {Post, BadRequestException} from '@nestjs/common';
-import {JwtRefreshGuard} from 'src/auth/guard/jwt-refreshToken-auth.guard';
 import {KakaoUserDto} from './dto/kakao-user.dto';
 import {CreateUserDto} from './dto/create-user.dto';
-import {User} from 'src/common/decorator/user.decorator';
-import {UserService} from 'src/user/user.service';
 import {ApiDocs} from './user.docs';
 import {UpdateUserDto} from './dto/update-user.dto';
 import {Err} from 'src/error';
+import {User} from './../common/decorator/user.decorator';
+import {JwtAuthGuard} from './../auth/guard/jwt-auth.guard';
+import {JwtRefreshGuard} from './../auth/guard/jwt-refreshToken-auth.guard';
+import {UserService} from './user.service';
 
 @Controller('user')
 @ApiTags('user')

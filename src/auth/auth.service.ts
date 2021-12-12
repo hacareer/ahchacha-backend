@@ -3,7 +3,6 @@ import {JwtService} from '@nestjs/jwt';
 import * as CryptoJS from 'crypto-js';
 import {Repository} from 'typeorm';
 import {UserService} from './../user/user.service';
-import {User} from 'src/user/entities/user.entity';
 import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
 import {HttpService} from '@nestjs/axios';
 import {catchError, lastValueFrom, map} from 'rxjs';
@@ -12,6 +11,7 @@ import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
 import {Err} from './../error';
 import {CreateUserDto} from 'src/user/dto/create-user.dto';
+import {User} from './../user/entities/user.entity';
 
 @Injectable()
 export class AuthService {

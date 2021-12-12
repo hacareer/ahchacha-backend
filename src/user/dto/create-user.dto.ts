@@ -1,6 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
-import {Vaccination} from 'src/constants';
+import {Vaccination} from './../../constants';
 
 export class CreateUserDto {
   @IsString()

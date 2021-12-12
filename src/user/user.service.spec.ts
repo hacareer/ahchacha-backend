@@ -16,8 +16,8 @@ describe('UserService', () => {
     userRepository = module.get<UserRepository>(UserRepository);
   });
 
-  describe('유저 정보 조회', () => {
-    it('존재하지 않는 유저 정보를 조회할 경우 NotFoundError가 반환된다', async () => {
+  describe('카카오Id로 유저 정보 조회', () => {
+    it('존재하지 않는 유저 정보를 조회할 경우 null이 반환된다', async () => {
       const kakaoId = faker.datatype.IsString();
 
       const userRepositoryFindOneSpy = jest
