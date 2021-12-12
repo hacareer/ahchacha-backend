@@ -2,15 +2,14 @@ import {
   BadRequestException,
   ExecutionContext,
   HttpException,
-  HttpStatus,
   Injectable,
 } from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 import {AuthGuard} from '@nestjs/passport';
 import * as CryptoJS from 'crypto-js';
-import {UserService} from 'src/user/user.service';
 import {AuthService} from '../auth.service';
 import {Err} from './../../error';
+import {UserService} from './../../user/user.service';
 
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard('jwt') {

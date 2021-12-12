@@ -1,148 +1,67 @@
 import {Test, TestingModule} from '@nestjs/testing';
 import {UserService} from './user.service';
-import {UserRepository} from './user.repository';
-import * as faker from 'faker';
+import {User} from './entities/user.entity';
+import {getRepositoryToken} from '@nestjs/typeorm';
+import {Univ} from './../univ/entities/univ.entity';
+
+class MockUserRepository {
+  #data = [
+    {
+      id: 1,
+      nickname: 'test',
+      kakaoAccount: 'test',
+      vaccination: 'NO',
+      deviceId: 'test',
+      locationId: 1,
+    },
+  ];
+  async findOne({where: {kakaoAccount: kakaoId}}): Promise<{
+    id: number;
+    nickname: string;
+    kakaoAccount: string;
+    vaccination: string;
+    deviceId: string;
+    locationId: number;
+  }> {
+    const data = this.#data.find((v) => v.kakaoAccount === kakaoId);
+    if (data) {
+      return data;
+    }
+    return null;
+  }
+}
+class MockUnivRepository {}
 
 describe('UserService', () => {
-  let userService: UserService;
-  let userRepository: UserRepository;
+  let service: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserService, UserRepository],
+      providers: [
+        UserService,
+        {provide: getRepositoryToken(User), useClass: MockUserRepository},
+        {provide: getRepositoryToken(Univ), useClass: MockUnivRepository},
+      ],
     }).compile();
 
-    userService = module.get<UserService>(UserService);
-    userRepository = module.get<UserRepository>(UserRepository);
+    service = module.get<UserService>(UserService);
   });
 
-  describe('카카오Id로 유저 정보 조회', () => {
-    it('존재하지 않는 유저 정보를 조회할 경우 null이 반환된다', async () => {
-      const kakaoId = faker.datatype.IsString();
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
-      const userRepositoryFindOneSpy = jest
-        .spyOn(userRepository, 'findOne')
-        .mockResolvedValue(undefined);
-
-      try {
-        await userService.findUserByKakaoId(kakaoId);
-      } catch (e) {
-        expect(e).toBeInstanceOf(null);
-      }
-
-      expect(userRepositoryFindOneSpy).toHaveBeenCalledWith({
-        where: {
-          kakaoAccount: kakaoId,
-        },
-      });
+  it('findUserByKakaoId은 카카오 ID로 유저 정보 조회', () => {
+    expect(service.findUserByKakaoId('test')).resolves.toStrictEqual({
+      id: 1,
+      nickname: 'test',
+      kakaoAccount: 'test',
+      vaccination: 'NO',
+      deviceId: 'test',
+      locationId: 1,
     });
-
-    //   it('유저 정보를 조회해서 가져올 수 있다', async () => {
-    //     const userId = faker.datatype.number();
-
-    //     const existingUser = User.of({
-    //       id: userId,
-    //       firstName: faker.lorem.sentence(),
-    //       lastName: faker.lorem.sentence(),
-    //       isActive: true,
-    //     });
-
-    //     const userRepositoryFindOneSpy = jest
-    //       .spyOn(userRepository, 'findOne')
-    //       .mockResolvedValue(existingUser);
-
-    //     const result = await userService.getUserById(userId);
-
-    //     expect(userRepositoryFindOneSpy).toHaveBeenCalledWith({
-    //       where: {
-    //         id: userId,
-    //       },
-    //     });
-    //     expect(result).toBe(existingUser);
-    //   });
-    // });
-
-    // describe('유저 정보 수정', () => {
-    //   it('존재하지 않는 유저 정보를 수정할 경우 NotFoundError가 반환된다', async () => {
-    //     const userId = faker.datatype.number();
-
-    //     const requestDto: UserUpdateRequestDto = {
-    //       firstName: faker.lorem.sentence(),
-    //       lastName: faker.lorem.sentence(),
-    //       isActive: false,
-    //     };
-
-    //     const userRepositoryFindOneSpy = jest
-    //       .spyOn(userRepository, 'findOne')
-    //       .mockResolvedValue(undefined);
-
-    //     try {
-    //       await userService.updateUser(userId, requestDto);
-    //     } catch (e) {
-    //       expect(e).toBeInstanceOf(NotFoundException);
-    //       expect(e.message).toBe(Message.NOT_FOUND_USER);
-    //     }
-
-    //     expect(userRepositoryFindOneSpy).toHaveBeenCalledWith({
-    //       where: {
-    //         id: userId,
-    //       },
-    //     });
-    //   });
-
-    //   it('유저 정보가 수정된다', async () => {
-    //     const userId = faker.datatype.number();
-
-    //     const requestDto: UserUpdateRequestDto = {
-    //       firstName: faker.lorem.sentence(),
-    //       lastName: faker.lorem.sentence(),
-    //       isActive: false,
-    //     };
-
-    //     const existingUser = User.of({
-    //       id: userId,
-    //       firstName: faker.lorem.sentence(),
-    //       lastName: faker.lorem.sentence(),
-    //       isActive: true,
-    //     });
-
-    //     const savedUser = User.of({
-    //       id: userId,
-    //       ...requestDto,
-    //     });
-
-    //     const userRepositoryFindOneSpy = jest
-    //       .spyOn(userRepository, 'findOne')
-    //       .mockResolvedValue(existingUser);
-
-    //     const userRepositorySaveSpy = jest
-    //       .spyOn(userRepository, 'save')
-    //       .mockResolvedValue(savedUser);
-
-    //     const result = await userService.updateUser(userId, requestDto);
-
-    //     expect(userRepositoryFindOneSpy).toHaveBeenCalledWith({
-    //       where: {
-    //         id: userId,
-    //       },
-    //     });
-    //     expect(userRepositorySaveSpy).toHaveBeenCalledWith(savedUser);
-    //     expect(result).toEqual(savedUser);
-    //   });
-    // });
-
-    // describe('유저 정보 삭제', () => {
-    //   it('유저 정보가 삭제된다', async () => {
-    //     const userId = faker.datatype.number();
-
-    //     const userRepositoryDeleteSpy = jest
-    //       .spyOn(userRepository, 'delete')
-    //       .mockResolvedValue({} as DeleteResult);
-
-    //     const result = await userService.removeUser(userId);
-
-    //     expect(userRepositoryDeleteSpy).toHaveBeenCalledWith(userId);
-    //     expect(result).toBe(undefined);
-    //   });
+  });
+  it('findUserByKakaoId은 유저를 찾지 못하면 null을 반환해야함', () => {
+    expect(service.findUserByKakaoId('t')).resolves.toStrictEqual(null);
   });
 });
