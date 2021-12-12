@@ -1,8 +1,10 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, BadRequestException} from '@nestjs/common';
 import {User} from 'src/user/entities/user.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {SecondDose} from './entities/second-dose.entity';
+import {Univ} from './../univ/entities/univ.entity';
+import {Err} from 'src/error';
 
 @Injectable()
 export class SecondDoseService {
@@ -11,6 +13,8 @@ export class SecondDoseService {
     private readonly secondDoseRepository: Repository<SecondDose>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Univ)
+    private readonly univRepository: Repository<Univ>,
   ) {}
 
   async create(userId: number) {
@@ -26,6 +30,14 @@ export class SecondDoseService {
   }
 
   async countByUniv(univId: number, from: string, to: string) {
+    const existingUniv = await this.univRepository.findOne({
+      where: {
+        id: univId,
+      },
+    });
+    if (!existingUniv) {
+      throw new BadRequestException(Err.UNIV.NOT_FOUND);
+    }
     const number = await this.secondDoseRepository
       .createQueryBuilder('secondDose')
       .innerJoin('secondDose.user', 'user')
