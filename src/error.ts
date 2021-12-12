@@ -50,4 +50,5 @@ export const Err = {
       code: 400,
       message: '학교 존재하지 않습니다.',
     },
+  },
 };

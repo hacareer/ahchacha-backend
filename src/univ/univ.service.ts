@@ -1,9 +1,8 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, BadRequestException} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {User} from 'src/user/entities/user.entity';
 import {Repository} from 'typeorm';
-import {CreateUnivDto} from './dto/create-univ.dto';
 import {Univ} from './entities/univ.entity';
+import {Err} from 'src/error';
 
 @Injectable()
 export class UnivService {
@@ -24,6 +23,14 @@ export class UnivService {
   }
 
   async findByUnivId(univId: number) {
+    const existingUniv = await this.univRepository.findOne({
+      where: {
+        id: univId,
+      },
+    });
+    if (!existingUniv) {
+      throw new BadRequestException(Err.UNIV.NOT_FOUND);
+    }
     return await this.univRepository.findOne({id: univId});
   }
 }
