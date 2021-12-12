@@ -6,6 +6,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {UnivComment} from './entities/univ-comment.entity';
 import {Err} from './../error';
+import {Univ} from './../univ/entities/univ.entity';
 
 @Injectable()
 export class UnivCommentService {
@@ -41,7 +42,7 @@ export class UnivCommentService {
       },
     });
     if (!existingUniv) {
-      throw new BadRequestException(Err.USER.NOT_FOUND);
+      throw new BadRequestException(Err.UNIV.NOT_FOUND);
     }
     return await this.univCommentRepository
       .createQueryBuilder('univComment')
