@@ -22,15 +22,15 @@ export class UnivService {
       .getMany();
   }
 
-  async findByUnivId(univId: number) {
+  async findByUnivId(id: number) {
     const existingUniv = await this.univRepository.findOne({
       where: {
-        id: univId,
+        id,
       },
     });
     if (!existingUniv) {
       throw new BadRequestException(Err.UNIV.NOT_FOUND);
     }
-    return await this.univRepository.findOne({id: univId});
+    return existingUniv;
   }
 }

@@ -39,10 +39,10 @@ export class UserService {
     return existingUser;
   }
 
-  async getLoginInfo(userId: number) {
+  async getLoginInfo(id: number) {
     const existingUser = await this.userRepository.findOne({
       where: {
-        id: userId,
+        id,
       },
       relations: ['location', 'univ'],
     });
@@ -64,10 +64,10 @@ export class UserService {
     return '닉네임 사용 가능합니다';
   }
 
-  async updateUserInfo(userId: number, updateUserDto: UpdateUserDto) {
+  async updateUserInfo(id: number, updateUserDto: UpdateUserDto) {
     const existingUser = await this.userRepository.findOne({
       where: {
-        id: userId,
+        id,
       },
     });
     if (!existingUser) {
@@ -79,10 +79,10 @@ export class UserService {
           id: updateUserDto.univId,
         },
       });
-      await this.userRepository.update(userId, {univ});
+      await this.userRepository.update(id, {univ});
     }
     if (updateUserDto.nickname) {
-      await this.userRepository.update(userId, {
+      await this.userRepository.update(id, {
         nickname: updateUserDto.nickname,
       });
     }
