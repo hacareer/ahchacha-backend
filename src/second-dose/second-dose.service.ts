@@ -18,15 +18,12 @@ export class SecondDoseService {
   ) {}
 
   async create(userId: number) {
-    const existingUser = await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         id: userId,
       },
     });
-    if (!existingUser) {
-      return null;
-    }
-    return await this.secondDoseRepository.save({user: existingUser});
+    return await this.secondDoseRepository.save({user});
   }
 
   async countByUniv(univId: number, from: string, to: string) {

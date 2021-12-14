@@ -48,7 +48,13 @@ export const Err = {
   UNIV: {
     NOT_FOUND: {
       code: 400,
-      message: '학교 존재하지 않습니다.',
+      message: '학교가 존재하지 않습니다.',
+    },
+  },
+  LOCATION: {
+    NOT_FOUND: {
+      code: 400,
+      message: '위치가 존재하지 않습니다.',
     },
   },
 };
