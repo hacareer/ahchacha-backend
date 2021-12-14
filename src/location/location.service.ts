@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, BadRequestException} from '@nestjs/common';
 import {CreateLocationDto} from './dto/create-location.dto';
 import {UpdateLocationDto} from './dto/update-location.dto';
 import {HttpService} from '@nestjs/axios';
@@ -8,6 +8,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from './../user/entities/user.entity';
 import {ChangeAddressToCoordinateDto} from './dto/change-address-to-coordinate.dto';
+import {Err} from './../error';
 
 @Injectable()
 export class LocationService {
@@ -87,14 +88,19 @@ export class LocationService {
   }
 
   async getLocInfo(locationId: number) {
-    return await this.locationRepository.findOne({
+    const existingLoc = await this.locationRepository.findOne({
       where: {
         id: locationId,
       },
     });
+    if (!existingLoc) {
+      throw new BadRequestException(Err.UNIV.NOT_FOUND);
+    }
+    return existingLoc;
   }
 
   async update(locationId: number, updateLocationDto: UpdateLocationDto) {
+    await this.getLocInfo(locationId);
     let lat;
     let lng;
     let address;

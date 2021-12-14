@@ -18,19 +18,16 @@ export class UnivCommentService {
     private readonly userRepository: Repository<User>,
   ) {}
   async create(userId: number, createUnivCommentDto: CreateUnivCommentDto) {
-    const existingUser = await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         id: userId,
       },
       relations: ['univ'],
     });
-    if (!existingUser) {
-      throw new BadRequestException(Err.USER.NOT_FOUND);
-    }
     return await this.univCommentRepository.save({
       content: createUnivCommentDto.content,
-      user: existingUser,
-      univ: existingUser.univ,
+      user,
+      univ: user.univ,
     });
   }
 

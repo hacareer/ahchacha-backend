@@ -40,15 +40,33 @@ export const Err = {
     },
   },
   KAKAO: {
-    NOT_FOUND: {
-      code: 400,
-      message: '카카오 계정이 존재하지 않습니다.',
+    INVALID_TOKEN: {
+      code: 401,
+      message: '유효하지 않은 토큰입니다.',
     },
   },
   UNIV: {
     NOT_FOUND: {
       code: 400,
-      message: '학교 존재하지 않습니다.',
+      message: '학교가 존재하지 않습니다.',
+    },
+  },
+  LOCATION: {
+    NOT_FOUND: {
+      code: 400,
+      message: '위치가 존재하지 않습니다.',
+    },
+  },
+  CLINIC: {
+    NOT_FOUND: {
+      code: 400,
+      message: '선별진료소가 존재하지 않습니다.',
+    },
+  },
+  CHECK_UP: {
+    NOT_FOUND: {
+      code: 400,
+      message: '검사일정이 존재하지 않습니다.',
     },
   },
 };

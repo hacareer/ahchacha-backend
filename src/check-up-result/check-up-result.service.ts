@@ -19,7 +19,7 @@ export class CheckUpResultService {
   ) {}
 
   async create(userId: number, createCheckUpResultDto: CreateCheckUpResultDto) {
-    const existingUser = await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         id: userId,
       },
@@ -29,7 +29,7 @@ export class CheckUpResultService {
     return await this.checkUpResultRepository.save({
       startTime: createCheckUpResultDto.startTime,
       finishTime,
-      user: existingUser,
+      user,
     });
   }
 
@@ -41,7 +41,7 @@ export class CheckUpResultService {
     if (to === undefined) {
       to = '2800-01-01 00:00';
     }
-    const existingUser = await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         id: userId,
       },
@@ -49,7 +49,7 @@ export class CheckUpResultService {
     return await this.checkUpResultRepository
       .createQueryBuilder('checkUpResult')
       .innerJoin('checkUpResult.user', 'user')
-      .where('user.id =:userId', {userId: existingUser.id})
+      .where('user.id =:userId', {userId: user.id})
       .andWhere(
         `checkUpResult.startTime 
       BETWEEN '${from}' AND '${to}'`,

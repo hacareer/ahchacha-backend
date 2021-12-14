@@ -1,8 +1,8 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, BadRequestException} from '@nestjs/common';
 import {getManager, Repository} from 'typeorm';
 import {Clinic} from './entities/clinic.entity';
 import {InjectRepository} from '@nestjs/typeorm';
-import sequelize from 'sequelize';
+import {Err} from './../error';
 
 @Injectable()
 export class ClinicService {
@@ -36,11 +36,15 @@ export class ClinicService {
   }
 
   async findOne(clinicId: number) {
-    return await this.clinicRepository.findOne({
+    const existingClinic = await this.clinicRepository.findOne({
       where: {
         id: clinicId,
       },
       relations: ['operationHour'],
     });
+    if (!existingClinic) {
+      throw new BadRequestException(Err.CLINIC.NOT_FOUND);
+    }
+    return existingClinic;
   }
 }

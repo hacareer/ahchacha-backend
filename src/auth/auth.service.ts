@@ -148,7 +148,7 @@ export class AuthService {
           return response.data.id;
         }),
         catchError(() => {
-          throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
+          throw new BadRequestException(Err.KAKAO.INVALID_TOKEN);
         }),
       ),
     );
