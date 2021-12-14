@@ -33,7 +33,7 @@ export class CheckUpController {
   @ApiDocs.create('검사 예약 생성 API')
   async create(@User() user, @Body() createCheckUpDto: CreateCheckUpDto) {
     const createdCheckUpService = await this.checkUpService.create(
-      user,
+      user.id,
       createCheckUpDto,
     );
     const {deviceId, nickname} = await this.userService.getLoginInfo(user.id);

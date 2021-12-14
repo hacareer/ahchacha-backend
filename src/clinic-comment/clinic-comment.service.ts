@@ -30,6 +30,8 @@ export class ClinicCommentService {
     const contentList = createClinicCommentDto.contents.split(',');
     const CommentList = await Promise.all(
       contentList.map(async (content) => {
+        // TODO content 에러핸들링
+
         const commentyEntity = await this.clinicCommentRepository.save({
           content: content as ClinicCommentTag,
           user,
