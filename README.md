@@ -49,12 +49,12 @@ npm run start
 ```
 🛠 테스트 서버
  ```
- http://13.125.231.69 (현재 ECS 사용 중지)
+ http://13.125.231.69
  ```
  
  ## Swagger
 ```
- http://13.125.231.69/api/docs (현재 ECS 사용 중지)
+ http://13.125.231.69/api/docs
 ```
 ## ERD
 ![image](https://user-images.githubusercontent.com/66551410/143317686-37ad8307-d557-48d7-bf06-2d14bc4eb5d8.png)
