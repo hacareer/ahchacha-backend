@@ -12,7 +12,6 @@ import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {User} from 'src/common/decorator/user.decorator';
 import {ClinicCommentService} from './clinic-comment.service';
 import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
-import {UpdateClinicCommentDto} from './dto/update-clinic-comment.dto';
 import {ApiTags} from '@nestjs/swagger';
 import {ApiDocs} from './clinic-comment.docs';
 
@@ -25,7 +24,7 @@ export class ClinicCommentController {
   @Post('')
   @ApiDocs.create('선별진료소 후기 생성 API')
   create(@User() user, @Body() createClinicCommentDto: CreateClinicCommentDto) {
-    return this.clinicCommentService.create(user, createClinicCommentDto);
+    return this.clinicCommentService.create(user.id, createClinicCommentDto);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -57,4 +57,10 @@ export const Err = {
       message: '위치가 존재하지 않습니다.',
     },
   },
+  CLINIC: {
+    NOT_FOUND: {
+      code: 400,
+      message: '선별진료소가 존재하지 않습니다.',
+    },
+  },
 };
