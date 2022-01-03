@@ -3,7 +3,7 @@ import {IsNotEmpty, IsString} from 'class-validator';
 import {Vaccination} from '../../constants';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
-export class RegisterUserDto {
+export class SignUpDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({example: 'test', description: '사용자 닉네임'})
@@ -26,7 +26,7 @@ export class RegisterUserDto {
   deviceId: string;
 }
 
-export class RegisterUserResponseBodyDto extends BaseResponseDto {
+export class SignUpResponseBodyDto extends BaseResponseDto {
   @ApiProperty({example: 201})
   statusCode: number;
 

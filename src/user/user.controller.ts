@@ -1,18 +1,8 @@
 import {ApiTags} from '@nestjs/swagger';
 import {AuthService} from '../auth/auth.service';
-import {
-  Body,
-  Controller,
-  Get,
-  UseGuards,
-  Param,
-  Patch,
-  Req,
-  Res,
-} from '@nestjs/common';
+import {Body, Controller, Get, UseGuards, Param, Patch} from '@nestjs/common';
 import {Post} from '@nestjs/common';
 import {SignInDto} from './dto/sign-in.dto';
-import {RegisterUserDto} from './dto/register-user.dto';
 import {ApiDocs} from './user.docs';
 import {User} from './../common/decorator/user.decorator';
 import {JwtAuthGuard} from './../auth/guard/jwt-auth.guard';
@@ -35,10 +25,10 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @ApiDocs.registUser('회원가입 API')
+  @ApiDocs.signUp('회원가입 API')
   @Post('auth/signup')
-  async registUser(@User() user, @Body() registerUserDto: RegisterUserDto) {
-    return this.authService.registUser(user, registerUserDto);
+  async signUp(@User() user, @Body() registerUserDto: RegisterUserDto) {
+    return this.authService.signUp(user, registerUserDto);
   }
 
   @UseGuards(JwtRefreshGuard)

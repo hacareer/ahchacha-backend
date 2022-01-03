@@ -8,13 +8,10 @@ import {
 import {UserController} from './user.controller';
 import {GetMyInfoResponseBodyDto} from './dto/get-my-info.dto';
 import {SignInResponseBodyDto} from './dto/sign-in.dto';
-import {RegisterUserResponseBodyDto} from './dto/register-user.dto';
+import {SignUpResponseBodyDto} from './dto/sign-up.dto';
 import {GetAccessTokenResponseBodyDto} from './dto/get-access-token.dto';
 import {GetRefreshTokenResponseBodyDto} from './dto/get-refresh-token.dto';
-import {
-  UpdateMyInfoResponseDto,
-  UpdateMyInfoResponseBodyDto,
-} from './dto/update-my-info.dto';
+import {UpdateMyInfoResponseBodyDto} from './dto/update-my-info.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -37,7 +34,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiResponse({status: 500, description: '유효하지 않은 토큰입니다.'}),
     );
   },
-  registUser(summary: string) {
+  signUp(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -48,7 +45,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 201,
-        type: RegisterUserResponseBodyDto,
+        type: SignUpResponseBodyDto,
         description: '회원가입이 완료되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

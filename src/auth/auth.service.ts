@@ -10,7 +10,6 @@ import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
 import {Err} from './../error';
 import {User} from './../user/entities/user.entity';
-import {RegisterUserDto} from '../user/dto/register-user.dto';
 import {SignInDto} from '../user/dto/sign-in.dto';
 
 @Injectable()
@@ -176,7 +175,7 @@ export class AuthService {
     };
   }
 
-  async registUser(user: any, registerUserDto: RegisterUserDto) {
+  async signUp(user: any, registerUserDto: RegisterUserDto) {
     const {id, type} = user;
     const {nickname, vaccination, univId, address, deviceId} = registerUserDto;
     if (type === 'login_token') {
