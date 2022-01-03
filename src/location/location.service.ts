@@ -61,33 +61,33 @@ export class LocationService {
     return response;
   }
 
-  async create(userId: number, createLocationDto: CreateLocationDto) {
-    let lat;
-    let lng;
+  async createLocation(userId: number, createLocationDto: CreateLocationDto) {
+    let latitude;
+    let longitude;
     let address;
     if (createLocationDto.address !== null) {
       const coordinate = await this.getAddress(createLocationDto.address);
-      lat = coordinate.lat;
-      lng = coordinate.lng;
+      latitude = coordinate.lat;
+      longitude = coordinate.lng;
       address = createLocationDto.address;
     } else {
-      lat = createLocationDto.lat;
-      lng = createLocationDto.lng;
+      latitude = createLocationDto.latitude;
+      longitude = createLocationDto.longitude;
       address = await this.getCoordinate(
-        createLocationDto.lat,
-        createLocationDto.lng,
+        createLocationDto.latitude,
+        createLocationDto.longitude,
       );
     }
     const location = await this.locationRepository.save({
       address: address,
-      latitude: lat,
-      longitude: lng,
+      latitude,
+      longitude,
     });
     await this.userRepository.update(userId, {location});
     return location;
   }
 
-  async getLocInfo(locationId: number) {
+  async getLocationInfo(locationId: number) {
     const existingLoc = await this.locationRepository.findOne({
       where: {
         id: locationId,
@@ -99,33 +99,36 @@ export class LocationService {
     return existingLoc;
   }
 
-  async update(locationId: number, updateLocationDto: UpdateLocationDto) {
-    await this.getLocInfo(locationId);
-    let lat;
-    let lng;
+  async updateLocation(
+    locationId: number,
+    updateLocationDto: UpdateLocationDto,
+  ) {
+    await this.getLocationInfo(locationId);
+    let latitude;
+    let longitude;
     let address;
     if (updateLocationDto.address) {
       const coordinate = await this.getAddress(updateLocationDto.address);
-      lat = coordinate.lat;
-      lng = coordinate.lng;
+      latitude = coordinate.lat;
+      longitude = coordinate.lng;
       address = updateLocationDto.address;
     } else {
-      lat = updateLocationDto.lat;
-      lng = updateLocationDto.lng;
+      latitude = updateLocationDto.latitude;
+      longitude = updateLocationDto.longitude;
       address = await this.getCoordinate(
-        updateLocationDto.lat,
-        updateLocationDto.lng,
+        updateLocationDto.latitude,
+        updateLocationDto.longitude,
       );
     }
     await this.locationRepository.update(locationId, {
       address,
-      latitude: lat,
-      longitude: lng,
+      latitude,
+      longitude,
     });
     return 'update success';
   }
 
-  async changeAddresstoCoordinate(
+  async changeAddressToCoordinate(
     changeAddressToCoordinateDto: ChangeAddressToCoordinateDto,
   ) {
     const _url = 'https://maps.googleapis.com/maps/api/geocode/json';

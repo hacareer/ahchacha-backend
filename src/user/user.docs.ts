@@ -11,7 +11,10 @@ import {SignInResponseBodyDto} from './dto/sign-in.dto';
 import {RegisterUserResponseBodyDto} from './dto/register-user.dto';
 import {GetAccessTokenResponseBodyDto} from './dto/get-access-token.dto';
 import {GetRefreshTokenResponseBodyDto} from './dto/get-refresh-token.dto';
-import {UpdateMyInfoResponseDto} from './dto/update-my-info.dto';
+import {
+  UpdateMyInfoResponseDto,
+  UpdateMyInfoResponseBodyDto,
+} from './dto/update-my-info.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -150,7 +153,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
-        type: UpdateMyInfoResponseDto,
+        type: UpdateMyInfoResponseBodyDto,
         description: '사용자 정보가 성공적으로 갱신되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

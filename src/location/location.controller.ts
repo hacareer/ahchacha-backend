@@ -23,35 +23,35 @@ export class LocationController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @ApiDocs.create('위치 정보 생성 API')
-  create(@User() user, @Body() createLocationDto: CreateLocationDto) {
-    return this.locationService.create(user.id, createLocationDto);
+  @ApiDocs.createLocation('위치 정보 생성 API')
+  createLocation(@User() user, @Body() createLocationDto: CreateLocationDto) {
+    return this.locationService.createLocation(user.id, createLocationDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':locationId')
-  @ApiDocs.getLocInfo('위치 정보 조회 API')
-  getLocInfo(@Param('locationId') locationId: number) {
-    return this.locationService.getLocInfo(locationId);
+  @ApiDocs.getLocationInfo('위치 정보 조회 API')
+  getLocationInfo(@Param('locationId') locationId: number) {
+    return this.locationService.getLocationInfo(locationId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':locationId')
-  @ApiDocs.update('위치 정보 갱신 API')
-  update(
+  @ApiDocs.updateLocation('위치 정보 갱신 API')
+  updateLocation(
     @Param('locationId') locationId: number,
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
-    return this.locationService.update(locationId, updateLocationDto);
+    return this.locationService.updateLocation(locationId, updateLocationDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('coordinate')
-  @ApiDocs.changeAddresstoCoordinate('좌표 제공 API')
-  changeAddresstoCoordinate(
+  @ApiDocs.changeAddressToCoordinate('좌표 제공 API')
+  changeAddressToCoordinate(
     @Body() changeAddressToCoordinateDto: ChangeAddressToCoordinateDto,
   ) {
-    return this.locationService.changeAddresstoCoordinate(
+    return this.locationService.changeAddressToCoordinate(
       changeAddressToCoordinateDto,
     );
   }

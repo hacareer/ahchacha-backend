@@ -197,15 +197,18 @@ export class AuthService {
         });
         user.univ = univ;
       }
-      const lat = null;
-      const lng = null;
+      const latitude = null;
+      const longitude = null;
       const createdUser = await this.userRepository.save(user);
       if (address) {
-        const location = await this.locationService.create(createdUser.id, {
-          address,
-          lat,
-          lng,
-        });
+        const location = await this.locationService.createLocation(
+          createdUser.id,
+          {
+            address,
+            latitude,
+            longitude,
+          },
+        );
         user.location = location;
       }
       const access_token = await this.createAccessToken(createdUser);

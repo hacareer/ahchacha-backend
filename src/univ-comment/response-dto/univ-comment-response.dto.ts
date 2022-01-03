@@ -1,9 +1,8 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty} from 'class-validator';
 import {UnivCommentTag} from 'src/constants';
-import {CreateUnivResponseDto} from './../../univ/response-dto/create-univ-response.dto';
-import {univResponseDto} from './../../univ/response-dto/univ-response.dto';
 import {BaseUserResponseDto} from './../../user/dto/base-user.dto';
+import {BaseUnivResponseDto} from './../../univ/dto/base-univ.dto';
 
 export class UnivCommentResponseDto {
   @ApiProperty({example: '1'})
@@ -17,5 +16,5 @@ export class UnivCommentResponseDto {
   user: BaseUserResponseDto;
 
   @ApiProperty()
-  univ: univResponseDto;
+  univ: BaseUnivResponseDto;
 }

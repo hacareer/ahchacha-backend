@@ -1,7 +1,7 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
 import {IsString, IsNotEmpty} from 'class-validator';
 
-export class univResponseDto {
+export class BaseUnivResponseDto {
   @ApiProperty({example: '1'})
   id: number;
 
