@@ -6,8 +6,8 @@ import {
   ApiParam,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import {CreateUnivResponseDto} from './response-dto/create-univ-response.dto';
 import {UnivController} from './univ.controller';
+import {FindAllResponseBodyDto} from './dto/find-all.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
@@ -23,7 +23,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivController> = {
       }),
       ApiResponse({
         status: 200,
-        type: CreateUnivResponseDto,
+        type: FindAllResponseBodyDto,
         description: '학교정보가 정상적으로 조회되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
@@ -45,7 +45,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivController> = {
       }),
       ApiResponse({
         status: 200,
-        type: CreateUnivResponseDto,
+        type: FindAllResponseBodyDto,
         description: '학교정보가 정상적으로 조회되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
@@ -67,7 +67,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivController> = {
       }),
       ApiResponse({
         status: 200,
-        type: CreateUnivResponseDto,
+        type: FindAllResponseBodyDto,
         description: '학교정보가 정상적으로 조회되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
