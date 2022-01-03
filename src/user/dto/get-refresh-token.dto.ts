@@ -1,7 +1,7 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
 import {BaseResponseDto} from './../../common/dto/base-response.dto';
 
-export class refreshTokenResponseDto extends BaseResponseDto {
+export class GetRefreshTokenResponseBodyDto extends BaseResponseDto {
   @ApiProperty({example: 200})
   statusCode: number;
 

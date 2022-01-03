@@ -1,5 +1,5 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
-import {userResponseDto} from './../../user/response-dto/user-response.dto';
+import {userResponseDto} from '../../user/dto/base-user.dto';
 
 export class CheckUpResultResponseDto {
   @ApiProperty({example: '1'})

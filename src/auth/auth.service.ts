@@ -3,15 +3,15 @@ import {JwtService} from '@nestjs/jwt';
 import * as CryptoJS from 'crypto-js';
 import {Repository} from 'typeorm';
 import {UserService} from './../user/user.service';
-import {KakaoUserDto} from 'src/user/dto/kakao-user.dto';
 import {HttpService} from '@nestjs/axios';
 import {catchError, lastValueFrom, map} from 'rxjs';
 import {InjectRepository} from '@nestjs/typeorm';
 import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
 import {Err} from './../error';
-import {CreateUserDto} from 'src/user/dto/create-user.dto';
 import {User} from './../user/entities/user.entity';
+import {RegisterUserDto} from '../user/dto/register-user.dto';
+import {SignInDto} from '../user/dto/sign-in.dto';
 
 @Injectable()
 export class AuthService {
@@ -135,8 +135,8 @@ export class AuthService {
     });
   }
 
-  async getKakaoId(kakaoUserDto: KakaoUserDto) {
-    const token = kakaoUserDto.kakaoToken;
+  async getKakaoId(signInDto: SignInDto) {
+    const token = signInDto.kakaoToken;
     const _url = 'https://kapi.kakao.com/v2/user/me';
     const _header = {
       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -154,8 +154,8 @@ export class AuthService {
     );
   }
 
-  async validateUser(kakaoUserDto: KakaoUserDto) {
-    const kakaoId = await this.getKakaoId(kakaoUserDto);
+  async signIn(loginDto: LoginDto) {
+    const kakaoId = await this.getKakaoId(loginDto);
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
     // 유저가 없을때
     if (user === null) {
@@ -176,9 +176,9 @@ export class AuthService {
     };
   }
 
-  async registUser(user, createUserDto: CreateUserDto) {
+  async registUser(user: any, registerUserDto: RegisterUserDto) {
     const {id, type} = user;
-    const {nickname, vaccination, univId, address, deviceId} = createUserDto;
+    const {nickname, vaccination, univId, address, deviceId} = registerUserDto;
     if (type === 'login_token') {
       throw new BadRequestException(Err.USER.EXISTING_USER);
     }

@@ -1,10 +1,10 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
 import {Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
-import {UpdateUserDto} from './dto/update-user.dto';
 import {User} from './entities/user.entity';
 import {Univ} from './../univ/entities/univ.entity';
 import {Err} from './../error';
+import {UpdateMyInfoDto} from './dto/update-my-info.dto';
 
 @Injectable()
 export class UserService {
@@ -39,7 +39,7 @@ export class UserService {
     return existingUser;
   }
 
-  async getLoginInfo(id: number) {
+  async getMyInfo(id: number) {
     const user = await this.userRepository.findOne({
       where: {
         id,
@@ -58,18 +58,18 @@ export class UserService {
     return '닉네임 사용 가능합니다';
   }
 
-  async updateUserInfo(id: number, updateUserDto: UpdateUserDto) {
-    if (updateUserDto.univId) {
+  async updateMyInfo(id: number, updateMyInfoDto: UpdateMyInfoDto) {
+    if (updateMyInfoDto.univId) {
       const univ = await this.univRepository.findOne({
         where: {
-          id: updateUserDto.univId,
+          id: updateMyInfoDto.univId,
         },
       });
       await this.userRepository.update(id, {univ});
     }
-    if (updateUserDto.nickname) {
+    if (updateMyInfoDto.nickname) {
       await this.userRepository.update(id, {
-        nickname: updateUserDto.nickname,
+        nickname: updateMyInfoDto.nickname,
       });
     }
     return 'Record successfully updated';

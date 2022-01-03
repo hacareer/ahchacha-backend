@@ -6,19 +6,19 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import {UserController} from './user.controller';
-import {validateUserResponseDto} from './response-dto/validate-user-response.dto';
-import {registerUserResponseDto} from './response-dto/register-user-reponse.dto';
-import {refreshTokenResponseDto} from './response-dto/refresh-token-response.dto';
-import {accessTokenResponseDto} from './response-dto/access-token-response.dto';
-import {CreateUserResponseDto} from './response-dto/creat-user-response.dto';
-import {UpdateUserResponseDto} from './response-dto/update-user-response.dto';
+import {GetMyInfoResponseBodyDto} from './dto/get-my-info.dto';
+import {SignInResponseBodyDto} from './dto/sign-in.dto';
+import {RegisterUserResponseBodyDto} from './dto/register-user.dto';
+import {GetAccessTokenResponseBodyDto} from './dto/get-access-token.dto';
+import {GetRefreshTokenResponseBodyDto} from './dto/get-refresh-token.dto';
+import {UpdateMyInfoResponseDto} from './dto/update-my-info.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
 };
 
 export const ApiDocs: SwaggerMethodDoc<UserController> = {
-  validateUser(summary) {
+  signIn(summary) {
     return applyDecorators(
       ApiOperation({
         summary,
@@ -27,7 +27,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 201,
-        type: validateUserResponseDto,
+        type: SignInResponseBodyDto,
         description: '정상적으로 토큰이 발급되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다.'}),
@@ -45,7 +45,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 201,
-        type: registerUserResponseDto,
+        type: RegisterUserResponseBodyDto,
         description: '회원가입이 완료되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -64,7 +64,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
-        type: accessTokenResponseDto,
+        type: GetAccessTokenResponseBodyDto,
         description: 'refreshToken이 재발급되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -83,7 +83,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
-        type: refreshTokenResponseDto,
+        type: GetRefreshTokenResponseBodyDto,
         description: 'refreshToken을 재발급되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -96,7 +96,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  getLoginInfo(summary: string) {
+  getMyInfo(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -105,7 +105,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
-        type: CreateUserResponseDto,
+        type: GetMyInfoResponseBodyDto,
         description: '사용자 정보가 정상적으로 조회되었습니다.',
       }),
       ApiResponse({status: 2, description: '사용자가 존재하지 않습니다.'}),
@@ -141,7 +141,7 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다ㄴ'}),
     );
   },
-  updateUserInfo(summary: string) {
+  updateMyInfo(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -150,8 +150,8 @@ export const ApiDocs: SwaggerMethodDoc<UserController> = {
       }),
       ApiResponse({
         status: 200,
-        type: UpdateUserResponseDto,
-        description: '사용자 학교 정보가 성공적으로 갱신되었습니다.',
+        type: UpdateMyInfoResponseDto,
+        description: '사용자 정보가 성공적으로 갱신되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

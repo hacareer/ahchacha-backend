@@ -1,11 +1,11 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
 import {BaseResponseDto} from './../../common/dto/base-response.dto';
-import {userResponseDto} from './user-response.dto';
+import {BaseUserResponseDto} from './base-user.dto';
 
-export class CreateUserResponseDto extends BaseResponseDto {
+export class GetMyInfoResponseBodyDto extends BaseResponseDto {
   @ApiProperty({example: 200})
   statusCode: number;
 
   @ApiProperty()
-  data: userResponseDto;
+  data: BaseUserResponseDto;
 }

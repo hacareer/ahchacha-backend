@@ -1,10 +1,10 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
 import {IsString, IsNotEmpty} from 'class-validator';
-import {LocationResponseDto} from './../../location/response-dto/location-response.dto';
-import {univResponseDto} from './../../univ/response-dto/univ-response.dto';
-import {Vaccination} from './../../constants';
+import {LocationResponseDto} from '../../location/response-dto/location-response.dto';
+import {univResponseDto} from '../../univ/response-dto/univ-response.dto';
+import {Vaccination} from '../../constants';
 
-export class userResponseDto {
+export class BaseUserResponseDto {
   @ApiProperty({example: '1'})
   id: number;
 

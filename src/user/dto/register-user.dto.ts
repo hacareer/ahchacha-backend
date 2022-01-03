@@ -1,8 +1,9 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
-import {Vaccination} from './../../constants';
+import {Vaccination} from '../../constants';
+import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
-export class CreateUserDto {
+export class RegisterUserDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({example: 'test', description: '사용자 닉네임'})
@@ -23,4 +24,12 @@ export class CreateUserDto {
 
   @ApiProperty({example: '123456789', description: '사용자 기기 ID'})
   deviceId: string;
+}
+
+export class RegisterUserResponseBodyDto extends BaseResponseDto {
+  @ApiProperty({example: 201})
+  statusCode: number;
+
+  @ApiProperty({example: {access_token: '12345678', refresh_token: '12345678'}})
+  data: any;
 }

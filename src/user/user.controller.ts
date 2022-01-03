@@ -10,16 +10,15 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import {Post, BadRequestException} from '@nestjs/common';
-import {KakaoUserDto} from './dto/kakao-user.dto';
-import {CreateUserDto} from './dto/create-user.dto';
+import {Post} from '@nestjs/common';
+import {SignInDto} from './dto/sign-in.dto';
+import {RegisterUserDto} from './dto/register-user.dto';
 import {ApiDocs} from './user.docs';
-import {UpdateUserDto} from './dto/update-user.dto';
-import {Err} from 'src/error';
 import {User} from './../common/decorator/user.decorator';
 import {JwtAuthGuard} from './../auth/guard/jwt-auth.guard';
 import {JwtRefreshGuard} from './../auth/guard/jwt-refreshToken-auth.guard';
 import {UserService} from './user.service';
+import {UpdateMyInfoDto} from './dto/update-my-info.dto';
 
 @Controller('user')
 @ApiTags('user')
@@ -29,17 +28,17 @@ export class UserController {
     private readonly userService: UserService,
   ) {}
 
-  @Post('auth/login')
-  @ApiDocs.validateUser('로그인 API')
-  validateUser(@Body() kakaoUserDto: KakaoUserDto) {
-    return this.authService.validateUser(kakaoUserDto);
+  @Post('auth/sign-in')
+  @ApiDocs.signIn('로그인 API')
+  signIn(@Body() signInDto: SignInDto) {
+    return this.authService.signIn(signInDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiDocs.registUser('회원가입 API')
   @Post('auth/signup')
-  async registUser(@User() user, @Body() createUserDto: CreateUserDto) {
-    return this.authService.registUser(user, createUserDto);
+  async registUser(@User() user, @Body() registerUserDto: RegisterUserDto) {
+    return this.authService.registUser(user, registerUserDto);
   }
 
   @UseGuards(JwtRefreshGuard)
@@ -59,9 +58,9 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/my')
-  @ApiDocs.getLoginInfo('사용자 정보 조회 API')
-  getLoginInfo(@User() user) {
-    return this.userService.getLoginInfo(user.id);
+  @ApiDocs.getMyInfo('사용자 정보 조회 API')
+  getMyInfo(@User() user) {
+    return this.userService.getMyInfo(user.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -73,8 +72,8 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('/my')
-  @ApiDocs.updateUserInfo('사용자 정보 갱신 API')
-  updateUserInfo(@User() user, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUserInfo(user.id, updateUserDto);
+  @ApiDocs.updateMyInfo('사용자 정보 갱신 API')
+  updateMyInfo(@User() user, @Body() updateMyInfoDto: UpdateMyInfoDto) {
+    return this.userService.updateMyInfo(user.id, updateMyInfoDto);
   }
 }

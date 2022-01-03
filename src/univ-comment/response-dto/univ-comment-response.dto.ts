@@ -3,7 +3,7 @@ import {IsNotEmpty} from 'class-validator';
 import {UnivCommentTag} from 'src/constants';
 import {CreateUserResponseDto} from 'src/user/response-dto/creat-user-response.dto';
 import {CreateUnivResponseDto} from './../../univ/response-dto/create-univ-response.dto';
-import {userResponseDto} from './../../user/response-dto/user-response.dto';
+import {userResponseDto} from '../../user/dto/base-user.dto';
 import {univResponseDto} from './../../univ/response-dto/univ-response.dto';
 
 export class UnivCommentResponseDto {

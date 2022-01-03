@@ -1,6 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {OnlyClinicDto} from '../../clinic/response-dto/only-clinic.dto';
-import {userResponseDto} from '../../user/response-dto/user-response.dto';
+import {userResponseDto} from '../../user/dto/base-user.dto';
 
 export class JoinCreateCheckUpDto {
   @ApiProperty({example: '1'})
