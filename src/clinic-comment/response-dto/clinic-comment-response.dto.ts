@@ -1,9 +1,9 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty} from 'class-validator';
 import {ClinicCommentTag, UnivCommentTag} from 'src/constants';
-import {userResponseDto} from '../../user/dto/base-user.dto';
 import {OnlyClinicDto} from './../../clinic/response-dto/only-clinic.dto';
 import {BaseResponseDto} from './../../common/dto/base-response.dto';
+import {BaseUserResponseDto} from './../../user/dto/base-user.dto';
 
 export class CinicCommentResponseDto extends BaseResponseDto {
   @ApiProperty({example: '1'})
@@ -14,7 +14,7 @@ export class CinicCommentResponseDto extends BaseResponseDto {
   content: ClinicCommentTag;
 
   @ApiProperty()
-  user: userResponseDto;
+  user: BaseUserResponseDto;
 
   @ApiProperty()
   clinic: OnlyClinicDto;

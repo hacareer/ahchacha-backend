@@ -154,8 +154,8 @@ export class AuthService {
     );
   }
 
-  async signIn(loginDto: LoginDto) {
-    const kakaoId = await this.getKakaoId(loginDto);
+  async signIn(signInDto: SignInDto) {
+    const kakaoId = await this.getKakaoId(signInDto);
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
     // 유저가 없을때
     if (user === null) {

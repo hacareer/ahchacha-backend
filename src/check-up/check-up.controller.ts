@@ -9,7 +9,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {userInfo} from 'os';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {User} from 'src/common/decorator/user.decorator';
 import {ApiDocs} from './check-up.docs';
@@ -36,7 +35,7 @@ export class CheckUpController {
       user.id,
       createCheckUpDto,
     );
-    const {deviceId, nickname} = await this.userService.getLoginInfo(user.id);
+    const {deviceId, nickname} = await this.userService.getMyInfo(user.id);
     if (createCheckUpDto.notificationTime.length > 0) {
       await this.pushNotificationService.scheduleAlarm({
         date: createCheckUpDto.date,

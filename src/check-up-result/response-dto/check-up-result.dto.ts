@@ -1,5 +1,5 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
-import {userResponseDto} from '../../user/dto/base-user.dto';
+import {BaseUserResponseDto} from './../../user/dto/base-user.dto';
 
 export class CheckUpResultResponseDto {
   @ApiProperty({example: '1'})
@@ -18,5 +18,5 @@ export class CheckUpResultResponseDto {
   finishTime: string;
 
   @ApiProperty()
-  user: userResponseDto;
+  user: BaseUserResponseDto;
 }
