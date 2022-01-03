@@ -58,5 +58,5 @@ npm run start
 ```
 ## ERD
 ![image](https://user-images.githubusercontent.com/66551410/143317686-37ad8307-d557-48d7-bf06-2d14bc4eb5d8.png)
-## Server 아키텍쳐
+## CICD 아키텍쳐
 ![image](https://user-images.githubusercontent.com/66551410/143553684-ec4748e5-d4ba-4c63-ba80-b7c958e00eed.png)
