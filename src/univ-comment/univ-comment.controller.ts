@@ -13,9 +13,15 @@ export class UnivCommentController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @ApiDocs.create('학교 댓글 생성 API')
-  create(@User() user, @Body() createUnivCommentDto: CreateUnivCommentDto) {
-    return this.univCommentService.create(user.id, createUnivCommentDto);
+  @ApiDocs.createUnivComment('학교 댓글 생성 API')
+  createUnivComment(
+    @User() user,
+    @Body() createUnivCommentDto: CreateUnivCommentDto,
+  ) {
+    return this.univCommentService.createUnivComment(
+      user.id,
+      createUnivCommentDto,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

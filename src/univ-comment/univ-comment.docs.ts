@@ -2,20 +2,19 @@ import {applyDecorators} from '@nestjs/common';
 import {
   ApiOperation,
   ApiResponse,
-  ApiQuery,
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
 import {UnivCommentController} from './univ-comment.controller';
-import {CreateUnivCommentResponseDto} from './response-dto/create-univ-comment.dto';
-import {GetUnivCommentResponseDto} from './response-dto/get-univ-comment-response.dto';
+import {FindAllByUnivIdResponseBodyDto} from './dto/find-all-by-univ-id.dto';
+import {CreateUnivCommentResponseBodyDto} from './dto/create-univ-comment.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
 };
 
 export const ApiDocs: SwaggerMethodDoc<UnivCommentController> = {
-  create(summary) {
+  createUnivComment(summary) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -26,7 +25,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivCommentController> = {
       }),
       ApiResponse({
         status: 201,
-        type: CreateUnivCommentResponseDto,
+        type: CreateUnivCommentResponseBodyDto,
         description: '학교 댓글이 성공적으로 생성되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -53,7 +52,7 @@ export const ApiDocs: SwaggerMethodDoc<UnivCommentController> = {
       }),
       ApiResponse({
         status: 200,
-        type: GetUnivCommentResponseDto,
+        type: FindAllByUnivIdResponseBodyDto,
         description: '해당 학교의 댓글이 성공적으로 조회되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

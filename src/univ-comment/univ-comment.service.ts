@@ -17,7 +17,10 @@ export class UnivCommentService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
-  async create(userId: number, createUnivCommentDto: CreateUnivCommentDto) {
+  async createUnivComment(
+    userId: number,
+    createUnivCommentDto: CreateUnivCommentDto,
+  ) {
     const user = await this.userRepository.findOne({
       where: {
         id: userId,
