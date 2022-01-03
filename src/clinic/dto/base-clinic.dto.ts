@@ -1,9 +1,9 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
 import {Label} from 'src/constants';
-import {opearationHourResponseDto} from './opearion-hour-response.dto';
+import {BaseOpearationHourResponseDto} from './base-opearion-hour.dto';
 
-export class OnlyClinicDto {
+export class BaseClinicResponseDto {
   @IsString()
   @ApiProperty({example: '1', description: '선별진료소 ID'})
   id: number;
@@ -42,13 +42,6 @@ export class OnlyClinicDto {
   @ApiProperty({example: '123-456-789', description: '선별진료소 전화번호'})
   telephone: string;
 
-  @IsString()
-  @ApiProperty({example: '1', description: '운영시간 ID'})
-  operationHourId: number;
-
-  @ApiProperty({
-    example: '3.290667780403333',
-    description: '현재위치로부터 선별진료소까지의 거리',
-  })
-  distance: number;
+  @ApiProperty()
+  operationHour: BaseOpearationHourResponseDto;
 }

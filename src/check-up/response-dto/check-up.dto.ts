@@ -1,5 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {OnlyClinicDto} from './../../clinic/response-dto/only-clinic.dto';
+import {FindNearBy5KmResponseDto} from './../../clinic/dto/find-near-by-5km.dto';
 
 export class CheckUpDto {
   @ApiProperty({example: '1'})
@@ -9,5 +9,5 @@ export class CheckUpDto {
   date: string;
 
   @ApiProperty()
-  clinic: OnlyClinicDto;
+  clinic: FindNearBy5KmResponseDto;
 }

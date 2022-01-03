@@ -1,9 +1,9 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty} from 'class-validator';
-import {ClinicCommentTag, UnivCommentTag} from 'src/constants';
-import {OnlyClinicDto} from './../../clinic/response-dto/only-clinic.dto';
+import {ClinicCommentTag} from 'src/constants';
 import {BaseResponseDto} from './../../common/dto/base-response.dto';
 import {BaseUserResponseDto} from './../../user/dto/base-user.dto';
+import {FindNearBy5KmResponseDto} from './../../clinic/dto/find-near-by-5km.dto';
 
 export class CinicCommentResponseDto extends BaseResponseDto {
   @ApiProperty({example: '1'})
@@ -17,5 +17,5 @@ export class CinicCommentResponseDto extends BaseResponseDto {
   user: BaseUserResponseDto;
 
   @ApiProperty()
-  clinic: OnlyClinicDto;
+  clinic: FindNearBy5KmResponseDto;
 }

@@ -2,7 +2,7 @@ import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
 import {Label} from 'src/constants';
 
-export class opearationHourResponseDto {
+export class BaseOpearationHourResponseDto {
   @IsString()
   @ApiProperty({example: '1', description: '선별진료소 ID'})
   id: number;
