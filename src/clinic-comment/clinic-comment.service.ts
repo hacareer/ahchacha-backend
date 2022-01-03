@@ -19,7 +19,10 @@ export class ClinicCommentService {
     private readonly clinicRepository: Repository<Clinic>,
   ) {}
 
-  async create(userId, createClinicCommentDto: CreateClinicCommentDto) {
+  async createClinicComment(
+    userId,
+    createClinicCommentDto: CreateClinicCommentDto,
+  ) {
     const user = await this.userRepository.findOne({id: userId});
     const existingClinic = await this.clinicRepository.findOne({
       id: createClinicCommentDto.clinicid,

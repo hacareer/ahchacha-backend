@@ -22,9 +22,15 @@ export class ClinicCommentController {
 
   @UseGuards(JwtAuthGuard)
   @Post('')
-  @ApiDocs.create('선별진료소 후기 생성 API')
-  create(@User() user, @Body() createClinicCommentDto: CreateClinicCommentDto) {
-    return this.clinicCommentService.create(user.id, createClinicCommentDto);
+  @ApiDocs.createClinicComment('선별진료소 후기 생성 API')
+  createClinicComment(
+    @User() user,
+    @Body() createClinicCommentDto: CreateClinicCommentDto,
+  ) {
+    return this.clinicCommentService.createClinicComment(
+      user.id,
+      createClinicCommentDto,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

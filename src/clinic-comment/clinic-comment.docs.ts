@@ -2,21 +2,19 @@ import {applyDecorators} from '@nestjs/common';
 import {
   ApiOperation,
   ApiResponse,
-  ApiQuery,
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
 import {ClinicCommentController} from './clinic-comment.controller';
-import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
-import {CreateCinicCommentResponseDto} from './response-dto/create-clinic-comment-reponse.dto';
-import {GetCinicCommentResponseDto} from './response-dto/get-clinic-comment-num-response.dto';
+import {CreateCinicCommentResponseBodyDto} from './dto/create-clinic-comment.dto';
+import {CountContentsResponseBodyDto} from './dto/count-contents.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
 };
 
 export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
-  create(summary) {
+  createClinicComment(summary) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -27,7 +25,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
       }),
       ApiResponse({
         status: 201,
-        type: CreateCinicCommentResponseDto,
+        type: CreateCinicCommentResponseBodyDto,
         description: '선별진료소 후기 정보가 성공적으로 생성되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -54,7 +52,7 @@ export const ApiDocs: SwaggerMethodDoc<ClinicCommentController> = {
       }),
       ApiResponse({
         status: 200,
-        type: GetCinicCommentResponseDto,
+        type: CountContentsResponseBodyDto,
         description: '선별진료소 후기 개수가 성공적으로 조회되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

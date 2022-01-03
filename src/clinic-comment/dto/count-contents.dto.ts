@@ -1,8 +1,7 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
-import {CinicCommentResponseDto} from './clinic-comment-response.dto';
 
-export class GetCinicCommentResponseDto extends BaseResponseDto {
+export class CountContentsResponseBodyDto extends BaseResponseDto {
   @ApiProperty({example: 200})
   statusCode: number;
 
