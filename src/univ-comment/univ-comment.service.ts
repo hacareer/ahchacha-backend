@@ -3,7 +3,7 @@ import {CreateUnivCommentDto} from './dto/create-univ-comment.dto';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {UnivComment} from './entities/univ-comment.entity';
-import {Err} from './../error';
+import {Err} from '../common/error';
 import {Univ} from './../univ/entities/univ.entity';
 import {User} from './../user/entities/user.entity';
 

@@ -4,7 +4,7 @@ import {Repository} from 'typeorm';
 import {SecondDose} from './entities/second-dose.entity';
 import {Univ} from './../univ/entities/univ.entity';
 import {User} from './../user/entities/user.entity';
-import {Err} from './../error';
+import {Err} from '../common/error';
 
 @Injectable()
 export class SecondDoseService {

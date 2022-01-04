@@ -7,7 +7,7 @@ import {
 import {JwtService} from '@nestjs/jwt';
 import {AuthGuard} from '@nestjs/passport';
 import {AuthService} from '../auth.service';
-import {Err} from './../../error';
+import {Err} from '../../common/error';
 import {UserService} from './../../user/user.service';
 
 @Injectable()

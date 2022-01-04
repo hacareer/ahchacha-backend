@@ -5,7 +5,7 @@ import {User} from 'src/user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {CreateCheckUpDto} from './dto/create-check-up.dto';
 import {CheckUp} from './entities/check-up.entity';
-import {Err} from './../error';
+import {Err} from '../common/error';
 import {UpdateCheckUpDto} from './dto/update-check-up.dto';
 
 @Injectable()

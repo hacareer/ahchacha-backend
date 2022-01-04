@@ -2,7 +2,7 @@ import {Injectable, BadRequestException} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {Univ} from './entities/univ.entity';
-import {Err} from 'src/error';
+import {Err} from 'src/common/error';
 
 @Injectable()
 export class UnivService {

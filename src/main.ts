@@ -4,9 +4,9 @@ import * as cookieParser from 'cookie-parser';
 import {ServiceAccount} from 'firebase-admin';
 import * as admin from 'firebase-admin';
 import {AppModule} from './app.module';
-import {HttpExceptionFilter} from './httpException.filter';
+import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
 import {setupSwagger} from './swagger/index';
-import {TransformInterceptor} from './transform.interceptor';
+import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -2,7 +2,7 @@ import {Injectable, BadRequestException} from '@nestjs/common';
 import {getManager, Repository} from 'typeorm';
 import {Clinic} from './entities/clinic.entity';
 import {InjectRepository} from '@nestjs/typeorm';
-import {Err} from './../error';
+import {Err} from '../common/error';
 
 @Injectable()
 export class ClinicService {

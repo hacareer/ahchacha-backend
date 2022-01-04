@@ -6,7 +6,7 @@ import {User} from 'src/user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {CreateClinicCommentDto} from './dto/create-clinic-comment.dto';
 import {ClinicComment} from './entities/clinic-comment.entity';
-import {Err} from './../error';
+import {Err} from '../common/error';
 
 @Injectable()
 export class ClinicCommentService {

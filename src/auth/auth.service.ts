@@ -8,7 +8,7 @@ import {catchError, lastValueFrom, map} from 'rxjs';
 import {InjectRepository} from '@nestjs/typeorm';
 import {LocationService} from './../location/location.service';
 import {Univ} from './../univ/entities/univ.entity';
-import {Err} from './../error';
+import {Err} from '../common/error';
 import {User} from './../user/entities/user.entity';
 import {SignInDto} from '../user/dto/sign-in.dto';
 import {SignUpDto} from './../user/dto/sign-up.dto';

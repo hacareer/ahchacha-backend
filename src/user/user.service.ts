@@ -3,7 +3,7 @@ import {Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import {User} from './entities/user.entity';
 import {Univ} from './../univ/entities/univ.entity';
-import {Err} from './../error';
+import {Err} from '../common/error';
 import {UpdateMyInfoDto} from './dto/update-my-info.dto';
 
 @Injectable()

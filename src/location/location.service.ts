@@ -8,7 +8,7 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from './../user/entities/user.entity';
 import {ChangeAddressToCoordinateDto} from './dto/change-address-to-coordinate.dto';
-import {Err} from './../error';
+import {Err} from '../common/error';
 
 @Injectable()
 export class LocationService {
