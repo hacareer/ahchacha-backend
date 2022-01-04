@@ -1,6 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
-import {Label} from 'src/constants';
+import {Label} from '../entities/clinic.entity';
 import {BaseOpearationHourResponseDto} from './base-opearion-hour.dto';
 
 export class BaseClinicResponseDto {

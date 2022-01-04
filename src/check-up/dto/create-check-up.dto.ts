@@ -1,6 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNumber, IsDate} from 'class-validator';
-import {NotificationTime} from 'src/constants';
+import {NotificationTime} from 'src/push-notification/constants';
 import {FindNearBy5KmResponseDto} from './../../clinic/dto/find-near-by-5km.dto';
 import {BaseUserResponseDto} from './../../user/dto/base-user.dto';
 

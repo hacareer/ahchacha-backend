@@ -1,5 +1,6 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {NotificationTime} from 'src/constants';
+import {NotificationTime} from '../constants';
+
 export class CreatePushNotificationDto {
   @ApiProperty({example: '2021-01-', description: '예약날짜'})
   date: Date;

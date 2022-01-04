@@ -1,8 +1,8 @@
 import {IsString, IsNotEmpty} from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
-import {UnivCommentTag} from 'src/constants';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 import {BaseUnivCommentResponseDto} from './base-univ-comment.dto';
+import {UnivCommentTag} from 'src/univ-comment/entities/univ-comment.entity';
 
 export class CreateUnivCommentDto {
   @IsNotEmpty()

@@ -1,7 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
-import {Vaccination} from '../../constants';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
+import {Vaccination} from '../entities/user.entity';
 
 export class SignUpDto {
   @IsString()

@@ -1,7 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
-import {Label} from 'src/constants';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
+import {Label} from '../entities/clinic.entity';
 
 export class FindNearBy5KmResponseDto {
   @IsString()

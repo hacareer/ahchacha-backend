@@ -10,9 +10,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import {OperationHour} from './operation-hour.entity';
-import {Label} from '../../constants';
 import {ClinicComment} from './../../clinic-comment/entities/clinic-comment.entity';
 import {CheckUp} from './../../check-up/entities/check-up.entity';
+
+export enum Label {
+  TEMPORARY = 'TEMPORARY',
+  PERMANENT = 'PERMANENT',
+}
 
 @Entity('clinic')
 export class Clinic {

@@ -1,6 +1,5 @@
 import {ApiProperty} from '@nestjs/swagger';
 import {IsNotEmpty, IsString} from 'class-validator';
-import {Label} from 'src/constants';
 
 export class BaseOpearationHourResponseDto {
   @IsString()

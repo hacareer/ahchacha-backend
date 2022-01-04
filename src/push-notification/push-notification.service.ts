@@ -3,7 +3,7 @@ import {SchedulerRegistry} from '@nestjs/schedule';
 import {CronJob} from 'cron';
 import {CreatePushNotificationDto} from './dto/create-push-notification.dto';
 import * as admin from 'firebase-admin';
-import {NotificationTime, NotificationWord} from 'src/constants';
+import {NotificationTime, NotificationWord} from './constants';
 
 @Injectable()
 export class PushNotificationService {

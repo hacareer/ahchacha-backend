@@ -1,6 +1,6 @@
 import {PartialType, ApiProperty} from '@nestjs/swagger';
 import {IsString, IsNotEmpty} from 'class-validator';
-import {Vaccination} from '../../constants';
+import {Vaccination} from '../entities/user.entity';
 import {BaseLocationResponseDto} from './../../location/dto/base-location.dto';
 import {BaseUnivResponseDto} from './../../univ/dto/base-univ.dto';
 

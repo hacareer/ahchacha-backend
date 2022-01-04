@@ -9,7 +9,14 @@ import {
 } from 'typeorm';
 import {Clinic} from './../../clinic/entities/clinic.entity';
 import {User} from './../../user/entities/user.entity';
-import {ClinicCommentTag} from '../../constants';
+
+export enum ClinicCommentTag {
+  '검사가 빨리 끝나요' = 'T1',
+  '교통이 불편해요' = 'T2',
+  '늦게까지 해요' = 'T3',
+  '근처에 주차공간이 있어요' = 'T4',
+  '검사자수가 많아요' = 'T5',
+}
 
 @Entity('clinic-comment')
 export class ClinicComment {

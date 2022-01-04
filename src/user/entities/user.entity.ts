@@ -1,4 +1,3 @@
-import {Vaccination} from '../../constants';
 import {
   Column,
   CreateDateColumn,
@@ -18,6 +17,11 @@ import {CheckUp} from './../../check-up/entities/check-up.entity';
 import {CheckUpResult} from './../../check-up-result/entities/check-up-result.entity';
 import {ClinicComment} from './../../clinic-comment/entities/clinic-comment.entity';
 import {UnivComment} from './../../univ-comment/entities/univ-comment.entity';
+
+export enum Vaccination {
+  YES = 'YES', // 백신 2차 접종자
+  NO = 'NO', // 백신 2차 미접종자
+}
 
 @Entity('user')
 export class User {
