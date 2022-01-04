@@ -6,17 +6,17 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import {CheckUpController} from './check-up.controller';
-import {GetCheckUpResponseDto} from './response-dto/get-check-up-response.dto';
-import {CreateCheckUpResponseDto} from './response-dto/create-check-up-response.dto';
-import {BaseUpdateResponseDto} from './../common/dto/base-update-response.dto';
-import {DeleteCheckUpResponseDto} from './response-dto/delete-check-up-response.dto';
+import {DeleteCheckUpResponseBodyDto} from './dto/delete-check-up-response.dto';
+import {CreateCheckUpResponseBodyDto} from './dto/create-check-up.dto';
+import {findMyCheckUpResponseBodyDto} from './dto/find-my-check-up.dto';
+import {UpdateCheckUpResponseBodyDto} from './dto/update-check-up.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
 };
 
 export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
-  create(summary) {
+  createCheckUp(summary) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -28,7 +28,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({
         status: 201,
         description: '검사 예약 정보가 성공적으로 생성되었습니다.',
-        type: CreateCheckUpResponseDto,
+        type: CreateCheckUpResponseBodyDto,
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
@@ -36,7 +36,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  findAllByUser(summary: string) {
+  findMyCheckUp(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -45,7 +45,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       }),
       ApiResponse({
         status: 200,
-        type: GetCheckUpResponseDto,
+        type: findMyCheckUpResponseBodyDto,
         description:
           '사용자의 모든 검사 예약 정보를 성공적으로 조회하였습니다.',
       }),
@@ -55,7 +55,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  findOneByUse(summary: string) {
+  findCheckUpbyId(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -71,7 +71,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       }),
       ApiResponse({
         status: 200,
-        type: GetCheckUpResponseDto,
+        type: findMyCheckUpResponseBodyDto,
         description: '사용자의 검사 예약 정보를 성공적으로 조회하였습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -80,7 +80,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  update(summary: string) {
+  updateCheckUp(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -90,7 +90,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({
         status: 200,
         description: '사용자의 검사 예약 정보를 성공적으로 갱신하였습니다.',
-        type: BaseUpdateResponseDto,
+        type: UpdateCheckUpResponseBodyDto,
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
       ApiResponse({status: 401, description: '유효하지 않은 토큰입니다.'}),
@@ -98,7 +98,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  remove(summary: string) {
+  deleteCheckUp(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -114,7 +114,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpController> = {
       }),
       ApiResponse({
         status: 200,
-        type: DeleteCheckUpResponseDto,
+        type: DeleteCheckUpResponseBodyDto,
         description: '사용자의 검사 예약 정보를 성공적으로 삭제하였습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

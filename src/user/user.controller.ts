@@ -9,6 +9,7 @@ import {JwtAuthGuard} from './../auth/guard/jwt-auth.guard';
 import {JwtRefreshGuard} from './../auth/guard/jwt-refreshToken-auth.guard';
 import {UserService} from './user.service';
 import {UpdateMyInfoDto} from './dto/update-my-info.dto';
+import {SignUpDto} from './dto/sign-up.dto';
 
 @Controller('user')
 @ApiTags('user')
@@ -27,8 +28,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @ApiDocs.signUp('회원가입 API')
   @Post('auth/signup')
-  async signUp(@User() user, @Body() registerUserDto: RegisterUserDto) {
-    return this.authService.signUp(user, registerUserDto);
+  async signUp(@User() user, @Body() signUpDto: SignUpDto) {
+    return this.authService.signUp(user, signUpDto);
   }
 
   @UseGuards(JwtRefreshGuard)

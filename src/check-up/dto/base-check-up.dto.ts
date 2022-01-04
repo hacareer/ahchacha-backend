@@ -1,7 +1,7 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {FindNearBy5KmResponseDto} from './../../clinic/dto/find-near-by-5km.dto';
+import {FindNearBy5KmResponseDto} from '../../clinic/dto/find-near-by-5km.dto';
 
-export class CheckUpDto {
+export class BaseCheckUpDto {
   @ApiProperty({example: '1'})
   id: number;
 

@@ -4,9 +4,9 @@ import {Clinic} from 'src/clinic/entities/clinic.entity';
 import {User} from 'src/user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {CreateCheckUpDto} from './dto/create-check-up.dto';
-import {UpdateCheckUpDto} from './dto/update-check-up.dto';
 import {CheckUp} from './entities/check-up.entity';
 import {Err} from './../error';
+import {UpdateCheckUpDto} from './dto/update-check-up.dto';
 
 @Injectable()
 export class CheckUpService {
@@ -19,7 +19,7 @@ export class CheckUpService {
     private readonly clinicRepository: Repository<Clinic>,
   ) {}
 
-  async create(userId, createCheckUpDto: CreateCheckUpDto) {
+  async createCheckUp(userId, createCheckUpDto: CreateCheckUpDto) {
     const user = await this.userRepository.findOne({id: userId});
     const existingClinic = await this.clinicRepository.findOne(
       createCheckUpDto.clinicId,
@@ -31,7 +31,7 @@ export class CheckUpService {
     });
   }
 
-  async findAll(userId: number) {
+  async findMyCheckUp(userId: number) {
     const user = await this.userRepository.findOne({id: userId});
     return await this.checkUpRepository.find({
       where: {user},
@@ -40,7 +40,7 @@ export class CheckUpService {
     });
   }
 
-  async findOne(checkupId: number) {
+  async findCheckUpbyId(checkupId: number) {
     const existingCheckUp = await this.checkUpRepository.findOne({
       where: {
         id: checkupId,
@@ -52,7 +52,7 @@ export class CheckUpService {
     }
   }
 
-  async update(checkUpId, updateCheckUpDto: UpdateCheckUpDto) {
+  async updateCheckUp(checkUpId, updateCheckUpDto: UpdateCheckUpDto) {
     // TODO 로직 다시 짜기
     const existingClinic = await this.clinicRepository.findOne(
       updateCheckUpDto.clinicId,
@@ -83,7 +83,7 @@ export class CheckUpService {
     return 'Record successfully updated';
   }
 
-  async remove(checkUpId) {
+  async deleteCheckUp(checkUpId) {
     const existingCheckUp = await this.checkUpRepository.findOne({
       where: {
         id: checkUpId,

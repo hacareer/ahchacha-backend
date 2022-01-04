@@ -11,6 +11,7 @@ import {Univ} from './../univ/entities/univ.entity';
 import {Err} from './../error';
 import {User} from './../user/entities/user.entity';
 import {SignInDto} from '../user/dto/sign-in.dto';
+import {SignUpDto} from './../user/dto/sign-up.dto';
 
 @Injectable()
 export class AuthService {
@@ -175,9 +176,9 @@ export class AuthService {
     };
   }
 
-  async signUp(user: any, registerUserDto: RegisterUserDto) {
+  async signUp(user: any, singUpDto: SignUpDto) {
     const {id, type} = user;
-    const {nickname, vaccination, univId, address, deviceId} = registerUserDto;
+    const {nickname, vaccination, univId, address, deviceId} = singUpDto;
     if (type === 'login_token') {
       throw new BadRequestException(Err.USER.EXISTING_USER);
     }
