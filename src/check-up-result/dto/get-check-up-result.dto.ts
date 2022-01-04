@@ -1,7 +1,7 @@
-import {PartialType, ApiProperty} from '@nestjs/swagger';
-import {BaseUserResponseDto} from './../../user/dto/base-user.dto';
+import {ApiProperty} from '@nestjs/swagger';
+import {BaseResponseDto} from './../../common/dto/base-response.dto';
 
-export class CheckUpResultResponseDto {
+export class GetCheckUpResultDto {
   @ApiProperty({example: '1'})
   id: number;
 
@@ -16,7 +16,12 @@ export class CheckUpResultResponseDto {
     description: '검사 유효기간 끝',
   })
   finishTime: string;
+}
+
+export class GetCheckUpResultResponsBodyeDto extends BaseResponseDto {
+  @ApiProperty({example: 200})
+  statusCode: number;
 
   @ApiProperty()
-  user: BaseUserResponseDto;
+  data: GetCheckUpResultDto;
 }

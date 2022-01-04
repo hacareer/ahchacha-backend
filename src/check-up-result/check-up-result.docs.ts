@@ -7,15 +7,15 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import {CheckUpResultController} from './check-up-result.controller';
-import {CreateCheckUpResultResponseDto} from './response-dto/create-check-up-result-response.dto';
-import {GetCheckUpResultResponseDto} from './response-dto/get-check-up-result-response.dto';
+import {CreateCheckUpResponseBodyDto} from './../check-up/dto/create-check-up.dto';
+import {GetCheckUpResultResponsBodyeDto} from './dto/get-check-up-result.dto';
 
 type SwaggerMethodDoc<T> = {
   [K in keyof T]: (description: string) => MethodDecorator;
 };
 
 export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
-  create(summary) {
+  createCheckUpResult(summary) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -24,7 +24,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
       }),
       ApiResponse({
         status: 201,
-        type: CreateCheckUpResultResponseDto,
+        type: CreateCheckUpResponseBodyDto,
         description: '검사 결과 정보가 성공적으로 생성되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),
@@ -33,7 +33,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
     );
   },
-  searchCheckUpResultByDate(summary: string) {
+  getCheckUpResult(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
@@ -54,7 +54,7 @@ export const ApiDocs: SwaggerMethodDoc<CheckUpResultController> = {
       }),
       ApiResponse({
         status: 200,
-        type: GetCheckUpResultResponseDto,
+        type: GetCheckUpResultResponsBodyeDto,
         description: '검사 결과 정보가 성공적으로 조회되었습니다.',
       }),
       ApiResponse({status: 400, description: 'Token 전송 안됨'}),

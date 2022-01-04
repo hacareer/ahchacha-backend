@@ -1,6 +1,5 @@
 import {Injectable} from '@nestjs/common';
 import {CreateCheckUpResultDto} from './dto/create-check-up-result.dto';
-import {UpdateCheckUpResultDto} from './dto/update-check-up-result.dto';
 import {InjectRepository} from '@nestjs/typeorm';
 import {CheckUpResult} from './entities/check-up-result.entity';
 import {Repository} from 'typeorm';
@@ -18,7 +17,10 @@ export class CheckUpResultService {
     private readonly clinicRepository: Repository<Clinic>,
   ) {}
 
-  async create(userId: number, createCheckUpResultDto: CreateCheckUpResultDto) {
+  async createCheckUpResult(
+    userId: number,
+    createCheckUpResultDto: CreateCheckUpResultDto,
+  ) {
     const user = await this.userRepository.findOne({
       where: {
         id: userId,
@@ -34,7 +36,7 @@ export class CheckUpResultService {
   }
 
   // TODO query string 안 받고 그냥 넘길지 의논
-  async searchCheckUpResultByDate(userId: number, from: string, to: string) {
+  async getCheckUpResult(userId: number, from: string, to: string) {
     if (from === undefined) {
       from = '1800-01-01 00:00';
     }
