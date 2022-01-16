@@ -12,6 +12,7 @@ import {Err} from '../common/error';
 import {User} from './../user/entities/user.entity';
 import {SignInDto} from '../user/dto/sign-in.dto';
 import {SignUpDto} from './../user/dto/sign-up.dto';
+import {ConfigService} from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +23,7 @@ export class AuthService {
     private readonly univRepository: Repository<Univ>,
     private userService: UserService,
     private jwtService: JwtService,
+    private configService: ConfigService,
     private httpService: HttpService,
     private locationService: LocationService,
   ) {}
@@ -41,8 +43,7 @@ export class AuthService {
       type: 'accessToken',
     };
     return this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '15m',
+      expiresIn: this.configService.get('auth').accessTokenExp,
     });
   }
 
@@ -53,15 +54,14 @@ export class AuthService {
       type: 'refreshToken',
     };
     const token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '20700m',
+      expiresIn: this.configService.get('auth').refreshTokenExp,
     });
     const tokenVerify = await this.tokenValidate(token);
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
 
     const refresh_token = CryptoJS.AES.encrypt(
       JSON.stringify(token),
-      process.env.AES_KEY,
+      this.configService.get('auth').aes_key,
     ).toString();
 
     await await this.userRepository
@@ -88,8 +88,7 @@ export class AuthService {
       type: 'refreshToken',
     };
     const token = this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '20700m',
+      expiresIn: this.configService.get('auth').refreshTokenExp,
     });
     const tokenVerify = await this.tokenValidate(token);
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
@@ -104,7 +103,7 @@ export class AuthService {
 
     const refresh_token = CryptoJS.AES.encrypt(
       JSON.stringify(token),
-      process.env.AES_KEY,
+      this.configService.get('auth').aes_key,
     ).toString();
 
     await await this.userRepository
@@ -124,15 +123,12 @@ export class AuthService {
     };
 
     return this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: '15m',
+      expiresIn: this.configService.get('auth').accessTokenExp,
     });
   }
 
   async tokenValidate(token: string) {
-    return await this.jwtService.verify(token, {
-      secret: process.env.JWT_SECRET,
-    });
+    return await this.jwtService.verify(token, {});
   }
 
   async getKakaoId(signInDto: SignInDto) {
