@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {ConfigModule} from '@nestjs/config';
+import {ConfigModule, ConfigService} from '@nestjs/config';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
@@ -12,18 +12,22 @@ import {UnivCommentModule} from './univ-comment/univ-comment.module';
 import {ClinicCommentModule} from './clinic-comment/clinic-comment.module';
 import {CheckUpResultModule} from './check-up-result/check-up-result.module';
 import {CheckUpModule} from './check-up/check-up.module';
-import * as ormconfig from '../ormconfig';
 import {UserModule} from 'src/user/user.module';
 import {ScheduleModule} from '@nestjs/schedule';
 import {PushNotificationModule} from './push-notification/push-notification.module';
+import authConfig from './common/config/auth.config';
+import databaseConfig from './common/config/database.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
+      load: [databaseConfig, authConfig],
     }),
-    TypeOrmModule.forRoot(ormconfig),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => config.get('database'),
+      inject: [ConfigService],
+    }),
     UserModule,
     ClinicModule,
     SecondDoseModule,

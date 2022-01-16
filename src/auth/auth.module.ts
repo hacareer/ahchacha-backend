@@ -10,6 +10,7 @@ import {HttpModule} from '@nestjs/axios';
 import {Location} from 'src/location/entities/location.entity';
 import {LocationModule} from 'src/location/location.module';
 import {Univ} from './../univ/entities/univ.entity';
+import {ConfigService, ConfigModule} from '@nestjs/config';
 
 @Module({
   imports: [
@@ -19,8 +20,16 @@ import {Univ} from './../univ/entities/univ.entity';
       defaultStrategy: 'jwt',
       session: false,
     }),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
+    ConfigModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => {
+        return {
+          secret: config.get('auth').secret,
+          signOptions: config.get('auth').signOptions,
+        };
+      },
+      imports: [ConfigModule],
     }),
     TypeOrmModule.forFeature([User, Location, Univ]),
     HttpModule,
