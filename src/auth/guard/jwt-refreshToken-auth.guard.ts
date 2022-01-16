@@ -10,11 +10,12 @@ import * as CryptoJS from 'crypto-js';
 import {AuthService} from '../auth.service';
 import {Err} from '../../common/error';
 import {UserService} from './../../user/user.service';
+import {ConfigService} from '@nestjs/config';
 
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard('jwt') {
   constructor(
-    private jwtService: JwtService,
+    private configService: ConfigService,
     private authService: AuthService,
     private userService: UserService,
   ) {
@@ -37,7 +38,10 @@ export class JwtRefreshGuard extends AuthGuard('jwt') {
 
   async validate(refreshToken: string) {
     try {
-      const bytes = CryptoJS.AES.decrypt(refreshToken, process.env.AES_KEY);
+      const bytes = CryptoJS.AES.decrypt(
+        refreshToken,
+        this.configService.get('auth').aes_key,
+      );
       const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
       const tokenVerify = await this.authService.tokenValidate(token);

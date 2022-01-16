@@ -14,7 +14,6 @@ import {UserService} from './../../user/user.service';
 export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(
     private authService: AuthService,
-    private jwtService: JwtService,
     private userService: UserService,
   ) {
     super();
