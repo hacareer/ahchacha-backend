@@ -40,7 +40,7 @@ export class AuthService {
     const payload = {
       id: user.id,
       nickname: user.nickname,
-      type: 'accessToken',
+      type: 'login_token',
     };
     return this.jwtService.sign(payload, {
       expiresIn: this.configService.get('auth').accessTokenExp,
@@ -51,7 +51,7 @@ export class AuthService {
     const payload = {
       id: user.id,
       nickname: user.nickname,
-      type: 'refreshToken',
+      type: 'login_token',
     };
     const token = this.jwtService.sign(payload, {
       expiresIn: this.configService.get('auth').refreshTokenExp,
@@ -85,7 +85,7 @@ export class AuthService {
     const payload = {
       id: user.id,
       nickname: user.nickname,
-      type: 'refreshToken',
+      type: 'login_token',
     };
     const token = this.jwtService.sign(payload, {
       expiresIn: this.configService.get('auth').refreshTokenExp,
@@ -128,7 +128,8 @@ export class AuthService {
   }
 
   async tokenValidate(token: string) {
-    return await this.jwtService.verify(token, {});
+    console.log(token);
+    return await this.jwtService.verify(token);
   }
 
   async getKakaoId(signInDto: SignInDto) {
@@ -152,6 +153,7 @@ export class AuthService {
 
   async signIn(signInDto: SignInDto) {
     const kakaoId = await this.getKakaoId(signInDto);
+    console.log(kakaoId);
     const user = await this.userService.findUserByKakaoId(kakaoId.toString());
     // 유저가 없을때
     if (user === null) {

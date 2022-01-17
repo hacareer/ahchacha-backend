@@ -69,4 +69,14 @@ export const Err = {
       message: '검사일정이 존재하지 않습니다.',
     },
   },
+  SERVER: {
+    UNEXPECTED_ERROR: {
+      code: 500,
+      message: '예기치 못한 못한 서버에러가 발생했습니다.',
+    },
+    NOT_SEND_MAIL_ERROR: {
+      code: 500,
+      message: '메일 전송 중 에러가 발생하였습니다.',
+    },
+  },
 };

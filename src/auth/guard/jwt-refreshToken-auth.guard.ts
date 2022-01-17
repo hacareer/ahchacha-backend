@@ -1,41 +1,68 @@
 import {
   BadRequestException,
+  ConsoleLogger,
   ExecutionContext,
+  HttpException,
   Injectable,
-  ServiceUnavailableException,
 } from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
 import {AuthGuard} from '@nestjs/passport';
-import {Err} from './../../common/error';
+import * as CryptoJS from 'crypto-js';
+import {AuthService} from '../auth.service';
+import {Err} from '../../common/error';
+import {UserService} from './../../user/user.service';
+import {ConfigService} from '@nestjs/config';
 
 @Injectable()
-export class JwtRefreshGuard extends AuthGuard('jwt-refresh') {
-  constructor() {
+export class JwtRefreshGuard extends AuthGuard('jwt') {
+  constructor(
+    config: ConfigService,
+    private authService: AuthService,
+    private userService: UserService,
+  ) {
     super();
   }
 
-  handleRequest(err, user, info, context: ExecutionContext) {
-    if (user) {
-      const {authorization} = context.switchToHttp().getRequest().headers;
-      const refreshToken = authorization.replace('Bearer ', '');
+  async canActivate(context: ExecutionContext) {
+    const request = context.switchToHttp().getRequest();
+
+    const {authorization} = request.headers;
+    if (authorization === undefined) {
+      throw new BadRequestException(Err.TOKEN.NOT_SEND_REFRESH_TOKEN);
+    }
+
+    const refreshToken = authorization.replace('Bearer ', '');
+    const refreshTokenValidate = await this.validate(refreshToken);
+    request.user = refreshTokenValidate;
+    return true;
+  }
+
+  async validate(refreshToken: string) {
+    try {
+      const bytes = CryptoJS.AES.decrypt(refreshToken, process.env.AES_KEY);
+      const token = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      const tokenVerify = await this.authService.tokenValidate(token);
+      const user = await this.userService.findUserById(tokenVerify.id);
       if (user.refreshToken === refreshToken) {
-        delete user.refreshToken;
         return user;
       } else {
-        throw new BadRequestException(Err.TOKEN.NO_PERMISSION);
+        throw new Error('no permission');
       }
-    }
-    switch (info.toString()) {
-      case 'Error: No auth token':
-        throw new BadRequestException(Err.TOKEN.NOT_SEND_TOKEN);
+    } catch (error) {
+      switch (error.message) {
+        // 토큰에 대한 오류를 판단합니다.
+        case 'invalid token':
+          throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
 
-      case 'JsonWebTokenError: invalid signature':
-        throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
+        case 'no permission':
+          throw new BadRequestException(Err.TOKEN.NO_PERMISSION);
 
-      case 'TokenExpiredError: jwt expired':
-        throw new BadRequestException(Err.TOKEN.JWT_EXPIRED);
+        case 'jwt expired':
+          throw new BadRequestException(Err.TOKEN.JWT_EXPIRED);
 
-      default:
-        throw new ServiceUnavailableException(Err.SERVER.UNEXPECTED_ERROR);
+        default:
+          throw new HttpException('서버 오류입니다.', 500);
+      }
     }
   }
 }

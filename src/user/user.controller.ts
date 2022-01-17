@@ -1,6 +1,14 @@
 import {ApiTags} from '@nestjs/swagger';
 import {AuthService} from '../auth/auth.service';
-import {Body, Controller, Get, UseGuards, Param, Patch} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  UseGuards,
+  Param,
+  Patch,
+  Req,
+} from '@nestjs/common';
 import {Post} from '@nestjs/common';
 import {SignInDto} from './dto/sign-in.dto';
 import {ApiDocs} from './user.docs';
@@ -28,7 +36,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @ApiDocs.signUp('회원가입 API')
   @Post('auth/signup')
-  async signUp(@User() user, @Body() signUpDto: SignUpDto) {
+  async signUp(@Req() req, @User() user, @Body() signUpDto: SignUpDto) {
+    console.log(req);
     return this.authService.signUp(user, signUpDto);
   }
 
