@@ -128,7 +128,6 @@ export class AuthService {
   }
 
   async tokenValidate(token: string) {
-    console.log(token);
     return await this.jwtService.verify(token);
   }
 
